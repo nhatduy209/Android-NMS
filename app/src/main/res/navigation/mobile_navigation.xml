@@ -22,4 +22,25 @@
         android:name="com.example.notemanagement.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_status"
+        android:name="com.example.notemanagement.ui.status.StatusFragment"
+        android:label="@string/menu_status"
+        tools:layout="@layout/fragment_status" />
+    <fragment
+        android:id="@+id/nav_note"
+        android:name="com.example.notemanagement.ui.note.NoteFragment"
+        android:label="@string/menu_note"
+        tools:layout="@layout/fragment_note" />
+    <fragment
+        android:id="@+id/nav_editprofile"
+        android:name="com.example.notemanagement.ui.edit_profile.EditProfileFragment"
+        android:label="@string/menu_editprofile"
+        tools:layout="@layout/fragment_editprofile" />
+
+    <fragment
+        android:id="@+id/nav_changepassword"
+        android:name="com.example.notemanagement.ui.edit_profile.EditProfileFragment"
+        android:label="@string/menu_changepassword"
+        tools:layout="@layout/fragment_changepassword" />
 </navigation>

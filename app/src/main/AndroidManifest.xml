@@ -18,12 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-       <!-- <activity
-            android:name=".SignUpActivity"
+       <activity
+            android:name=".SignInActivity"
             android:label="@string/app_name"
-            android:parentActivityName="com.example.notemanagement.MainActivity" >
+            android:parentActivityName="com.example.notemanagement.SignUpActivity" >
         </activity>
--->
     </application>
 
 </manifest>

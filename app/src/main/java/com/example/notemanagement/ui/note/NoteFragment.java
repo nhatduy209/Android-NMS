@@ -26,12 +26,13 @@ public class NoteFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview);
 
         listNote = new ArrayList<>();
-        listNote.add(new NoteModel("volleyball","relax","high","processing","12-3-2021","10-3-2021"));
+        listNote.add(new NoteModel("nguyen","relax","high","processing","12-3-2021","10-3-2021"));
         listNote.add(new NoteModel("football","relax","high","processing","12-3-2021","10-3-2021"));
         noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNote);
-        recyclerView.setAdapter(noteAdapter);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(noteAdapter);
 
         return view;
 

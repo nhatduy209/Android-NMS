@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.notemanagement.R;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     static Context context;
@@ -55,7 +53,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         return listNote.size(); // trả item tại vị trí postion
     }
 
-    /*public void deleteItem(int position) {
+  /*  public void deleteItem(int position) {
         listNote.remove(position);
         notifyItemRemoved(position);
 
@@ -68,6 +66,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView txtName,txtCategory,txtPriority, txtStatus, txtPlanDate, txtCreateDate;
+        TextView txtvName, txtvCategory, txtvPriority, txtvStatus, txtvPlanDate, txtvCreateDate;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -78,6 +77,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
            txtPriority = itemView.findViewById(R.id.txtPriority);
            txtPlanDate = itemView.findViewById(R.id.txtPlanDate);
            txtCreateDate = itemView.findViewById(R.id.txtCreateDate);
+           txtvName = itemView.findViewById(R.id.txtvName);
+            txtvCategory = itemView.findViewById(R.id.txtvCategory);
+            txtvStatus = itemView.findViewById(R.id.txtvStatus);
+            txtvPriority = itemView.findViewById(R.id.txtvPriority);
+            txtvPlanDate = itemView.findViewById(R.id.txtvPlanDate);
+            txtvCreateDate = itemView.findViewById(R.id.txtvCreateDate);
+
+
 
 
         }

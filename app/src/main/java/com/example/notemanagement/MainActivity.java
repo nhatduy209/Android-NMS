@@ -1,37 +1,31 @@
 package com.example.notemanagement;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.View;
 
-import com.example.notemanagement.DB.DAOLayer;
-import com.example.notemanagement.DB.TestData;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.room.Room;
+
+import com.example.notemanagement.DB.Account;
+import com.example.notemanagement.DB.AccountLayer;
 import com.example.notemanagement.DB.Database;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private Activity context;
-    private Database database;
+    private Database database ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +34,25 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
+        database = Database.getInstance(this.getApplicationContext());
+        if(database == null ){ int a = 1 ;}
 
-        database = Database.getInstance(this);
-        int a = 1 ;
+        AccountLayer dbAccount = database.accountDao();
+        Account account = new Account();
+        account.idAccount = 1;
+        account.account = "testing209";
+        account.password="testing209";
+
+        //insert account
+        try {
+            dbAccount.insert(account);
+        }catch(Exception e ){
+            int b = 1 ;
+       }
+
+        // get all
+        List<Account> accounts = dbAccount.getAll();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

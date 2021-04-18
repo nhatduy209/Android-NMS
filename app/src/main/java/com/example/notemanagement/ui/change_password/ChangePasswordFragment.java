@@ -15,7 +15,7 @@ public class ChangePasswordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_changepassword, container, false);
-        final TextView textView = root.findViewById(R.id.textchangepass);
+//        final TextView textView = root.findViewById(R.id.textchangepass);
         return root;
     }
 }

@@ -26,40 +26,32 @@ public class StatusFragment extends Fragment {
 
     // Add RecyclerView member
     private RecyclerView recyclerStatusView;
-    StatusAdapter adapter;
-    ArrayList<StatusViewModel> status;
+    StatusAdapter statusAdapter;
+    ArrayList<StatusViewModel> listStatus;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_status, container, false);
-        status = new ArrayList<StatusViewModel>();
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-        for (int value = 1; value <= 50; value++) {
-
-            String st;
-            if(value%3==0){
-                st="Done";
-            }
-            else if(value%3==1){
-                st = "Proccessing";
-            }
-            else{
-                st = "Pending";
-            }
-            status.add(new StatusViewModel("Name:   " + st ,"Created Date:  "+timeStamp ));
-        }
-//        adapter = new StatusAdapter(status,this.getContext());
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-//        recyclerStatusView.setAdapter(adapter);
-//        recyclerStatusView.setLayoutManager(linearLayoutManager);
-//        final TextView textView = root.findViewById(R.id.statustext);
         recyclerStatusView = view.findViewById(R.id.recyclerStatusView);
+
+        listStatus = new ArrayList<>();
+        String timeStamp;
+        for(int i =1; i<=10;i++)
+        {
+            String St = "Done";
+            if(i%3==1)
+                St = "Proccessing";
+            else if(i%3==2)
+                St = "Pending";
+            timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            listStatus.add(new StatusViewModel(St,timeStamp));
+        }
+        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
 
 //        createStatusList();
         recyclerStatusView.setHasFixedSize(true);
         recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerStatusView.setAdapter(new StatusAdapter(1234,status));
+        recyclerStatusView.setAdapter(statusAdapter);
         return view;
     }
 }

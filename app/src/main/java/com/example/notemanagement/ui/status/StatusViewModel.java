@@ -1,8 +1,6 @@
 package com.example.notemanagement.ui.status;
 
-import androidx.lifecycle.ViewModel;
-
-public class StatusViewModel extends ViewModel {
+public class StatusViewModel{
 //  declare the implements of model
     private String statusName;
     private String createdDate;
@@ -11,19 +9,17 @@ public class StatusViewModel extends ViewModel {
         this.statusName = statusName;
         this.createdDate = createdDate;
     }
-//  get method
+
     public  String getStatusName(){
         return statusName;
+    }
+    public void setStatusName(){
+        this.statusName = statusName;
     }
 
     public String getCreatedDate(){
         return createdDate;
     }
-//  set method
-    public void setStatusName(){
-        this.statusName = statusName;
-    }
-
     public  void setCreatedDate(){
         this.createdDate = createdDate;
     }

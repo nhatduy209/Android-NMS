@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notemanagement.R;
-import com.example.notemanagement.ui.slideshow.SlideshowViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

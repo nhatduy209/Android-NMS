@@ -6,17 +6,31 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
+import com.example.notemanagement.DB.Account;
+import com.example.notemanagement.DB.AccountLayer;
+import com.example.notemanagement.DB.Database;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 public class SignInActivity extends AppCompatActivity {
+    Database db;
+    AccountLayer accountLayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        //build database
+        db = Room.databaseBuilder(getApplicationContext(),Database.class,Database.Databasename)
+                .allowMainThreadQueries().build();
+        accountLayer=db.accountDao();
         //handle event Sign Up
         signUp();
         //handle event Sign In
@@ -43,8 +57,20 @@ public class SignInActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SignInActivity.this,MainActivity.class);
-                startActivity(intent);
+                String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+                String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
+                List<Account> lstAccount=accountLayer.getAll();
+
+                Account currentAccount =accountLayer.findAccount(email,password);
+                //sign in success
+                if(currentAccount.account!=null){
+                    Toast toast = Toast.makeText(getApplicationContext(),"Sign in success",Toast.LENGTH_SHORT);
+                    toast.show();
+                    Intent intent=new Intent(SignInActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }
+                Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }

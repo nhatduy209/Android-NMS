@@ -19,6 +19,8 @@ public interface AccountLayer {
 
     @Delete
     public void delete(Account acc);
-    
+    // check account
+    @Query("SELECT * FROM Accounts WHERE account= :email AND password=:password")
+    Account findAccount(String email, String password);
 }
 

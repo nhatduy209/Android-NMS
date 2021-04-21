@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.notemanagement.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_category"
+        android:name="com.example.notemanagement.ui.category.CategoryFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_category" />
 
     <fragment
         android:id="@+id/nav_friority"

@@ -59,11 +59,10 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
                 String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
-                List<Account> lstAccount=accountLayer.getAll();
 
                 Account currentAccount =accountLayer.findAccount(email,password);
                 //sign in success
-                if(currentAccount.account!=null){
+                if(currentAccount!=null){
                     Toast toast = Toast.makeText(getApplicationContext(),"Sign in success",Toast.LENGTH_SHORT);
                     toast.show();
                     Intent intent=new Intent(SignInActivity.this,MainActivity.class);

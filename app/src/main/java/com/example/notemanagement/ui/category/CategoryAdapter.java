@@ -1,9 +1,15 @@
 package com.example.notemanagement.ui.category;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,15 +25,31 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private List<CategoryViewModel> listCategory;
     private Context context;
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         private TextView txtCategoryName, txtCategoryCrD;
+        private View vOption;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             txtCategoryName = itemView.findViewById(R.id.txtCategoryName);
             txtCategoryCrD = itemView.findViewById(R.id.txtCategoryCrD);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.add(0,view.getId(),0,"Edit");
+            contextMenu.add(0,view.getId(),0,"Cancel");
+        }
     }
 
     public CategoryAdapter(Context context, List<CategoryViewModel> listCategory){
@@ -46,11 +68,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull final CategoryAdapter.ViewHolder holder, final int position){
         //Gán dữ liệu
         CategoryViewModel category = listCategory.get(position);
         holder.txtCategoryName.setText("Name: "+ category.getCategoryName());
         holder.txtCategoryCrD.setText("Created Date: "+ category.getCategoryCrD());
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View v){
+                setPosition(holder.getPosition());
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        holder.itemView.setOnLongClickListener(null);
+        super.onViewRecycled(holder);
     }
 
     @Override

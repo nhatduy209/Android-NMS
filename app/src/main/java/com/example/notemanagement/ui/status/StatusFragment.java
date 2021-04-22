@@ -1,50 +1,101 @@
 package com.example.notemanagement.ui.status;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
+import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class StatusFragment extends Fragment {
 
     // Add RecyclerView member
     private RecyclerView recyclerStatusView;
     StatusAdapter statusAdapter;
-    ArrayList<StatusViewModel> listStatus;
+    List<StatusModel> listStatus;
+    Database database;
+    StatusDaoClass statusDao;
+    EditText name;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_status, container, false);
         recyclerStatusView = view.findViewById(R.id.recyclerStatusView);
 
-        listStatus = new ArrayList<>();
-        String timeStamp;
-        for(int i =1; i<=10;i++)
-        {
-            String St = "Done";
-            if(i%3==1)
-                St = "Proccessing";
-            else if(i%3==2)
-                St = "Pending";
-            timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-            listStatus.add(new StatusViewModel(St,timeStamp));
+        FloatingActionButton floating = view.findViewById(R.id.status_fab);
+
+
+        floating.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(final View view) {
+
+                final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());//khởi tạo alert
+                View v = inflater.inflate(R.layout.dialog_add_status,null);
+                alert.setView(v);
+                alert.setCancelable(true);
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String txtName = name.getText().toString().trim();
+                        String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
+                        if(txtName != null){
+                            StatusModel statusModel = new StatusModel();
+//                            statusModel.setIdAccount("1");
+                            statusModel.setName(txtName);
+                            statusModel.setStCrD(createdDate);
+                            statusDao.insertData(statusModel);
+
+                            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                name = v.findViewById(R.id.txtAddStatus);
+                AlertDialog dialog = alert.create();
+                dialog.show();
+            }
+        });
+        database = Database.getInstance(getActivity().getApplicationContext());
+
+        statusDao  = database.statusDaoClass();
+
+        listStatus = statusDao.getAllData();
+        if(listStatus.size() == 0){
+            StatusModel status = new StatusModel();
+            status.setKey(0);
+            status.setIdAccount("0");
+            status.setName("Pending");
+            status.setStCrD(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString());
+
+            statusDao.insertData(status);
         }
+
+
         statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
 
 //        createStatusList();
@@ -52,5 +103,8 @@ public class StatusFragment extends Fragment {
         recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerStatusView.setAdapter(statusAdapter);
         return view;
+    }
+    private void AddStatus(){
+
     }
 }

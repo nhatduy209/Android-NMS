@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private Activity context;
     private Database database ;
+    private Session session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fab);
         database = Database.getInstance(this.getApplicationContext());
         if(database == null ){ int a = 1 ;}
+
+        session=new Session(getApplicationContext());
+        Toast toast= Toast.makeText(getApplicationContext(),session.getusename().toString(),Toast.LENGTH_SHORT);
+        toast.show();
 
         AccountLayer dbAccount = database.accountDao();
         Account account = new Account();

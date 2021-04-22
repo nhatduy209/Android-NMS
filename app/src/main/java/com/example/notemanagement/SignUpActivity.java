@@ -14,7 +14,6 @@ import androidx.room.Room;
 import com.example.notemanagement.DB.Account;
 import com.example.notemanagement.DB.AccountLayer;
 import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.Models.AccountModel;
 
 import java.util.List;
 

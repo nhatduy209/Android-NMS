@@ -23,6 +23,8 @@ import java.util.List;
 public class SignInActivity extends AppCompatActivity {
     Database db;
     AccountLayer accountLayer;
+    private  Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,9 @@ public class SignInActivity extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(),Database.class,Database.Databasename)
                 .allowMainThreadQueries().build();
         accountLayer=db.accountDao();
+        // call session
+        session= new Session(getApplicationContext());
+
         //handle event Sign Up
         signUp();
         //handle event Sign In
@@ -65,6 +70,8 @@ public class SignInActivity extends AppCompatActivity {
                 if(currentAccount!=null){
                     Toast toast = Toast.makeText(getApplicationContext(),"Sign in success",Toast.LENGTH_SHORT);
                     toast.show();
+                    // set session
+                    session.setusename(currentAccount.account);
                     Intent intent=new Intent(SignInActivity.this,MainActivity.class);
                     startActivity(intent);
                 }

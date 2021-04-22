@@ -13,6 +13,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
 import com.example.notemanagement.DB.Account;
 import com.example.notemanagement.DB.AccountLayer;
@@ -37,7 +38,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         database = Database.getInstance(this.getApplicationContext());
-        if(database == null ){ int a = 1 ;}
+        if(database == null ){
+            Database db = Room.databaseBuilder(this,Database.class,"mydb")
+                    .allowMainThreadQueries()
+                    .build();
+        }
 
         session=new Session(getApplicationContext());
         Toast toast= Toast.makeText(getApplicationContext(),session.getusename().toString(),Toast.LENGTH_SHORT);
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_friority , R.id.nav_status ,R.id.nav_note, R.id.nav_editprofile,
+                R.id.nav_home, R.id.nav_category, R.id.nav_friority , R.id.nav_status ,R.id.nav_note, R.id.nav_editprofile,
                 R.id.nav_changepassword)
                 .setDrawerLayout(drawer)
                 .build();

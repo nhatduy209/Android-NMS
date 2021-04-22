@@ -1,5 +1,6 @@
 package com.example.notemanagement.ui.friority;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.notemanagement.R;
 import com.example.notemanagement.ui.status.StatusAdapter;
 import com.example.notemanagement.ui.status.StatusViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +29,19 @@ public class FriorityFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friority, container, false);
         recyclerFriorityView = view.findViewById(R.id.recyclerFriorityView);
+
+//        FloatingActionButton floating = getActivity().findViewById(R.id.fab);
+//        floating.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View view) {
+//                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());//khởi tạo alert
+//                alert.setView(R.layout.dialog_add_friority);
+//                alert.setCancelable(true);
+//                AlertDialog dialog = alert.create();
+//                dialog.show();
+//            }
+//        });
 
         listFriority = new ArrayList<>();
         String timeStamp;

@@ -1,28 +1,22 @@
 package com.example.notemanagement.ui.category;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.ContextMenu;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.R;
-import com.example.notemanagement.ui.friority.FriorityAdapter;
-import com.example.notemanagement.ui.friority.FriorityViewModel;
 
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
-    private List<CategoryViewModel> listCategory;
+    private List<CategoryModel> listCategory;
     private Context context;
 
     private int position;
@@ -52,7 +46,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
     }
 
-    public CategoryAdapter(Context context, List<CategoryViewModel> listCategory){
+    public CategoryAdapter(Context context, List<CategoryModel> listCategory){
         this.listCategory = listCategory;
         this.context = context;
     }
@@ -70,9 +64,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final CategoryAdapter.ViewHolder holder, final int position){
         //Gán dữ liệu
-        CategoryViewModel category = listCategory.get(position);
-        holder.txtCategoryName.setText("Name: "+ category.getCategoryName());
-        holder.txtCategoryCrD.setText("Created Date: "+ category.getCategoryCrD());
+        CategoryModel category = listCategory.get(position);
+        holder.txtCategoryName.setText("Name: "+ category.getName());
+        holder.txtCategoryCrD.setText("Created Date: "+ category.getCatCrD());
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View v){

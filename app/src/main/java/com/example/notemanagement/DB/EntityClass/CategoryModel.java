@@ -4,16 +4,16 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Friorities")
-public class FriorityModel {
+@Entity(tableName = "Categories")
+public class CategoryModel {
     @PrimaryKey(autoGenerate = true)
     private  int key;
 
-    @ColumnInfo(name = "frName")
+    @ColumnInfo(name = "cName")
     private String name;
 
-    @ColumnInfo(name = "frCrD")
-    private String frCrD;
+    @ColumnInfo(name = "CatCrD")
+    private String CatCrD;
 
     @ColumnInfo(name = "idAccount")
     private String idAccount;
@@ -22,21 +22,16 @@ public class FriorityModel {
         return key;
     }
 
-
     public String getName() {
         return name;
     }
 
-    public String getFrCrD() {
-        return frCrD;
+    public String getCatCrD() {
+        return CatCrD;
     }
 
     public String getIdAccount() {
         return idAccount;
-    }
-
-    public void setIdAccount(String idAccount) {
-        this.idAccount = idAccount;
     }
 
     public void setKey(int key) {
@@ -47,7 +42,11 @@ public class FriorityModel {
         this.name = name;
     }
 
-    public void setFrCrD(String frCrD) {
-        this.frCrD = frCrD;
+    public void setCatCrD(String CatCrD) {
+        this.CatCrD = CatCrD;
+    }
+
+    public void setIdAccount(String idAccount) {
+        this.idAccount = idAccount;
     }
 }

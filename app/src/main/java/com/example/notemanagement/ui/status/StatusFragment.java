@@ -38,6 +38,7 @@ public class StatusFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_status, container, false);
         recyclerStatusView = view.findViewById(R.id.recyclerStatusView);
+        registerForContextMenu(recyclerStatusView);
 
         FloatingActionButton floating = view.findViewById(R.id.status_fab);
 

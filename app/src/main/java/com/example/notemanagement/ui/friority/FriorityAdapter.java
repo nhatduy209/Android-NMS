@@ -1,5 +1,6 @@
 package com.example.notemanagement.ui.friority;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,13 @@ public class FriorityAdapter extends RecyclerView.Adapter<FriorityAdapter.ViewHo
         FriorityViewModel friority = listFriority.get(position);
         holder.txtFriorityName.setText("Name: "+ friority.getFriorityName());
         holder.txtFriorityCrD.setText("Created Date: "+ friority.getFrorityCrD());
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View v){
+
+                return true;
+            }
+        });
     }
 
     @Override

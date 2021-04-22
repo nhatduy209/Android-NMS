@@ -12,6 +12,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
 import com.example.notemanagement.DB.Account;
 import com.example.notemanagement.DB.AccountLayer;
@@ -33,39 +34,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+//        FloatingActionButton fab = findViewById(R.id.fab);
         database = Database.getInstance(this.getApplicationContext());
-        if(database == null ){ int a = 1 ;}
+        if(database == null ){
+            Database db = Room.databaseBuilder(this,Database.class,"mydb")
+                    .allowMainThreadQueries()
+                    .build();
+        }
 
-        AccountLayer dbAccount = database.accountDao();
-        Account account = new Account();
-        account.idAccount = 1;
-        account.account = "testing209";
-        account.password="testing209";
-
-        //insert account
-        try {
-            dbAccount.insert(account);
-        }catch(Exception e ){
-            int b = 1 ;
-       }
-
-        // get all
-        List<Account> accounts = dbAccount.getAll();
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_friority , R.id.nav_status ,R.id.nav_note, R.id.nav_editprofile,
+                R.id.nav_home, R.id.nav_category, R.id.nav_friority , R.id.nav_status ,R.id.nav_note, R.id.nav_editprofile,
                 R.id.nav_changepassword)
                 .setDrawerLayout(drawer)
                 .build();

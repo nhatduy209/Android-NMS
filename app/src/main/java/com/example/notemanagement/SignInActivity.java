@@ -1,24 +1,18 @@
 package com.example.notemanagement;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import com.example.notemanagement.DB.Account;
 import com.example.notemanagement.DB.AccountLayer;
 import com.example.notemanagement.DB.Database;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class SignInActivity extends AppCompatActivity {
     Database db;
@@ -66,17 +60,17 @@ public class SignInActivity extends AppCompatActivity {
 
                 Account currentAccount =accountLayer.findAccount(email,password);
                 //sign in success
-                if(currentAccount!=null){
-                    // set session
-                    session.setEmail(currentAccount.email);
-                    session.setIdAccount(currentAccount.idAccount);
-                    session.setPassword(currentAccount.password);
-                    Intent intent=new Intent(SignInActivity.this,MainActivity.class);
-                    startActivity(intent);
+                if(currentAccount==null){
+                    Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
+                    toast.show();
                     return;
                 }
-                Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
-                toast.show();
+                // set session
+                session.setEmail(currentAccount.email);
+                session.setIdAccount(currentAccount.idAccount);
+                session.setPassword(currentAccount.password);
+                Intent intent=new Intent(SignInActivity.this,MainActivity.class);
+                startActivity(intent);
             }
         });
     }

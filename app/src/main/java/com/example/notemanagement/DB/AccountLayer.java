@@ -25,11 +25,16 @@ public interface AccountLayer {
 
     @Update
     public void update(Account acc);
-//    @Query("UPDATE Accounts SET email= :email, firstName=:acc.firstName,lastName=:acc.lastName WHERE idAccount=:acc.idAccount")
-//    public void updateProfile(Account acc);
+
 
     // check account
     @Query("SELECT * FROM Accounts WHERE email= :email AND password=:password")
     Account findAccount(String email, String password);
+
+    @Query("SELECT * FROM Accounts WHERE idAccount=:idAccount")
+    Account findAccountById(Integer idAccount);
+
+    @Query("SELECT * FROM Accounts WHERE email=:email")
+    Account findEmail(String email);
 }
 

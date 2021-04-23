@@ -43,4 +43,7 @@ public class Session {
         int idNote = prefs.getInt("idNote",1);
         return idNote;
     }
+    public void clear(){
+        prefs.edit().clear();
+    }
 }

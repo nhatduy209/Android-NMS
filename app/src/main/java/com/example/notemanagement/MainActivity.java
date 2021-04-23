@@ -1,8 +1,10 @@
 package com.example.notemanagement;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Activity context;
     private Database database ;
     private Session session;
+    NavigationView nav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +84,23 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_category, R.id.nav_friority , R.id.nav_status ,R.id.nav_note, R.id.nav_editprofile,
-                R.id.nav_changepassword)
+                R.id.nav_changepassword,R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        //log out
+        MenuItem logoutItem = navigationView.getMenu().findItem(R.id.nav_logout);
+        logoutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                session.clear();
+                Intent intent=new Intent(MainActivity.this,SignInActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
     }
 
 
@@ -105,4 +119,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }

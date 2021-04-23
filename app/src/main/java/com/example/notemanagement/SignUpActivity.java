@@ -61,6 +61,16 @@ public class SignUpActivity extends AppCompatActivity {
                     toast.show();
                     return;
                 }
+                Database db = Room.databaseBuilder(getApplicationContext(),Database.class,Database.Databasename)
+                        .allowMainThreadQueries().build();
+                AccountLayer accountLayer=db.accountDao();
+
+                // check email exist
+                Account checkEmail = accountLayer.findEmail(etEmail);
+                if(checkEmail!=null){
+                    Toast.makeText(getApplicationContext(),"Email is exist",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Account account = new Account();
                 account.email=etEmail;
                 account.password=etPassword;
@@ -68,9 +78,7 @@ public class SignUpActivity extends AppCompatActivity {
                 account.firstName="";
 
                 //create an instance of the database
-                Database db = Room.databaseBuilder(getApplicationContext(),Database.class,Database.Databasename)
-                        .allowMainThreadQueries().build();
-                AccountLayer accountLayer=db.accountDao();
+
 
                 try{
                     accountLayer.insert(account);

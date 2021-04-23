@@ -1,19 +1,29 @@
 package com.example.notemanagement.ui.note;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.notemanagement.DB.DaoClass.NoteDao;
+import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.Note;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     static Context context;
@@ -28,7 +38,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
 
 
-    public NoteAdapter(Context context, ArrayList<NoteModel> listNote){
+    public NoteAdapter(Context context, List<Note> listNote){
         this.context = context;
         this.listNote = listNote;
     }
@@ -48,7 +58,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position){
         //Gán dữ liệu
 
-        NoteModel note = listNote.get(position);
+        Note note = listNote.get(position);
         holder.txtName.setText(note.getName());
         holder.txtCategory.setText(note.getCategory());
         holder.txtPriority.setText(note.getPriority());
@@ -74,7 +84,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     }*/
 
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
         TextView txtName,txtCategory,txtPriority, txtStatus, txtPlanDate, txtCreateDate;
         TextView txtvName, txtvCategory, txtvPriority, txtvStatus, txtvPlanDate, txtvCreateDate;
 
@@ -93,7 +103,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             txtvPriority = itemView.findViewById(R.id.txtvPriority);
             txtvPlanDate = itemView.findViewById(R.id.txtvPlanDate);
             txtvCreateDate = itemView.findViewById(R.id.txtvCreateDate);
-
+            itemView.setOnCreateContextMenuListener(this);
 
 
 

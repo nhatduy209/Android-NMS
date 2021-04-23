@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.notemanagement.DB.Account;
+import com.example.notemanagement.DB.AccountLayer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SignInActivity extends AppCompatActivity {
@@ -38,12 +42,15 @@ public class SignInActivity extends AppCompatActivity {
     public void signIn(){
         Button signIn =(Button)findViewById(R.id.btn_sign_in);
         signIn.setOnClickListener(new View.OnClickListener() {
+            private Session session;
+            private AccountLayer accountLayer;
+
             @Override
             public void onClick(View view) {
                 String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
                 String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
 
-                Account currentAccount =accountLayer.findAccount(email,password);
+                Account currentAccount = accountLayer.findAccount(email,password);
                 //sign in success
                 if(currentAccount==null){
                     Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);

@@ -4,13 +4,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
+import androidx.room.Room;
 
+import com.example.notemanagement.DB.Account;
+import com.example.notemanagement.DB.AccountLayer;
+import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 
 public class EditProfileFragment extends Fragment {
     Database db;

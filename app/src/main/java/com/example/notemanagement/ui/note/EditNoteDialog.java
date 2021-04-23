@@ -16,14 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.DB.Note;
-import com.example.notemanagement.DB.NoteDao;
+import com.example.notemanagement.DB.EntityClass.Note;
+import com.example.notemanagement.DB.DaoClass.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 public class EditNoteDialog extends DialogFragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     TextView txtEditselectDate;

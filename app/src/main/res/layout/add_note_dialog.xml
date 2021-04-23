@@ -7,12 +7,12 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/txtNoteName"
+        android:id="@+id/txtEditNoteName"
         android:layout_width="360dp"
         android:layout_height="47dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Enter note name"
+        android:hint="Enter note name"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,6 @@
         android:layout_width="360dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
         android:text="Select category ..."
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +38,6 @@
         android:layout_width="363dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
         android:text="Select priority..."
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +49,6 @@
         android:layout_width="363dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
         android:text="Select status..."
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +59,6 @@
         android:layout_width="362dp"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSelectStatus">
@@ -87,7 +83,6 @@
         android:layout_width="106dp"
         android:layout_height="45dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
         android:text="Add"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -96,9 +91,9 @@
         android:id="@+id/btnClose"
         android:layout_width="103dp"
         android:layout_height="46dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="128dp"
         android:text="Close"
         app:layout_constraintStart_toEndOf="@+id/btnAdd"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

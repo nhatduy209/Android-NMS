@@ -9,13 +9,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@androidx.room.Database(entities = { Account.class} , version = 1 ,exportSchema = false)
+@androidx.room.Database(entities = { Account.class, Note.class} , version = 2 ,exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     //create instance
     public static String Databasename = "TestingDatabase";
     public static  Database database;
     public abstract AccountLayer accountDao();
+    public abstract NoteDao noteDao();
 
 
     public synchronized static Database getInstance(Context context){

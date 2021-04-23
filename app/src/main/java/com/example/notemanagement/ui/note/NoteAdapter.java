@@ -1,54 +1,26 @@
 package com.example.notemanagement.ui.note;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.DB.Note;
-import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     static Context context;
-    List<Note> listNote;
-    private  int position;
-    public int getPosition() {
-        return position;
-    }
-    private Database database ;
-
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
+    ArrayList<NoteModel> listNote;
 
 
 
-    public NoteAdapter(Context context, List<Note> listNote){
+    public NoteAdapter(Context context, ArrayList<NoteModel> listNote){
         this.context = context;
         this.listNote = listNote;
     }
@@ -59,15 +31,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         //gán view
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item_view, parent, false);
-
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position){
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position){
         //Gán dữ liệu
 
-        Note note = listNote.get(position);
+        NoteModel note = listNote.get(position);
         holder.txtName.setText(note.getName());
         holder.txtCategory.setText(note.getCategory());
         holder.txtPriority.setText(note.getPriority());
@@ -75,34 +46,27 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         holder.txtPlanDate.setText(note.getPlanDate());
         holder.txtCreateDate.setText(note.getCreateDate());
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                setPosition(position);
-                return false;
-            }
-        });
-
-
-
     }
-
-
 
     @Override
     public int getItemCount() {
         return listNote.size(); // trả item tại vị trí postion
     }
 
+  /*  public void deleteItem(int position) {
+        listNote.remove(position);
+        notifyItemRemoved(position);
 
-    public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnCreateContextMenuListener{
+    }
+
+    public Context getContext() {
+        return NoteAdapter.context;
+    }*/
+
+
+    class ViewHolder extends RecyclerView.ViewHolder{
         TextView txtName,txtCategory,txtPriority, txtStatus, txtPlanDate, txtCreateDate;
-        TextView txtvName, txtvCategory, txtvPriority, txtvStatus, txtvPlanDate;
-
-
-
-
-
+        TextView txtvName, txtvCategory, txtvPriority, txtvStatus, txtvPlanDate, txtvCreateDate;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -118,71 +82,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             txtvStatus = itemView.findViewById(R.id.txtvStatus);
             txtvPriority = itemView.findViewById(R.id.txtvPriority);
             txtvPlanDate = itemView.findViewById(R.id.txtvPlanDate);
+            txtvCreateDate = itemView.findViewById(R.id.txtvCreateDate);
 
-
-
-
-            itemView.setOnCreateContextMenuListener(this);
 
 
 
         }
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v,
-                                        ContextMenu.ContextMenuInfo menuInfo) {
-
-            MenuItem Edit = menu.add(Menu.NONE, 0, 0, "Edit"); //groupId, itemId, order, title
-            MenuItem Delete = menu.add(Menu.NONE, 1, 0, "Delete");
-            Edit.setOnMenuItemClickListener(onEditMenu);
-            Delete.setOnMenuItemClickListener(onEditMenu);
-
-
-
-        }
-        public void setItems(List<Note> notes)
-        {
-            listNote = notes;
-        }
-        private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Note temp = listNote.get(position);
-                database = Database.getInstance(context);
-                NoteDao noteDao = database.noteDao();
-
-                Note selectedNote = noteDao.getNote(temp.id);
-
-
-                switch (item.getItemId()) {
-                    case 0:
-                        /*FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
-                        FragmentTransaction ft =  fragmentManager.beginTransaction();
-
-                        DialogFragment newFragment = AddNoteDialog.newInstance();
-
-
-
-
-
-                        newFragment.show(ft, "add_note_dialog");
-*/
-                       // notifyItemChanged(position);
-                        break;
-
-                    case 1:
-                        noteDao.deleteNotes(selectedNote);
-                        //notifyItemRemoved(position);
-                        listNote = noteDao.getAll();
-                        setItems(listNote);
-                        notifyDataSetChanged();
-
-                        break;
-                }
-                return true;
-            }
-        };
-
-
     }
-
 }
+

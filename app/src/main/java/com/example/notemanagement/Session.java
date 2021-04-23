@@ -27,4 +27,14 @@ public class Session {
         String password=prefs.getString("password","");
         return password;
     }
+
+
+    public void setIdNote(int idNote) {
+        prefs.edit().putInt("idNote", idNote).commit();
+    }
+
+    public int getIdNote() {
+        int idNote = prefs.getInt("idNote",1);
+        return idNote;
+    }
 }

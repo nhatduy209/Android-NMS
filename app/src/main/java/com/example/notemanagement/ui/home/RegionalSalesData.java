@@ -1,5 +1,4 @@
-package com.example.notemanagement.ui;
-
+package com.example.notemanagement.ui.home;
 public class RegionalSalesData {
     private String region;
     private int sales;

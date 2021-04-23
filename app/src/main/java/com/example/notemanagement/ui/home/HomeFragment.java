@@ -8,23 +8,34 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.notemanagement.ui.RegionalSalesData;
+import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
+import com.example.notemanagement.DB.DashBoard;
+import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.StatusModel;
+import com.example.notemanagement.DB.Note;
+import com.example.notemanagement.DB.NoteDao;
+import com.example.notemanagement.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.example.notemanagement.R;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
     PieChart pieChart;
     ArrayList<PieEntry> pieEntries = new ArrayList();
     ArrayList<RegionalSalesData> regionalSalesDataArrayList =new ArrayList<>();
-
+    Database database ;
     public  View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
+        //connect database
+        database = Database.getInstance(getActivity().getApplicationContext());
+
+        final NoteDao noteDao = database.noteDao();
         pieChart = view.findViewById(R.id.pieChart);
         fillRegionalSalesArrayList();
         return view;
@@ -32,16 +43,29 @@ public class HomeFragment extends Fragment {
 
     private void fillRegionalSalesArrayList(){
         // set data
-        int Pending = 60 ;
-        int Processing = 20;
-        int Done  = 20 ;
-        regionalSalesDataArrayList.add(new RegionalSalesData("Pending",Pending));
+        final NoteDao noteDao = database.noteDao();
+        final List<Note> ListNote  =  noteDao.getAll();
+        final StatusDaoClass statusDao = database.statusDaoClass();
+        final List<StatusModel> ListStatus  =  statusDao.getAllData();
+        List<DashBoard>  ListDashBoard = new ArrayList<>();
+        for (StatusModel status : ListStatus){
+            int count = 0;
+            for (Note note  : ListNote) {
+                if(note.status.equals(status.getName())){
+                    count++;
+                }
+            }
+            DashBoard dashboard = new DashBoard(status.getName() , count);
+            ListDashBoard.add(dashboard);
+        }
+
+        /*regionalSalesDataArrayList.add(new RegionalSalesData("Pending",Pending));
         regionalSalesDataArrayList.add(new RegionalSalesData("Processing",Processing));
-        regionalSalesDataArrayList.add(new RegionalSalesData("Done",Done));
-        for (int i =0; i < regionalSalesDataArrayList.size();i++){
-            String region = regionalSalesDataArrayList.get(i).getRegion();
-            int sales = regionalSalesDataArrayList.get(i).getSales();
-            pieEntries.add(new PieEntry(sales,region));
+        regionalSalesDataArrayList.add(new RegionalSalesData("Done",Done)); */
+        for (int i =0; i < ListDashBoard.size();i++){
+            String status = ListDashBoard.get(i).getStatus();
+            int countStatus = ListDashBoard.get(i).getCount();
+            pieEntries.add(new PieEntry(countStatus,status));
         }
 
 

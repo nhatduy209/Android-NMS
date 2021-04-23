@@ -32,10 +32,12 @@ public class HomeFragment extends Fragment {
 
     private void fillRegionalSalesArrayList(){
         // set data
-        regionalSalesDataArrayList.add(new RegionalSalesData("Alex",242000));
-        regionalSalesDataArrayList.add(new RegionalSalesData("Cairo",300000));
-        regionalSalesDataArrayList.add(new RegionalSalesData("Suez",150000));
-        regionalSalesDataArrayList.add(new RegionalSalesData("Upper EGypt",200000));
+        int Pending = 60 ;
+        int Processing = 20;
+        int Done  = 20 ;
+        regionalSalesDataArrayList.add(new RegionalSalesData("Pending",Pending));
+        regionalSalesDataArrayList.add(new RegionalSalesData("Processing",Processing));
+        regionalSalesDataArrayList.add(new RegionalSalesData("Done",Done));
         for (int i =0; i < regionalSalesDataArrayList.size();i++){
             String region = regionalSalesDataArrayList.get(i).getRegion();
             int sales = regionalSalesDataArrayList.get(i).getSales();
@@ -43,13 +45,13 @@ public class HomeFragment extends Fragment {
         }
 
 
-        PieDataSet pieDataSet = new PieDataSet(pieEntries,"Regional Sales");
+        PieDataSet pieDataSet = new PieDataSet(pieEntries,"DashBoard");
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         pieDataSet.setValueTextSize(16);
         PieData pieData = new PieData(pieDataSet);
-        pieChart = (PieChart) pieChart.findViewById(R.id.pieChart);
+        pieChart = pieChart.findViewById(R.id.pieChart);
         pieChart.setData(pieData);
     }
 }

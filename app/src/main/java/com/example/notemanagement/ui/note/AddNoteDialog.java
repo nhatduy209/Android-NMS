@@ -20,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
@@ -46,6 +48,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
     TextView txtSelectStatus;
     Database database ;
     NoteAdapter noteAdapter;
+    RecyclerView recyclerView;
 
 
     public AddNoteDialog() {
@@ -69,6 +72,10 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         database = Database.getInstance(getActivity().getApplicationContext());
 
         final NoteDao noteDao = database.noteDao();
+        List<Note> listNotes = noteDao.getAll();
+        final NoteAdapter noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNotes);
+
+
         final StatusDaoClass statusDao = database.statusDaoClass();
         final FriorityDaoClass priorityDao = database.friorityDaoClass();
         //button choose Date
@@ -125,10 +132,20 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                         note.setCreateDate(CreateDate);
                         noteDao.insertNotes(note);
 
-                        //reset recycler view
+
+                       /* //reset recycler view
+                        recyclerView = view.findViewById(R.id.recyclerview);
                         List<Note> listNotes = noteDao.getAll();
-                        noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNotes);
+
                         noteAdapter.notifyDataSetChanged();
+*/
+
+
+                        Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
+
+                        dismiss();
+
+
                         dismiss();
                         Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
                     }

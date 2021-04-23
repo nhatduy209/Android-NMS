@@ -28,6 +28,7 @@ import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         return position;
     }
     private Database database ;
+    Session session;
 
 
     public void setPosition(int position) {
@@ -60,6 +62,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         //gán view
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item_view, parent, false);
 
+        context = parent.getContext();
         return new ViewHolder(view);
     }
 
@@ -152,20 +155,21 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
                 Note selectedNote = noteDao.getNote(temp.id);
 
+                session = new Session(context);
+                session.setIdNote(selectedNote.id);
+
+
+
 
                 switch (item.getItemId()) {
                     case 0:
-                        /*FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
+                        FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
                         FragmentTransaction ft =  fragmentManager.beginTransaction();
 
-                        DialogFragment newFragment = AddNoteDialog.newInstance();
+                        DialogFragment newFragment = EditNoteDialog.newInstance();
 
+                        newFragment.show(ft, "edit_note_dialog");
 
-
-
-
-                        newFragment.show(ft, "add_note_dialog");
-*/
                        // notifyItemChanged(position);
                         break;
 
@@ -176,8 +180,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                         setItems(listNote);
                         notifyDataSetChanged();
 
+
                         break;
                 }
+
                 return true;
             }
         };

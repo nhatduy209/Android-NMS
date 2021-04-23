@@ -13,7 +13,7 @@ public interface NoteDao {
     @Insert
     public void insertNotes(Note... notes);
     @Update
-    public void updateNotes(Note... notes);
+    public void updateNote(Note note);
     @Delete
     public void deleteNotes(Note note);
     @Query("SELECT * FROM Notes")

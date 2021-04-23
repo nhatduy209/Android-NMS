@@ -1,4 +1,4 @@
-package com.example.notemanagement.ui.status;
+package com.example.notemanagement.ui.friority;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,34 +15,37 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.R;
+import com.example.notemanagement.ui.status.StatusAdapter;
+import com.example.notemanagement.ui.status.StatusViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class StatusFragment extends Fragment {
-
-    // Add RecyclerView member
-    private RecyclerView recyclerStatusView;
-    StatusAdapter statusAdapter;
-    List<StatusModel> listStatus;
+public class FriorityFragment extends Fragment {
+    private RecyclerView recyclerFriorityView;
+    FriorityAdapter friorityAdapter;
+    List<FriorityModel> listFriority;
     Database database;
-    StatusDaoClass statusDao;
+    FriorityDaoClass friorityDao;
     EditText name;
     Button add,cancel;
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_status, container, false);
-        recyclerStatusView = view.findViewById(R.id.recyclerStatusView);
-        registerForContextMenu(recyclerStatusView);
+        View view = inflater.inflate(R.layout.fragment_friority, container, false);
+        recyclerFriorityView = view.findViewById(R.id.recyclerFriorityView);
+        registerForContextMenu(recyclerFriorityView);
 
-        FloatingActionButton floating = view.findViewById(R.id.status_fab);
+        FloatingActionButton floating = view.findViewById(R.id.friority_fab);
 
 
         floating.setOnClickListener(new View.OnClickListener(){
@@ -51,11 +54,12 @@ public class StatusFragment extends Fragment {
             public void onClick(final View view) {
 
                 final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());//khởi tạo alert
-                View v = inflater.inflate(R.layout.dialog_add_status,null);
-                name = v.findViewById(R.id.txtAddStatus);
-                add = v.findViewById(R.id.btnStatusAdd);
-                cancel = v.findViewById(R.id.btnStatusCancel);
+                View v = inflater.inflate(R.layout.dialog_add_friority,null);
+                name = v.findViewById(R.id.txtAddFriority);
+                add = v.findViewById(R.id.btnFriAdd);
+                cancel = v.findViewById(R.id.btnFriCancel);
                 alert.setView(v);
+                alert.setCancelable(true);
 
                 final AlertDialog dialog = alert.create();
                 add.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +69,11 @@ public class StatusFragment extends Fragment {
                         String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
                         if(txtName != null){
-                            StatusModel statusModel = new StatusModel();
-//                            statusModel.setIdAccount("1");
-                            statusModel.setName(txtName);
-                            statusModel.setStCrD(createdDate);
-                            statusDao.insertData(statusModel);
+                            FriorityModel friorityModel = new FriorityModel();
+                            friorityModel.setIdAccount("1");
+                            friorityModel.setName(txtName);
+                            friorityModel.setFrCrD(createdDate);
+                            friorityDao.insertData(friorityModel);
 
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
                         }
@@ -90,29 +94,26 @@ public class StatusFragment extends Fragment {
         });
         database = Database.getInstance(getActivity().getApplicationContext());
 
-        statusDao  = database.statusDaoClass();
+        friorityDao  = database.friorityDaoClass();
 
-        listStatus = statusDao.getAllData();
-        if(listStatus.size() == 0){
-            StatusModel status = new StatusModel();
-            status.setKey(0);
-            status.setIdAccount("0");
-            status.setName("Pending");
-            status.setStCrD(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString());
+        listFriority = friorityDao.getAllData();
+        if(listFriority.size() == 0){
+            FriorityModel friorityModel = new FriorityModel();
+            friorityModel.setIdAccount("1");
+            friorityModel.setName("0");
+            friorityModel.setFrCrD(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString());
+            friorityDao.insertData(friorityModel);
 
-            statusDao.insertData(status);
+            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
         }
 
 
-        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
+        friorityAdapter = new FriorityAdapter(getActivity().getApplicationContext(),listFriority);
 
 //        createStatusList();
-        recyclerStatusView.setHasFixedSize(true);
-        recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerStatusView.setAdapter(statusAdapter);
+        recyclerFriorityView.setHasFixedSize(true);
+        recyclerFriorityView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerFriorityView.setAdapter(friorityAdapter);
         return view;
-    }
-    private void AddStatus(){
-
     }
 }

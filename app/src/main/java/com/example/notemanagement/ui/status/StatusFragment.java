@@ -56,31 +56,6 @@ public class StatusFragment extends Fragment {
                 add = v.findViewById(R.id.btnStatusAdd);
                 cancel = v.findViewById(R.id.btnStatusCancel);
                 alert.setView(v);
-                alert.setCancelable(true);
-//                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//                alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                        String txtName = name.getText().toString().trim();
-//                        String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-//
-//                        if(txtName != null){
-//                            StatusModel statusModel = new StatusModel();
-////                            statusModel.setIdAccount("1");
-//                            statusModel.setName(txtName);
-//                            statusModel.setStCrD(createdDate);
-//                            statusDao.insertData(statusModel);
-//
-//                            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
 
                 final AlertDialog dialog = alert.create();
                 add.setOnClickListener(new View.OnClickListener() {
@@ -97,8 +72,11 @@ public class StatusFragment extends Fragment {
                             statusDao.insertData(statusModel);
 
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
                         }
+                        else{
+                            Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {

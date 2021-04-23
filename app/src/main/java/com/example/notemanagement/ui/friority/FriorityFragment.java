@@ -60,30 +60,6 @@ public class FriorityFragment extends Fragment {
                 cancel = v.findViewById(R.id.btnFriCancel);
                 alert.setView(v);
                 alert.setCancelable(true);
-//                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//                alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                        String txtName = name.getText().toString().trim();
-//                        String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-//
-//                        if(txtName != null){
-//                            FriorityModel friorityModel = new FriorityModel();
-//                            friorityModel.setIdAccount("1");
-//                            friorityModel.setName(txtName);
-//                            friorityModel.setFrCrD(createdDate);
-//                            friorityDao.insertData(friorityModel);
-//
-//                            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
 
                 final AlertDialog dialog = alert.create();
                 add.setOnClickListener(new View.OnClickListener() {
@@ -100,8 +76,11 @@ public class FriorityFragment extends Fragment {
                             friorityDao.insertData(friorityModel);
 
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
                         }
+                        else{
+                            Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +101,7 @@ public class FriorityFragment extends Fragment {
             FriorityModel friorityModel = new FriorityModel();
             friorityModel.setIdAccount("1");
             friorityModel.setName("0");
-            friorityModel.setFrCrD("High");
+            friorityModel.setFrCrD(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()).toString());
             friorityDao.insertData(friorityModel);
 
             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();

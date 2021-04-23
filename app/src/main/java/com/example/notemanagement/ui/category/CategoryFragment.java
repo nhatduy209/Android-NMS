@@ -3,7 +3,9 @@ package com.example.notemanagement.ui.category;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,6 +27,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class CategoryFragment extends Fragment {
     private RecyclerView recyclerCategoryView;
@@ -57,32 +61,6 @@ public class CategoryFragment extends Fragment {
 
                 alert.setView(v);
                 alert.setCancelable(true);
-
-//                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//                alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                        String txtName = name.getText().toString().trim();
-//                        String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-//
-//                        if(txtName != null){
-//                            CategoryModel categoryModel = new CategoryModel();
-//                            categoryModel.setIdAccount("1");
-//                            categoryModel.setName(txtName);
-//                            categoryModel.setCatCrD(createdDate);
-//                            categoryDao.insertData(categoryModel);
-//
-//                            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-
                 final AlertDialog dialog = alert.create();
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -98,8 +76,11 @@ public class CategoryFragment extends Fragment {
                             categoryDao.insertData(categoryModel);
 
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
                         }
+                        else{
+                            Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {

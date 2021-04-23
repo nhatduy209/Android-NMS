@@ -34,4 +34,7 @@ public class Session {
         Integer idAccount=prefs.getInt("idAccount",0);
         return idAccount;
     }
+    public void clear(){
+        prefs.edit().clear();
+    }
 }

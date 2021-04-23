@@ -33,5 +33,14 @@ public class Session {
     public Integer getIdAccount(){
         Integer idAccount=prefs.getInt("idAccount",0);
         return idAccount;
+
+
+    public void setIdNote(int idNote) {
+        prefs.edit().putInt("idNote", idNote).commit();
+    }
+
+    public int getIdNote() {
+        int idNote = prefs.getInt("idNote",1);
+        return idNote;
     }
 }

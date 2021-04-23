@@ -15,6 +15,7 @@ import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -42,9 +43,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void fillRegionalSalesArrayList(){
+        Session session = new Session( getActivity());
         // set data
         final NoteDao noteDao = database.noteDao();
-        final List<Note> ListNote  =  noteDao.getAll();
+        final List<Note> ListNote  =  noteDao.getAll(session.getIdAccount());
         final StatusDaoClass statusDao = database.statusDaoClass();
         final List<StatusModel> ListStatus  =  statusDao.getAllData();
         List<DashBoard>  ListDashBoard = new ArrayList<>();

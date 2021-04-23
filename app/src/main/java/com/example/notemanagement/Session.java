@@ -30,10 +30,10 @@ public class Session {
         String password=prefs.getString("password","");
         return password;
     }
-    public Integer getIdAccount(){
-        Integer idAccount=prefs.getInt("idAccount",0);
+    public Integer getIdAccount() {
+        Integer idAccount = prefs.getInt("idAccount", 0);
         return idAccount;
-
+    }
 
     public void setIdNote(int idNote) {
         prefs.edit().putInt("idNote", idNote).commit();

@@ -176,7 +176,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                     case 1:
                         noteDao.deleteNotes(selectedNote);
                         //notifyItemRemoved(position);
-                        listNote = noteDao.getAll();
+                        listNote = noteDao.getAll(session.getIdAccount());
                         setItems(listNote);
                         notifyDataSetChanged();
 

@@ -36,41 +36,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        database = Database.getInstance(this.getApplicationContext());
-        if(database == null ){
-            Database db = Room.databaseBuilder(this,Database.class,"mydb")
-                    .allowMainThreadQueries()
-                    .build();
-        }
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        database = Database.getInstance(this.getApplicationContext());
+//        if(database == null ){
+//            Database db = Room.databaseBuilder(this,Database.class,"mydb")
+//                    .allowMainThreadQueries()
+//                    .build();
+//        }
 
         session=new Session(getApplicationContext());
-        Toast toast= Toast.makeText(getApplicationContext(),session.getusename().toString(),Toast.LENGTH_SHORT);
+        Toast toast= Toast.makeText(getApplicationContext(),session.getEmail(),Toast.LENGTH_SHORT);
         toast.show();
 
-        AccountLayer dbAccount = database.accountDao();
-        Account account = new Account();
-        account.idAccount = 1;
-        account.account = "testing209";
-        account.password="testing209";
-
-        //insert account
-        try {
-            dbAccount.insert(account);
-        }catch(Exception e ){
-            int b = 1 ;
-       }
+//        AccountLayer dbAccount = database.accountDao();
+//        Account account = new Account();
+//        account.idAccount = 1;
+//        account.email = "testing209";
+//        account.password="testing209";
+//
+//        //insert account
+//        try {
+//            dbAccount.insert(account);
+//        }catch(Exception e ){
+//            int b = 1 ;
+//       }
 
         // get all
-        List<Account> accounts = dbAccount.getAll();
+//        List<Account> accounts = dbAccount.getAll();
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

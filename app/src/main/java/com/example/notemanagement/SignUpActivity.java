@@ -62,8 +62,10 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
                 Account account = new Account();
-                account.account=etEmail;
+                account.email=etEmail;
                 account.password=etPassword;
+                account.lastName="";
+                account.firstName="";
 
                 //create an instance of the database
                 Database db = Room.databaseBuilder(getApplicationContext(),Database.class,Database.Databasename)

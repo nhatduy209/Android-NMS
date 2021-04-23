@@ -13,12 +13,18 @@ public class Session {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public void setusename(String usename) {
-        prefs.edit().putString("usename", usename).commit();
+    public void setEmail(String email) {
+        prefs.edit().putString("email", email).commit();
     }
-
-    public String getusename() {
-        String usename = prefs.getString("usename","");
+    public void setPassword(String password){
+        prefs.edit().putString("password",password).commit();
+    }
+    public String getEmail() {
+        String usename = prefs.getString("email","");
         return usename;
+    }
+    public String getPassword(){
+        String password=prefs.getString("password","");
+        return password;
     }
 }

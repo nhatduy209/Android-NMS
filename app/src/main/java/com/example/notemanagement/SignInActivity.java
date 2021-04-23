@@ -30,8 +30,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         //build database
-        db = Room.databaseBuilder(getApplicationContext(),Database.class,Database.Databasename)
-                .allowMainThreadQueries().build();
+        db = Database.getInstance(getApplicationContext());
         accountLayer=db.accountDao();
         // call session
         session= new Session(getApplicationContext());
@@ -68,12 +67,11 @@ public class SignInActivity extends AppCompatActivity {
                 Account currentAccount =accountLayer.findAccount(email,password);
                 //sign in success
                 if(currentAccount!=null){
-                    Toast toast = Toast.makeText(getApplicationContext(),"Sign in success",Toast.LENGTH_SHORT);
-                    toast.show();
                     // set session
-                    session.setusename(currentAccount.account);
+                    session.setEmail(currentAccount.email);
                     Intent intent=new Intent(SignInActivity.this,MainActivity.class);
                     startActivity(intent);
+                    return;
                 }
                 Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
                 toast.show();

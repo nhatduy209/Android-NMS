@@ -40,7 +40,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         return position;
     }
     private Database database ;
-    View viewUpdate;
 
 
     public void setPosition(int position) {
@@ -60,11 +59,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         //gán view
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item_view, parent, false);
-        context = parent.getContext();
 
-
-        // lay view cua add dialog de change text add -> update
-        viewUpdate = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_note_dialog, parent, false);
         return new ViewHolder(view);
     }
 
@@ -160,7 +155,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
                 switch (item.getItemId()) {
                     case 0:
-                        FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
+                        /*FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
                         FragmentTransaction ft =  fragmentManager.beginTransaction();
 
                         DialogFragment newFragment = AddNoteDialog.newInstance();
@@ -170,7 +165,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
 
                         newFragment.show(ft, "add_note_dialog");
-
+*/
                        // notifyItemChanged(position);
                         break;
 

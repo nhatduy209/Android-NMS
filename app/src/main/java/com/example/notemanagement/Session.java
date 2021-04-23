@@ -19,6 +19,9 @@ public class Session {
     public void setPassword(String password){
         prefs.edit().putString("password",password).commit();
     }
+    public void setIdAccount(Integer idAccount){
+        prefs.edit().putInt("idAccount",idAccount).commit();
+    }
     public String getEmail() {
         String usename = prefs.getString("email","");
         return usename;
@@ -26,5 +29,9 @@ public class Session {
     public String getPassword(){
         String password=prefs.getString("password","");
         return password;
+    }
+    public Integer getIdAccount(){
+        Integer idAccount=prefs.getInt("idAccount",0);
+        return idAccount;
     }
 }

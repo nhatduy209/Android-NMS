@@ -69,6 +69,8 @@ public class SignInActivity extends AppCompatActivity {
                 if(currentAccount!=null){
                     // set session
                     session.setEmail(currentAccount.email);
+                    session.setIdAccount(currentAccount.idAccount);
+                    session.setPassword(currentAccount.password);
                     Intent intent=new Intent(SignInActivity.this,MainActivity.class);
                     startActivity(intent);
                     return;

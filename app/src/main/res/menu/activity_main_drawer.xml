@@ -38,6 +38,10 @@
                 android:id="@+id/nav_changepassword"
                 android:icon="@drawable/ic_baseline_changepass"
                 android:title="Change Password" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_baseline_changepass"
+                android:title="Log out"/>
         </menu>
     </item>
 </menu>

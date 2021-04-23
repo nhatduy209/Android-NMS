@@ -21,7 +21,8 @@ import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.R;
 import com.example.notemanagement.ui.note.NoteAdapter;
-
+import com.example.notemanagement.ui.note.NoteModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.Random;

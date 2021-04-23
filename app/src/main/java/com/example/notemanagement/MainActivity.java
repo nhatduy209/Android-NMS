@@ -4,14 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,7 +17,6 @@ import androidx.room.Room;
 import com.example.notemanagement.DB.Account;
 import com.example.notemanagement.DB.AccountLayer;
 import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.ui.note.AddNoteDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -33,44 +28,25 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private Activity context;
     private Database database ;
-    private Session session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 //        FloatingActionButton fab = findViewById(R.id.fab);
-//        database = Database.getInstance(this.getApplicationContext());
-//        if(database == null ){
-//            Database db = Room.databaseBuilder(this,Database.class,"mydb")
-//                    .allowMainThreadQueries()
-//                    .build();
-//        }
-
-        session=new Session(getApplicationContext());
-        Toast toast= Toast.makeText(getApplicationContext(),session.getEmail(),Toast.LENGTH_SHORT);
-        toast.show();
-
-//        AccountLayer dbAccount = database.accountDao();
-//        Account account = new Account();
-//        account.idAccount = 1;
-//        account.email = "testing209";
-//        account.password="testing209";
-//
-//        //insert account
-//        try {
-//            dbAccount.insert(account);
-//        }catch(Exception e ){
-//            int b = 1 ;
-//       }
-
-        // get all
-//        List<Account> accounts = dbAccount.getAll();
+        database = Database.getInstance(this.getApplicationContext());
+        if(database == null ){
+            Database db = Room.databaseBuilder(this,Database.class,"mydb")
+                    .allowMainThreadQueries()
+                    .build();
+        }
 
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
+//
+//
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
 //            }
@@ -88,9 +64,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

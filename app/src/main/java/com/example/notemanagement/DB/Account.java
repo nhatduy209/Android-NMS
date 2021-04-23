@@ -11,9 +11,7 @@ public class Account implements Serializable {
     @PrimaryKey(autoGenerate = true)
     public int idAccount;
 
-    public String email;
+    public String account;
 
     public  String password ;
-    public String firstName;
-    public String lastName;
 }

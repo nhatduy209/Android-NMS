@@ -9,7 +9,6 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@androidx.room.Database(entities = { Account.class, Note.class} , version = 2 ,exportSchema = false)
 import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
 import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
@@ -17,7 +16,8 @@ import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 
-@androidx.room.Database(entities = { Account.class, StatusModel.class, FriorityModel.class, CategoryModel.class} , version = 2 ,exportSchema = false)
+
+@androidx.room.Database(entities = { Account.class,Note.class, StatusModel.class, FriorityModel.class, CategoryModel.class} , version = 2 ,exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     //create instance

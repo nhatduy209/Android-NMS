@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,11 +34,13 @@ public class StatusFragment extends Fragment {
     Database database;
     StatusDaoClass statusDao;
     EditText name;
+    Button add,cancel;
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_status, container, false);
         recyclerStatusView = view.findViewById(R.id.recyclerStatusView);
+        registerForContextMenu(recyclerStatusView);
 
         FloatingActionButton floating = view.findViewById(R.id.status_fab);
 
@@ -49,18 +52,15 @@ public class StatusFragment extends Fragment {
 
                 final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());//khởi tạo alert
                 View v = inflater.inflate(R.layout.dialog_add_status,null);
+                name = v.findViewById(R.id.txtAddStatus);
+                add = v.findViewById(R.id.btnStatusAdd);
+                cancel = v.findViewById(R.id.btnStatusCancel);
                 alert.setView(v);
-                alert.setCancelable(true);
-                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
 
+                final AlertDialog dialog = alert.create();
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
                         String txtName = name.getText().toString().trim();
                         String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
@@ -73,10 +73,18 @@ public class StatusFragment extends Fragment {
 
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
                         }
+                        else{
+                            Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
                     }
                 });
-                name = v.findViewById(R.id.txtAddStatus);
-                AlertDialog dialog = alert.create();
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
                 dialog.show();
             }
         });

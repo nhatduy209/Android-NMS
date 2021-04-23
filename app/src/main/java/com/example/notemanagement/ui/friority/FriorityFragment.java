@@ -79,7 +79,14 @@ public class FriorityFragment extends Fragment {
                         else{
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                         }
+                        listFriority = friorityDao.getAllData();
                         dialog.dismiss();
+                        friorityAdapter = new FriorityAdapter(getActivity().getApplicationContext(),listFriority);
+
+//        createStatusList();
+                        recyclerFriorityView.setHasFixedSize(true);
+                        recyclerFriorityView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                        recyclerFriorityView.setAdapter(friorityAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -145,8 +152,15 @@ public class FriorityFragment extends Fragment {
                         FriorityModel friorityModel = listFriority.get(finalPosition);
                         friorityModel.setName(text);
                         friorityDao.updateData(friorityModel);
+                        listFriority = friorityDao.getAllData();
                         Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
+                        friorityAdapter = new FriorityAdapter(getActivity().getApplicationContext(),listFriority);
+
+//        createStatusList();
+                        recyclerFriorityView.setHasFixedSize(true);
+                        recyclerFriorityView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                        recyclerFriorityView.setAdapter(friorityAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {

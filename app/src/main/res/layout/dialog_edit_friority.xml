@@ -9,7 +9,7 @@
         android:id="@+id/txtCategory"
         android:layout_width="398dp"
         android:layout_height="28dp"
-        android:text="Category form"
+        android:text="Priority form"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -79,6 +79,13 @@ public class CategoryFragment extends Fragment {
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
+                        listCategory = categoryDao.getAllData();
+                        categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
+
+//        createStatusList();
+                        recyclerCategoryView.setHasFixedSize(true);
+                        recyclerCategoryView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                        recyclerCategoryView.setAdapter(categoryAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -144,8 +151,15 @@ public class CategoryFragment extends Fragment {
                         CategoryModel categoryModel = listCategory.get(finalPosition);
                         categoryModel.setName(text);
                         categoryDao.updateData(categoryModel);
+                        listCategory = categoryDao.getAllData();
                         Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
+                        categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
+
+//        createStatusList();
+                        recyclerCategoryView.setHasFixedSize(true);
+                        recyclerCategoryView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                        recyclerCategoryView.setAdapter(categoryAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {

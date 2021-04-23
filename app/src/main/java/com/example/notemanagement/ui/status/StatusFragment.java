@@ -82,6 +82,9 @@ public class StatusFragment extends Fragment {
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
+                        listStatus = statusDao.getAllData();
+                        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
+                        recyclerStatusView.setAdapter(statusAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -150,8 +153,15 @@ public class StatusFragment extends Fragment {
                         StatusModel statusModel = listStatus.get(finalPosition);
                         statusModel.setName(text);
                         statusDao.updateData(statusModel);
+                        listStatus = statusDao.getAllData();
                         Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
+                        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
+
+//        createStatusList();
+                        recyclerStatusView.setHasFixedSize(true);
+                        recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                        recyclerStatusView.setAdapter(statusAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {

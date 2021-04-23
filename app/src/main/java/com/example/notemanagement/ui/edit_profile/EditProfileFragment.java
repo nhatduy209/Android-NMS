@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.room.Room;
@@ -25,25 +27,25 @@ public class EditProfileFragment extends Fragment {
     Database db;
     AccountLayer accountLayer;
     Session session;
-
+    Button btnEdit;
+    Button btnHome;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        db= Database.getInstance(getActivity());
-//        accountLayer=db.accountDao();
-//        session= new Session(getActivity());
-//        //button savechange
-//        saveChanges();
-        //button home
-       // backHome();
-//        final TextView textView = root.findViewById(R.id.texteditprofile);
         View root = inflater.inflate(R.layout.fragment_editprofile, container, false);
-//        final TextView textView = root.findViewById(R.id.textchangepass);
+        db= Room.databaseBuilder(getActivity(),Database.class,Database.Databasename).allowMainThreadQueries().build();
+        accountLayer=db.accountDao();
+        session= new Session(getActivity());
+
+        btnEdit=root.findViewById(R.id.btnEditProfile);
+        btnHome=root.findViewById(R.id.btnHomeinEditprofile);
+
+        saveChanges();
+        backHome();
         return root;
     }
     //handle event click on save changes
     public void saveChanges(){
-        Button btn = getActivity().findViewById(R.id.btnEditProfile);
-        btn.setOnClickListener(new View.OnClickListener(){
+        btnEdit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 String firstName = ((EditText)getActivity().findViewById(R.id.txtFirstName)).getText().toString();
@@ -62,12 +64,12 @@ public class EditProfileFragment extends Fragment {
                 account.lastName=lastName;
 
                 accountLayer.update(account);
+                Toast.makeText(getActivity(),"Edit profile successfully",Toast.LENGTH_SHORT).show();
             }
         });
     }
     public void backHome(){
-        Button btn= getActivity().findViewById(R.id.btnHomeinEditprofile);
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();

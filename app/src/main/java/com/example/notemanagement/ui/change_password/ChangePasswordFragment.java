@@ -23,20 +23,25 @@ public class ChangePasswordFragment extends Fragment {
     Database db;
     AccountLayer accountLayer;
     Session session;
+    Button btnChangePassword;
+    Button btnHome;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_changepassword, container, false);
         db= Room.databaseBuilder(getActivity(),Database.class,Database.Databasename).allowMainThreadQueries().build();
         accountLayer=db.accountDao();
         session= new Session(getActivity());
+        btnChangePassword=root.findViewById(R.id.btnChangePassword);
+        btnHome=root.findViewById(R.id.btnHomeinChangepassword);
 
-        View root = inflater.inflate(R.layout.fragment_changepassword, container, false);
-//        final TextView textView = root.findViewById(R.id.textchangepass);
+        saveChanges();
+        backHome();
         return root;
     }
     //handle button save changes
     public void saveChanges(){
-        Button btn = getActivity().findViewById(R.id.btnChangePassword);
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String currentPassword=((EditText)getActivity().findViewById(R.id.txtCurrentPassword)).getText().toString();
@@ -58,7 +63,15 @@ public class ChangePasswordFragment extends Fragment {
                 account.password=newPassword;
                 accountLayer.update(account);
 
-                Toast.makeText(getActivity(),"Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"Change password successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void backHome(){
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
             }
         });
     }

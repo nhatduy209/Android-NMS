@@ -23,12 +23,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
+import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.FriorityModel;
+import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -70,6 +76,8 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         final NoteAdapter noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNotes);
 
 
+        final StatusDaoClass statusDao = database.statusDaoClass();
+        final FriorityDaoClass priorityDao = database.friorityDaoClass();
         //button choose Date
         Button btnDate = view.findViewById(R.id.btnSelectPlanDate);
         txtselectDate = view.findViewById(R.id.txtSelectPlanDate);
@@ -138,13 +146,63 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                         dismiss();
 
 
+                        dismiss();
+                        Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
+            // text view status
+        txtSelectStatus =txtSelectStatus.findViewById(R.id.txtSelectStatus);
+        final List<StatusModel> ListStatus  =  statusDao.getAllData();
+        final String[] lstStatus = new String[ListStatus.size()];
+        int count = 0;
+        for (StatusModel i : ListStatus) {
+            lstStatus[count] = i.getName();
+            count++;
+        }
+        txtSelectStatus.setOnLongClickListener(new View.OnLongClickListener() {
 
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Choose status ")
+                        .setItems(lstStatus, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // The 'which' argument contains the index position
+                                // of the selected item
+                                txtSelectStatus.setText(lstStatus[which]);
+                            }
+                        })
+                        .setNegativeButton("No", null).show();
+                return false;
+            }
+        });
+        // text view priority
+        txtSelectPriority =txtSelectPriority.findViewById(R.id.txtSelectPriority);
+        final List<FriorityModel> ListPriority = priorityDao.getAllData();
+        final String[] lstPriority = new String[ListPriority.size()];
+        int countPriority = 0;
+        for (FriorityModel i : ListPriority) {
+            lstPriority[countPriority] = i.getName();
+            countPriority++;
+        }
+        txtSelectPriority.setOnLongClickListener(new View.OnLongClickListener() {
 
-
-
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Choose Priority ")
+                        .setItems(lstPriority, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // The 'which' argument contains the index position
+                                // of the selected item
+                                txtSelectPriority.setText(lstPriority[which]);
+                            }
+                        })
+                        .setNegativeButton("No", null).show();
+                return false;
+            }
+        });
 
 
         return view;
@@ -152,7 +210,6 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-
 
     }
 

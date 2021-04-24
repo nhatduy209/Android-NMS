@@ -27,7 +27,6 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     PieChart pieChart;
     ArrayList<PieEntry> pieEntries = new ArrayList();
-    ArrayList<RegionalSalesData> regionalSalesDataArrayList =new ArrayList<>();
     Database database ;
     public  View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,13 +58,18 @@ public class HomeFragment extends Fragment {
             ListDashBoard.add(dashboard);
         }
 
-        /*regionalSalesDataArrayList.add(new RegionalSalesData("Pending",Pending));
-        regionalSalesDataArrayList.add(new RegionalSalesData("Processing",Processing));
-        regionalSalesDataArrayList.add(new RegionalSalesData("Done",Done)); */
+
+        // for each items in dashboard
         for (int i =0; i < ListDashBoard.size();i++){
             String status = ListDashBoard.get(i).getStatus();
             int countStatus = ListDashBoard.get(i).getCount();
-            pieEntries.add(new PieEntry(countStatus,status));
+            if(countStatus > 0 ){
+                float Rate = (float)countStatus/ ListNote.size();
+                float Percentage =  (float)Rate * 100;
+                pieEntries.add(new PieEntry(Percentage,status));
+            }
+
+
         }
 
 

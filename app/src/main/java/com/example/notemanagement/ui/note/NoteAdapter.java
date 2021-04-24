@@ -37,9 +37,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     static Context context;
     List<Note> listNote;
     private  int position;
-    public int getPosition() {
-        return position;
-    }
     private Database database ;
     Session session;
 
@@ -146,6 +143,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         {
             listNote = notes;
         }
+
+        // Menu context Edit, Delete
         private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

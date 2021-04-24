@@ -90,7 +90,7 @@ public class Note implements Serializable {
     {
         return idAccount;
     }
-    public void setIdAccount(int IdAccount) {
+    public void setIdAccount(int idAccount) {
         this.idAccount = idAccount;
     }
 

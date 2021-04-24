@@ -2,6 +2,7 @@ package com.example.notemanagement.ui.note;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
@@ -28,7 +33,9 @@ import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -115,7 +122,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                 String Status = txtSelectStatus.getText().toString().trim();
                 String PlanDate = txtselectDate.getText().toString().trim();
                 String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
-                int IdAccount=session.getIdAccount();
+
                 if(Name != null)
                 {
                     Note note = new Note();
@@ -141,9 +148,6 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
 
                     dismiss();
 
-
-                    dismiss();
-                    Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
                 }
             }
         });

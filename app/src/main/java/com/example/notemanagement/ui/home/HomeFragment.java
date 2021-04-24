@@ -70,8 +70,6 @@ public class HomeFragment extends Fragment {
                 float Percentage =  (float)Rate * 100;
                 pieEntries.add(new PieEntry(Percentage,status));
             }
-
-
         }
 
 

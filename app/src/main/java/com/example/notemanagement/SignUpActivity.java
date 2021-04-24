@@ -47,7 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String etEmail =((EditText)findViewById(R.id.editTextEmailSignUp)).getText().toString();
 
                 // check data is not null
-                if(etEmail==null||etPassword==null||etPasswordConfirm==null){
+                if(etEmail.length()==0||etPassword.length()==0||etPasswordConfirm.length()==0){
                     //toast message here
                     return;
                 }

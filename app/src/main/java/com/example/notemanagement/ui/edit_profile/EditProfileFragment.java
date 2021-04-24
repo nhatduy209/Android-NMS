@@ -47,7 +47,7 @@ public class EditProfileFragment extends Fragment {
                 String lastName = ((EditText)getActivity().findViewById(R.id.txtLastName)).getText().toString();
                 String email = ((EditText)getActivity().findViewById(R.id.txtEmail)).getText().toString();
 
-                if(firstName==null || lastName==null ||email==null){
+                if(firstName.length()==0 || lastName.length()==0 ||email.length()==0){
                     //show warning
                     return;
                 }

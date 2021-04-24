@@ -12,19 +12,15 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.notemanagement.DB.DaoClass.NoteDao;
-import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.DB.EntityClass.Note;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NoteFragment extends Fragment {
     RecyclerView recyclerView;
-    List<Note> listNote;
+    ArrayList<NoteModel> listNote;
     NoteAdapter noteAdapter;
     Session session;
 

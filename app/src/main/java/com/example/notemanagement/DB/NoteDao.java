@@ -1,12 +1,10 @@
-package com.example.notemanagement.DB.DaoClass;
+package com.example.notemanagement.DB;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-
-import com.example.notemanagement.DB.EntityClass.Note;
 
 import java.util.List;
 

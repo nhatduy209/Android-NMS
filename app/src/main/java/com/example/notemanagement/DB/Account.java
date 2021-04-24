@@ -14,10 +14,4 @@ public class Account implements Serializable {
     public String account;
 
     public  String password ;
-
-    public  String email;
-
-    public String firstName;
-
-    public String lastName;
 }

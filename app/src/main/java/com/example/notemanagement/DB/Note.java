@@ -1,4 +1,4 @@
-package com.example.notemanagement.DB.EntityClass;
+package com.example.notemanagement.DB;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;

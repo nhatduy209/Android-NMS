@@ -17,9 +17,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.notemanagement.DB.DaoClass.NoteDao;
+import com.example.notemanagement.DB.DaoClass.NoteDaoClass;
 import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.DB.EntityClass.Note;
+import com.example.notemanagement.DB.EntityClass.NoteModel;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 
@@ -27,7 +27,7 @@ import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     static Context context;
-    List<Note> listNote;
+    List<NoteModel> listNote;
     private  int position;
     public int getPosition() {
         return position;
@@ -38,7 +38,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
 
 
-    public NoteAdapter(Context context, List<Note> listNote){
+    public NoteAdapter(Context context, List<NoteModel> listNote){
         this.context = context;
         this.listNote = listNote;
     }
@@ -58,7 +58,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position){
         //Gán dữ liệu
 
-        Note note = listNote.get(position);
+        NoteModel note = listNote.get(position);
         holder.txtName.setText(note.getName());
         holder.txtCategory.setText(note.getCategory());
         holder.txtPriority.setText(note.getPriority());
@@ -120,18 +120,18 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
 
         }
-        public void setItems(List<Note> notes)
+        public void setItems(List<NoteModel> notes)
         {
             listNote = notes;
         }
         private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Note temp = listNote.get(position);
+                NoteModel temp = listNote.get(position);
                 database = Database.getInstance(context);
-                NoteDao noteDao = database.noteDao();
+                NoteDaoClass noteDao = database.noteDao();
 
-                Note selectedNote = noteDao.getNote(temp.id);
+                NoteModel selectedNote = noteDao.getNote(temp.id);
 
                 session = new Session(context);
                 session.setIdNote(selectedNote.id);

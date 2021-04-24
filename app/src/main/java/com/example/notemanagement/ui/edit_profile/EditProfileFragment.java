@@ -6,22 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.room.Room;
 
-import com.example.notemanagement.DB.Account;
-import com.example.notemanagement.DB.AccountLayer;
+import com.example.notemanagement.DB.EntityClass.AccountModel;
+import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 
 public class EditProfileFragment extends Fragment {
     Database db;
-    AccountLayer accountLayer;
+    AccountDaoClass accountLayer;
     Session session;
     Button btnEdit;
     Button btnHome;
@@ -53,11 +52,11 @@ public class EditProfileFragment extends Fragment {
                     return;
                 }
 
-                Account account = new Account();
+                AccountModel account = new AccountModel();
                 account=accountLayer.findAccount(session.getEmail(),session.getPassword());
-                account.email=email;
-                account.firstName=firstName;
-                account.lastName=lastName;
+                account.setEmail(email);
+                account.setFirstName(firstName);
+                account.setLastName(lastName);
 
                 accountLayer.update(account);
                 Toast.makeText(getActivity(),"Edit profile successfully",Toast.LENGTH_SHORT).show();

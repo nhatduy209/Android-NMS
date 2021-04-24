@@ -16,8 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.DB.EntityClass.Note;
-import com.example.notemanagement.DB.DaoClass.NoteDao;
+import com.example.notemanagement.DB.EntityClass.NoteModel;
+import com.example.notemanagement.DB.DaoClass.NoteDaoClass;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 
@@ -60,8 +60,8 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         //connect database
         database = Database.getInstance(getActivity().getApplicationContext());
 
-        final NoteDao noteDao = database.noteDao();
-        final Note selectedNote = noteDao.getNote(id);
+        final NoteDaoClass noteDao = database.noteDao();
+        final NoteModel selectedNote = noteDao.getNote(id);
 
 
         //button choose Date
@@ -115,7 +115,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
 
                 if(Name != null)
                 {
-                    Note note = selectedNote;
+                    NoteModel note = selectedNote;
                     note.setName(Name);
                     note.setCategory(Category);
                     note.setPriority(Priority);

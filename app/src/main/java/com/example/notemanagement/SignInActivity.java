@@ -9,15 +9,26 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.notemanagement.DB.Account;
-import com.example.notemanagement.DB.AccountLayer;
+import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
+import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.AccountModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SignInActivity extends AppCompatActivity {
+    Database db;
+    AccountDaoClass accountLayer;
+    private  Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        //build database
+        db = Database.getInstance(getApplicationContext());
+        accountLayer=db.accountDao();
+        // call session
+        session= new Session(getApplicationContext());
+
         //handle event Sign Up
         signUp();
         //handle event Sign In
@@ -42,15 +53,12 @@ public class SignInActivity extends AppCompatActivity {
     public void signIn(){
         Button signIn =(Button)findViewById(R.id.btn_sign_in);
         signIn.setOnClickListener(new View.OnClickListener() {
-            private Session session;
-            private AccountLayer accountLayer;
-
             @Override
             public void onClick(View view) {
                 String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
                 String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
 
-                Account currentAccount = accountLayer.findAccount(email,password);
+                AccountModel currentAccount =accountLayer.findAccount(email,password);
                 //sign in success
                 if(currentAccount==null){
                     Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
@@ -58,9 +66,9 @@ public class SignInActivity extends AppCompatActivity {
                     return;
                 }
                 // set session
-                session.setEmail(currentAccount.email);
-                session.setIdAccount(currentAccount.idAccount);
-                session.setPassword(currentAccount.password);
+                session.setEmail(currentAccount.getEmail());
+                session.setIdAccount(currentAccount.getIdAccount());
+                session.setPassword(currentAccount.getPassword());
                 Intent intent=new Intent(SignInActivity.this,MainActivity.class);
                 startActivity(intent);
             }

@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "Notes")
-public class Note implements Serializable {
+@Entity(tableName = "NoteModel")
+public class NoteModel implements Serializable {
     @PrimaryKey(autoGenerate = true)
     public int id;
     public String name;
@@ -19,7 +19,7 @@ public class Note implements Serializable {
     public int idAccount;
 
     @Ignore
-    public Note(String name, String category, String priority, String status, String planDate, String createDate,int idAccount){
+    public NoteModel(String name, String category, String priority, String status, String planDate, String createDate, int idAccount){
         this.name = name;
         this.category = category;
         this.priority = priority;
@@ -94,7 +94,7 @@ public class Note implements Serializable {
         this.idAccount = idAccount;
     }
 
-    public Note(){
+    public NoteModel(){
         this.name = "volleyball";
         this.category = "relax";
         this.priority ="low";

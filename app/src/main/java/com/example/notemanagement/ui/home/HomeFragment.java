@@ -12,8 +12,8 @@ import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.DashBoard;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
-import com.example.notemanagement.DB.EntityClass.Note;
-import com.example.notemanagement.DB.DaoClass.NoteDao;
+import com.example.notemanagement.DB.EntityClass.NoteModel;
+import com.example.notemanagement.DB.DaoClass.NoteDaoClass;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 import com.github.mikephil.charting.charts.PieChart;
@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
         //connect database
         database = Database.getInstance(getActivity().getApplicationContext());
 
-        final NoteDao noteDao = database.noteDao();
+        final NoteDaoClass noteDao = database.noteDao();
         pieChart = view.findViewById(R.id.pieChart);
         fillRegionalSalesArrayList();
         return view;
@@ -45,14 +45,14 @@ public class HomeFragment extends Fragment {
     private void fillRegionalSalesArrayList(){
         Session session = new Session( getActivity());
         // set data
-        final NoteDao noteDao = database.noteDao();
-        final List<Note> ListNote  =  noteDao.getAll(session.getIdAccount());
+        final NoteDaoClass noteDao = database.noteDao();
+        final List<NoteModel> ListNote  =  noteDao.getAll(session.getIdAccount());
         final StatusDaoClass statusDao = database.statusDaoClass();
         final List<StatusModel> ListStatus  =  statusDao.getAllData();
         List<DashBoard>  ListDashBoard = new ArrayList<>();
         for (StatusModel status : ListStatus){
             int count = 0;
-            for (Note note  : ListNote) {
+            for (NoteModel note  : ListNote) {
                 if(note.status.equals(status.getName())){
                     count++;
                 }

@@ -23,8 +23,8 @@ import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
-import com.example.notemanagement.DB.EntityClass.Note;
-import com.example.notemanagement.DB.DaoClass.NoteDao;
+import com.example.notemanagement.DB.EntityClass.NoteModel;
+import com.example.notemanagement.DB.DaoClass.NoteDaoClass;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 
@@ -66,8 +66,8 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         database = Database.getInstance(getActivity().getApplicationContext());
         session= new Session(getActivity());
 
-        final NoteDao noteDao = database.noteDao();
-        List<Note> listNotes = noteDao.getAll(session.getIdAccount());
+        final NoteDaoClass noteDao = database.noteDao();
+        List<NoteModel> listNotes = noteDao.getAll(session.getIdAccount());
         final NoteAdapter noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNotes);
 
         final StatusDaoClass statusDao = database.statusDaoClass();
@@ -118,7 +118,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                     int IdAccount=session.getIdAccount();
                     if(Name != null)
                     {
-                        Note note = new Note();
+                        NoteModel note = new NoteModel();
                         note.setId(session.getIdAccount());
                         note.setName(Name);
                         note.setCategory(Category);

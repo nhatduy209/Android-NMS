@@ -60,15 +60,17 @@ public class SignInActivity extends AppCompatActivity {
 
                 AccountModel currentAccount =accountLayer.findAccount(email,password);
                 //sign in success
-                if(currentAccount==null){
+                if(currentAccount.equals(null)){
                     Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
+
                 // set session
                 session.setEmail(currentAccount.getEmail());
                 session.setIdAccount(currentAccount.getIdAccount());
                 session.setPassword(currentAccount.getPassword());
+
                 Intent intent=new Intent(SignInActivity.this,MainActivity.class);
                 startActivity(intent);
             }

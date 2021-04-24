@@ -11,20 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.notemanagement.R;
-import com.example.notemanagement.Session;
 
 import java.util.ArrayList;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     static Context context;
-    List<Note> listNote;
-    private  int position;
-    public int getPosition() {
-        return position;
-    }
-    private Database database ;
-    Session session;
-
+    ArrayList<NoteModel> listNote;
 
 
 
@@ -39,8 +31,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         //gán view
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item_view, parent, false);
-
-        context = parent.getContext();
         return new ViewHolder(view);
     }
 
@@ -98,65 +88,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
 
         }
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v,
-                                        ContextMenu.ContextMenuInfo menuInfo) {
-
-            MenuItem Edit = menu.add(Menu.NONE, 0, 0, "Edit"); //groupId, itemId, order, title
-            MenuItem Delete = menu.add(Menu.NONE, 1, 0, "Delete");
-            Edit.setOnMenuItemClickListener(onEditMenu);
-            Delete.setOnMenuItemClickListener(onEditMenu);
-
-
-
-        }
-        public void setItems(List<Note> notes)
-        {
-            listNote = notes;
-        }
-        private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Note temp = listNote.get(position);
-                database = Database.getInstance(context);
-                NoteDao noteDao = database.noteDao();
-
-                Note selectedNote = noteDao.getNote(temp.id);
-
-                session = new Session(context);
-                session.setIdNote(selectedNote.id);
-
-
-
-
-                switch (item.getItemId()) {
-                    case 0:
-                        FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
-                        FragmentTransaction ft =  fragmentManager.beginTransaction();
-
-                        DialogFragment newFragment = EditNoteDialog.newInstance();
-
-                        newFragment.show(ft, "edit_note_dialog");
-
-                       // notifyItemChanged(position);
-                        break;
-
-                    case 1:
-                        noteDao.deleteNotes(selectedNote);
-                        //notifyItemRemoved(position);
-                        listNote = noteDao.getAll(session.getIdAccount());
-                        setItems(listNote);
-                        notifyDataSetChanged();
-
-
-                        break;
-                }
-
-                return true;
-            }
-        };
-
-
     }
 }
 

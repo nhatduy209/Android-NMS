@@ -19,19 +19,6 @@ public interface AccountLayer {
 
     @Delete
     public void delete(Account acc);
-
-    @Update
-    public void update(Account acc);
-
-
-    // check account
-    @Query("SELECT * FROM Accounts WHERE email= :email AND password=:password")
-    Account findAccount(String email, String password);
-
-    @Query("SELECT * FROM Accounts WHERE idAccount=:idAccount")
-    Account findAccountById(Integer idAccount);
-
-    @Query("SELECT * FROM Accounts WHERE email=:email")
-    Account findEmail(String email);
+    
 }
 

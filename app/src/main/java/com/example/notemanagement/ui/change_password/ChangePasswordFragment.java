@@ -12,59 +12,10 @@ import androidx.fragment.app.Fragment;
 import com.example.notemanagement.R;
 
 public class ChangePasswordFragment extends Fragment {
-    Database db;
-    AccountLayer accountLayer;
-    Session session;
-    Button btnChangePassword;
-    Button btnHome;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_changepassword, container, false);
-        db= Room.databaseBuilder(getActivity(),Database.class,Database.Databasename).allowMainThreadQueries().build();
-        accountLayer=db.accountDao();
-        session= new Session(getActivity());
-        btnChangePassword=root.findViewById(R.id.btnChangePassword);
-        btnHome=root.findViewById(R.id.btnHomeinChangepassword);
-
-        saveChanges();
-        backHome();
+//        final TextView textView = root.findViewById(R.id.textchangepass);
         return root;
-    }
-    //handle button save changes
-    public void saveChanges(){
-        btnChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String currentPassword=((EditText)getActivity().findViewById(R.id.txtCurrentPassword)).getText().toString();
-                String newPassword=((EditText)getActivity().findViewById(R.id.txtNewPassword)).getText().toString();
-                String confirmPassword=((EditText)getActivity().findViewById(R.id.txtConfirmPassword)).getText().toString();
-
-                if(currentPassword==null || newPassword==null || confirmPassword==null){
-                    //show warning
-                    return;
-                }
-
-                if(!newPassword.equals(confirmPassword)){
-                    //password is not match
-                    return;
-                }
-
-                Account account = new Account();
-                account= accountLayer.findAccount(session.getEmail(),session.getPassword());
-                account.password=newPassword;
-                accountLayer.update(account);
-
-                Toast.makeText(getActivity(),"Change password successfully", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    public void backHome(){
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
     }
 }

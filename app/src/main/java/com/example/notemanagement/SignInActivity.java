@@ -1,10 +1,13 @@
 package com.example.notemanagement;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,20 +43,6 @@ public class SignInActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
-                String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
-
-                Account currentAccount =accountLayer.findAccount(email,password);
-                //sign in success
-                if(currentAccount==null){
-                    Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                // set session
-                session.setEmail(currentAccount.email);
-                session.setIdAccount(currentAccount.idAccount);
-                session.setPassword(currentAccount.password);
                 Intent intent=new Intent(SignInActivity.this,MainActivity.class);
                 startActivity(intent);
             }

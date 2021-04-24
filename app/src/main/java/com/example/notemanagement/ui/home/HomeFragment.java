@@ -15,6 +15,7 @@ import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -29,7 +30,7 @@ public class HomeFragment extends Fragment {
     ArrayList<PieEntry> pieEntries = new ArrayList();
     Database database ;
     public  View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         //connect database
         database = Database.getInstance(getActivity().getApplicationContext());
@@ -41,9 +42,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void fillRegionalSalesArrayList(){
+        Session session = new Session( getActivity());
         // set data
         final NoteDao noteDao = database.noteDao();
-        final List<Note> ListNote  =  noteDao.getAll();
+        final List<Note> ListNote  =  noteDao.getAll(session.getIdAccount());
         final StatusDaoClass statusDao = database.statusDaoClass();
         final List<StatusModel> ListStatus  =  statusDao.getAllData();
         List<DashBoard>  ListDashBoard = new ArrayList<>();

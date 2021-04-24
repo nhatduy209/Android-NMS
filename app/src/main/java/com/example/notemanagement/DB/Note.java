@@ -16,15 +16,17 @@ public class Note implements Serializable {
     public  String status ;
     public  String planDate ;
     public  String createdDate ;
+    public int idAccount;
 
     @Ignore
-    public Note(String name, String category, String priority, String status, String planDate, String createDate){
+    public Note(String name, String category, String priority, String status, String planDate, String createDate,int idAccount){
         this.name = name;
         this.category = category;
         this.priority = priority;
         this.status = status;
         this.planDate = planDate;
         this.createdDate = createDate;
+        this.idAccount=idAccount;
     }
 
     public void setId(int id) {
@@ -84,6 +86,14 @@ public class Note implements Serializable {
         this.createdDate = CreateDate;
     }
 
+    public  int getIdAccount()
+    {
+        return idAccount;
+    }
+    public void setIdAccount(int IdAccount) {
+        this.idAccount = idAccount;
+    }
+
     public Note(){
         this.name = "volleyball";
         this.category = "relax";
@@ -91,8 +101,8 @@ public class Note implements Serializable {
         this.status = "processing";
         this.planDate = "12/3/2000";
         this.createdDate = "12/3/2000 20:00:00";
+        this.idAccount=1;
     }
-
 
 
 }

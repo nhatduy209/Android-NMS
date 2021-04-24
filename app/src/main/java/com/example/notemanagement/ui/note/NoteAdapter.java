@@ -110,13 +110,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             //ánh xạ view
-           txtName = itemView.findViewById((R.id.txtName));
-           txtCategory = itemView.findViewById(R.id.txtCategory);
-           txtStatus = itemView.findViewById(R.id.txtStatus);
-           txtPriority = itemView.findViewById(R.id.txtPriority);
-           txtPlanDate = itemView.findViewById(R.id.txtPlanDate);
-           txtCreateDate = itemView.findViewById(R.id.txtCreateDate);
-           txtvName = itemView.findViewById(R.id.txtvName);
+            txtName = itemView.findViewById((R.id.txtName));
+            txtCategory = itemView.findViewById(R.id.txtCategory);
+            txtStatus = itemView.findViewById(R.id.txtStatus);
+            txtPriority = itemView.findViewById(R.id.txtPriority);
+            txtPlanDate = itemView.findViewById(R.id.txtPlanDate);
+            txtCreateDate = itemView.findViewById(R.id.txtCreateDate);
+            txtvName = itemView.findViewById(R.id.txtvName);
             txtvCategory = itemView.findViewById(R.id.txtvCategory);
             txtvStatus = itemView.findViewById(R.id.txtvStatus);
             txtvPriority = itemView.findViewById(R.id.txtvPriority);
@@ -170,13 +170,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
                         newFragment.show(ft, "edit_note_dialog");
 
-                       // notifyItemChanged(position);
+                        // notifyItemChanged(position);
                         break;
 
                     case 1:
                         noteDao.deleteNotes(selectedNote);
                         //notifyItemRemoved(position);
-                        listNote = noteDao.getAll();
+                        listNote = noteDao.getAll(session.getIdAccount());
                         setItems(listNote);
                         notifyDataSetChanged();
 

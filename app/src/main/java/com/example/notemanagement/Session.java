@@ -19,6 +19,12 @@ public class Session {
     public void setPassword(String password){
         prefs.edit().putString("password",password).commit();
     }
+    public void setIdAccount(Integer idAccount){
+        prefs.edit().putInt("idAccount",idAccount).commit();
+    }
+    public void setIdNote(int idNote){
+        prefs.edit().putInt("idAccount",idNote).commit();
+    }
     public String getEmail() {
         String usename = prefs.getString("email","");
         return usename;
@@ -27,14 +33,15 @@ public class Session {
         String password=prefs.getString("password","");
         return password;
     }
-
-
-    public void setIdNote(int idNote) {
-        prefs.edit().putInt("idNote", idNote).commit();
+    public int getIdAccount(){
+        Integer idAccount=prefs.getInt("idAccount",0);
+        return idAccount;
     }
-
-    public int getIdNote() {
-        int idNote = prefs.getInt("idNote",1);
+    public int getIdNote(){
+        int idNote=prefs.getInt("idNote",0);
         return idNote;
+    }
+    public void clear(){
+        prefs.edit().clear();
     }
 }

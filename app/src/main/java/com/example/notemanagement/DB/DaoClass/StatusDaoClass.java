@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.ui.status.StatusViewModel;
@@ -17,5 +18,10 @@ public interface StatusDaoClass {
 
     @Query("select * from Statuses")
     List<StatusModel> getAllData();
+    @Delete
+    void deleteData(StatusModel statusModel);
+
+    @Update
+    public void updateData(StatusModel statusModel);
 
 }

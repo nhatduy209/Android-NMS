@@ -1,7 +1,6 @@
 package com.example.notemanagement.ui.category;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
-import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -81,6 +79,13 @@ public class CategoryFragment extends Fragment {
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
+                        listCategory = categoryDao.getAllData();
+                        categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
+
+//        createStatusList();
+                        recyclerCategoryView.setHasFixedSize(true);
+                        recyclerCategoryView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                        recyclerCategoryView.setAdapter(categoryAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -98,15 +103,7 @@ public class CategoryFragment extends Fragment {
         categoryDao  = database.categoryDaoClass();
 
         listCategory = categoryDao.getAllData();
-        if(listCategory.size() == 0){
-            CategoryModel categoryModel = new CategoryModel();
-            categoryModel.setIdAccount("1");
-            categoryModel.setName("0");
-            categoryModel.setCatCrD("High");
-            categoryDao.insertData(categoryModel);
 
-            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-        }
         categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
 
 //        createStatusList();
@@ -115,23 +112,63 @@ public class CategoryFragment extends Fragment {
         recyclerCategoryView.setAdapter(categoryAdapter);
         return view;
     }
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//        int position = -1;
-//        try {
-//            position = (getAdapter()).getPosition();
-//        } catch (Exception e) {
-//            Log.d(TAG, e.getLocalizedMessage(), e);
-//            return super.onContextItemSelected(item);
-//        }
-//        switch (item.getItemId()) {
-//            case R.id.Edit:
-//                // do your stuff
-//                break;
-//            case R.id.Delete:
-//                // do your stuff
-//                break;
-//        }
-//        return super.onContextItemSelected(item);
-//    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int position = -1;
+        try {
+            position = categoryAdapter.getPosition();
+        } catch (Exception e) {
+            Log.d(TAG, e.getLocalizedMessage(), e);
+            return super.onContextItemSelected(item);
+        }
+        switch (item.getItemId()) {
+            case R.id.MenuEditCategory:
+                final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());//khởi tạo alert
+                View v = View.inflate(getContext(),R.layout.dialog_edit_category,null);
+                final Button edit = v.findViewById(R.id.btnEditFriority);
+                Button cancel = v.findViewById(R.id.btnCancelEditFrioritry);
+                final EditText editText = v.findViewById(R.id.txtEditFriority);
+                String txt = listCategory.get(position).getName();
+
+                editText.append(txt);
+                alert.setView(v);
+                alert.setCancelable(true);
+                final AlertDialog dialog = alert.create();
+                final int finalPosition = position;
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String text = editText.getText().toString().trim();
+                        CategoryModel categoryModel = listCategory.get(finalPosition);
+                        categoryModel.setName(text);
+                        categoryDao.updateData(categoryModel);
+                        listCategory = categoryDao.getAllData();
+                        Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
+
+//        createStatusList();
+                        recyclerCategoryView.setHasFixedSize(true);
+                        recyclerCategoryView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                        recyclerCategoryView.setAdapter(categoryAdapter);
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+//                Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
+                // do your stuff
+                break;
+            case R.id.MenuDeleteCategory:
+
+                // do your stuff
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
 }

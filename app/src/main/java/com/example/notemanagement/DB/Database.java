@@ -19,7 +19,7 @@ import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 
 
-@androidx.room.Database(entities = { AccountModel.class,Note.class, StatusModel.class, FriorityModel.class, CategoryModel.class} , version = 3,exportSchema = false)
+@androidx.room.Database(entities = { AccountModel.class,Note.class, StatusModel.class, FriorityModel.class, CategoryModel.class} , version = 6,exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     //create instance

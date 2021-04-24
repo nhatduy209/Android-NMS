@@ -3,7 +3,9 @@ package com.example.notemanagement.ui.status;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Handler;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -13,9 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
+import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.R;
-import com.example.notemanagement.ui.note.NoteAdapter;
 
 
 import java.util.List;
@@ -24,12 +28,21 @@ import java.util.Random;
 public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder> {
     private List<StatusModel> listStatus;
     private Context context;
-    private interface OnItemLongClickListener{
-        public boolean onItemLongClicked(int posotion);
+    Database database;
+    StatusDaoClass statusDao;
+
+    private int position;
+
+    public int getPosition() {
+        return position;
     }
 //    private Random random;
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
         private TextView txtstatusContent, txtcreatedDateContent;
         private View itemView;
 
@@ -38,10 +51,27 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             this.itemView = itemView;
             txtstatusContent = itemView.findViewById(R.id.lbStatusContent);
             txtcreatedDateContent = itemView.findViewById(R.id.lbCreatedContent);
-
+            itemView.setOnCreateContextMenuListener(this);
         }
 
 
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.add(contextMenu.NONE,R.id.MenuEditStatus,contextMenu.NONE,"Edit");
+
+            contextMenu.add(contextMenu.NONE,R.id.MenuDeleteStatus,contextMenu.NONE,"Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    StatusModel statusModel = listStatus.get(position);
+                    database = Database.getInstance(context);
+                    statusDao = database.statusDaoClass();
+                    statusDao.deleteData(statusModel);
+                    listStatus = statusDao.getAllData();
+                    notifyDataSetChanged();
+                    return false;
+                }
+            });
+        }
     }
 
     public StatusAdapter(Context context, List<StatusModel> listStatus){
@@ -68,9 +98,8 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View v){
-
-
-                return true;
+                setPosition(holder.getPosition());
+                return false;
             }
         });
     }

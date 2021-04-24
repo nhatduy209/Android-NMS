@@ -71,7 +71,6 @@ public class SignInActivity extends AppCompatActivity {
                 session.setIdAccount(currentAccount.getIdAccount());
                 session.setPassword(currentAccount.getPassword());
 
-                Toast.makeText(getApplicationContext(),String.valueOf(session.getIdAccount()),Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(SignInActivity.this,MainActivity.class);
                 startActivity(intent);
             }

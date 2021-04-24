@@ -95,7 +95,7 @@ public class NoteFragment extends Fragment{
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                listNote = noteDao.getAll();
+                listNote = noteDao.getAll(session.getIdAccount());
                 noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNote);
 
                 recyclerView.setHasFixedSize(true);

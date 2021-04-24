@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.Note;
@@ -37,15 +38,17 @@ public class NoteFragment extends Fragment{
     List<Note> listNote;
     NoteAdapter noteAdapter;
     private Database database ;
+
+    SwipeRefreshLayout swipeRefreshLayout;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_note, container, false);
+        final View view = inflater.inflate(R.layout.fragment_note, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerview);
 
         database = Database.getInstance(getActivity().getApplicationContext());
 
-        NoteDao noteDao = database.noteDao();
+        final NoteDao noteDao = database.noteDao();
 
 
         listNote = noteDao.getAll();
@@ -85,6 +88,20 @@ public class NoteFragment extends Fragment{
 
             }
         });
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                listNote = noteDao.getAll();
+                noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNote);
+
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                recyclerView.setAdapter(noteAdapter);
+                registerForContextMenu(recyclerView);
+            }
+        });
+
         return view;
     }
 

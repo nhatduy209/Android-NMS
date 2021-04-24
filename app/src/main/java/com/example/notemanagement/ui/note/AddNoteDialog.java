@@ -47,8 +47,8 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
     TextView txtSelectPriority;
     TextView txtSelectStatus;
     Database database ;
+    List<Note> listNote;
     NoteAdapter noteAdapter;
-    RecyclerView recyclerView;
 
 
     public AddNoteDialog() {
@@ -64,7 +64,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         //create view
         View view = inflater.inflate(R.layout.add_note_dialog, container, false);
 
@@ -72,8 +72,8 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         database = Database.getInstance(getActivity().getApplicationContext());
 
         final NoteDao noteDao = database.noteDao();
-        List<Note> listNotes = noteDao.getAll();
-        final NoteAdapter noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNotes);
+        listNote = noteDao.getAll();
+        noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNote);
 
 
         final StatusDaoClass statusDao = database.statusDaoClass();
@@ -133,21 +133,11 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                         noteDao.insertNotes(note);
 
 
-                       /* //reset recycler view
-                        recyclerView = view.findViewById(R.id.recyclerview);
-                        List<Note> listNotes = noteDao.getAll();
-
-                        noteAdapter.notifyDataSetChanged();
-*/
-
 
                         Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
 
                         dismiss();
 
-
-                        dismiss();
-                        Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -206,6 +196,11 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
 
 
         return view;
+    }
+
+    public void setItems(List<Note> notes)
+    {
+        listNote = notes;
     }
 
     @Override

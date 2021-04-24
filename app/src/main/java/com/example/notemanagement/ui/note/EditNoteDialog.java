@@ -35,6 +35,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
     TextView txtEditSelectStatus;
     Database database ;
     NoteAdapter noteAdapter;
+    List<Note> listNote;
 
 
     public EditNoteDialog() {
@@ -124,10 +125,6 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
                     note.setPlanDate(PlanDate);
                     note.setCreateDate(CreateDate);
                     noteDao.updateNote(note);
-
-                   /* List<Note> listNote = noteDao.getAll();
-
-                    noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNote);*/
 
 
                     Toast.makeText(getContext(),"Update Successfully",Toast.LENGTH_SHORT).show();

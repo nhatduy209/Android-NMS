@@ -11,18 +11,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import com.example.notemanagement.DB.Account;
-import com.example.notemanagement.DB.AccountLayer;
+import com.example.notemanagement.DB.EntityClass.AccountModel;
+import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.Database;
-
-import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        //handle event sign in
         signIn();
         signUp();
     }
@@ -61,17 +58,18 @@ public class SignUpActivity extends AppCompatActivity {
                     toast.show();
                     return;
                 }
-                Account account = new Account();
-                account.email=etEmail;
-                account.password=etPassword;
-                account.lastName="";
-                account.firstName="";
-
-                //create an instance of the database
                 Database db = Room.databaseBuilder(getApplicationContext(),Database.class,Database.Databasename)
                         .allowMainThreadQueries().build();
-                AccountLayer accountLayer=db.accountDao();
+                AccountDaoClass accountLayer=db.accountDao();
 
+                // check email exist
+                AccountModel checkEmail = accountLayer.findEmail(etEmail);
+                if(checkEmail!=null){
+                    Toast.makeText(getApplicationContext(),"Email is exist",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                AccountModel account = new AccountModel(etEmail,etPassword,"","");
+                //create an instance of the database
                 try{
                     accountLayer.insert(account);
                     Toast toast=Toast.makeText(getApplicationContext(),"Welcome",Toast.LENGTH_SHORT);
@@ -83,6 +81,5 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 }

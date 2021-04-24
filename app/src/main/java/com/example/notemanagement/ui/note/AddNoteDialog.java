@@ -31,6 +31,7 @@ import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -49,7 +50,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
     Database database ;
     NoteAdapter noteAdapter;
     RecyclerView recyclerView;
-
+    Session session ;
 
     public AddNoteDialog() {
         // Empty constructor required for DialogFragment
@@ -70,11 +71,11 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
 
         //connect database
         database = Database.getInstance(getActivity().getApplicationContext());
+        session= new Session(getActivity());
 
         final NoteDao noteDao = database.noteDao();
-        List<Note> listNotes = noteDao.getAll();
+        List<Note> listNotes = noteDao.getAll(session.getIdAccount());
         final NoteAdapter noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNotes);
-
 
         final StatusDaoClass statusDao = database.statusDaoClass();
         final FriorityDaoClass priorityDao = database.friorityDaoClass();
@@ -110,48 +111,50 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         //button Add
         btnAdd = view.findViewById(R.id.btnAdd);
 
-            btnAdd.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public  void onClick(View view)
+        btnAdd.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void onClick(View view)
+            {
+                Session session = new Session(getActivity());
+                String Name = txtNoteName.getText().toString().trim();
+                String Category = txtSelectCategory.getText().toString().trim();
+                String Priority = txtSelectPriority.getText().toString().trim();
+                String Status = txtSelectStatus.getText().toString().trim();
+                String PlanDate = txtselectDate.getText().toString().trim();
+                String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
+                int IdAccount=session.getIdAccount();
+                if(Name != null)
                 {
-                    String Name = txtNoteName.getText().toString().trim();
-                    String Category = txtSelectCategory.getText().toString().trim();
-                    String Priority = txtSelectPriority.getText().toString().trim();
-                    String Status = txtSelectStatus.getText().toString().trim();
-                    String PlanDate = txtselectDate.getText().toString().trim();
-                    String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
-
-                    if(Name != null)
-                    {
-                        Note note = new Note();
-                        note.setName(Name);
-                        note.setCategory(Category);
-                        note.setPriority(Priority);
-                        note.setStatus(Status);
-                        note.setPlanDate(PlanDate);
-                        note.setCreateDate(CreateDate);
-                        noteDao.insertNotes(note);
+                    Note note = new Note();
+                    note.setId(session.getIdAccount());
+                    note.setName(Name);
+                    note.setCategory(Category);
+                    note.setPriority(Priority);
+                    note.setStatus(Status);
+                    note.setPlanDate(PlanDate);
+                    note.setCreateDate(CreateDate);
+                    note.setIdAccount(session.getIdAccount());
+                    noteDao.insertNotes(note);
 
 
                        /* //reset recycler view
                         recyclerView = view.findViewById(R.id.recyclerview);
                         List<Note> listNotes = noteDao.getAll();
-
                         noteAdapter.notifyDataSetChanged();
 */
 
 
-                        Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
 
-                        dismiss();
+                    dismiss();
 
 
-                        dismiss();
-                        Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
-                    }
+                    dismiss();
+                    Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
                 }
-            });
-            // text view status
+            }
+        });
+        // text view status
         txtSelectStatus =txtSelectStatus.findViewById(R.id.txtSelectStatus);
         final List<StatusModel> ListStatus  =  statusDao.getAllData();
         final String[] lstStatus = new String[ListStatus.size()];
@@ -213,18 +216,18 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
 
     }
 
-   @Override
-   public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-       // store the values selected into a Calendar instance
-       final Calendar c = Calendar.getInstance();
-       c.set(Calendar.YEAR, year);
-       c.set(Calendar.MONTH, monthOfYear);
-       c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-       showSetDate(year,monthOfYear,dayOfMonth);
-   }
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        // store the values selected into a Calendar instance
+        final Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, monthOfYear);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        showSetDate(year,monthOfYear,dayOfMonth);
+    }
 
     private void showSetDate(int year, int monthOfYear, int dayOfMonth) {
-       txtselectDate.setText(dayOfMonth + "/"+ monthOfYear + "/" + year);
+        txtselectDate.setText(dayOfMonth + "/"+ monthOfYear + "/" + year);
     }
 
 

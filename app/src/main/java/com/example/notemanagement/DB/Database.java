@@ -9,21 +9,23 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
 import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
+import com.example.notemanagement.DB.EntityClass.AccountModel;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 
 
-@androidx.room.Database(entities = { Account.class,Note.class, StatusModel.class, FriorityModel.class, CategoryModel.class} , version = 3,exportSchema = false)
+@androidx.room.Database(entities = { AccountModel.class,Note.class, StatusModel.class, FriorityModel.class, CategoryModel.class} , version = 3,exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     //create instance
     public static String Databasename = "TestingDatabase";
     public static  Database database;
-    public abstract AccountLayer accountDao();
+    public abstract AccountDaoClass accountDao();
     public abstract NoteDao noteDao();
 
     public abstract StatusDaoClass statusDaoClass();

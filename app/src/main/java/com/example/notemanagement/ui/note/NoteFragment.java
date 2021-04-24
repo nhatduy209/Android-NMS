@@ -26,6 +26,7 @@ import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -36,19 +37,21 @@ public class NoteFragment extends Fragment{
     RecyclerView recyclerView;
     List<Note> listNote;
     NoteAdapter noteAdapter;
+    Session session;
+
     private Database database ;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_note, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerview);
-
+        session= new Session(getActivity());
         database = Database.getInstance(getActivity().getApplicationContext());
 
         NoteDao noteDao = database.noteDao();
 
 
-        listNote = noteDao.getAll();
+        listNote = noteDao.getAll(session.getIdAccount());
 
         noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNote);
 

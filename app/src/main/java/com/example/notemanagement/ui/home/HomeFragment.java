@@ -1,5 +1,6 @@
 package com.example.notemanagement.ui.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,12 +75,17 @@ public class HomeFragment extends Fragment {
 
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries,"DashBoard");
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        //pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         pieDataSet.setValueTextSize(16);
         PieData pieData = new PieData(pieDataSet);
+
         pieChart = pieChart.findViewById(R.id.pieChart);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setHoleColor(Color.WHITE);
+
+        //pieChart.setUsePercentValues(true);
         pieChart.setData(pieData);
     }
 }

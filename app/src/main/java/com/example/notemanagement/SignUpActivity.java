@@ -46,11 +46,23 @@ public class SignUpActivity extends AppCompatActivity {
                 String etPasswordConfirm =((EditText)findViewById(R.id.editTextConfirmPassword)).getText().toString();
                 String etEmail =((EditText)findViewById(R.id.editTextEmailSignUp)).getText().toString();
 
+
+
                 // check data is not null
                 if(etEmail.length()==0||etPassword.length()==0||etPasswordConfirm.length()==0){
                     //toast message here
                     return;
                 }
+
+                // check validation email
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if (!etEmail.matches(emailPattern))
+                {
+                    Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
+                    // or
+                    return;
+                }
+
                 //check confirm password
                 if(!etPassword.equals(etPasswordConfirm)){
                     //toast message here

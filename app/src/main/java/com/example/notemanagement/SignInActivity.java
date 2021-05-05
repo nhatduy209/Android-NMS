@@ -56,14 +56,21 @@ public class SignInActivity extends AppCompatActivity  {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean error=false;
                 String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
                 if(email.length()==0){
                     ((EditText) findViewById(R.id.editTextEmail)).setError("Email is required!");
+                    error=true;
                 }
                 String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
                 if(password.length()==0){
                     ((EditText) findViewById(R.id.editTextPassword)).setError("Password is required!");
+                    error=true;
                 }
+                if(error==true){
+                    return;
+                }
+
                 AccountModel currentAccount =accountLayer.findAccount(email,password);
                 //sign in success
                 if(currentAccount==null){

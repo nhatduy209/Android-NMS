@@ -16,7 +16,7 @@ import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.EntityClass.AccountModel;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.R;
-import com.example.notemanagement.Session;
+import com.example.notemanagement.extension.Session;
 
 public class ChangePasswordFragment extends Fragment {
     Database db;

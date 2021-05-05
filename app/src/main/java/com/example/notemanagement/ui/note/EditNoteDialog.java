@@ -19,7 +19,7 @@ import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
-import com.example.notemanagement.Session;
+import com.example.notemanagement.extension.Session;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -14,4 +14,8 @@
     <string name="menu_note">Note</string>
     <string name="menu_editprofile">Edit Profile</string>
     <string name="menu_changepassword">Change Password</string>
+    <string name="validate_email">Email is required!</string>
+    <string name="validate_password">Password is required!</string>
+    <string name="validate_first_name">First name is required!</string>
+    <string name="positive_message">OK</string>
 </resources>

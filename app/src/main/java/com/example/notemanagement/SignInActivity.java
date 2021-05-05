@@ -5,19 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.AccountModel;
+import com.example.notemanagement.extension.AlertDialogFragment;
+import com.example.notemanagement.extension.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity  {
     Database db;
     AccountDaoClass accountLayer;
-    private  Session session;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +57,19 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+                if(email.length()==0){
+                    ((EditText) findViewById(R.id.editTextEmail)).setError("Email is required!");
+                }
                 String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
-
+                if(password.length()==0){
+                    ((EditText) findViewById(R.id.editTextPassword)).setError("Password is required!");
+                }
                 AccountModel currentAccount =accountLayer.findAccount(email,password);
                 //sign in success
-                if(currentAccount.equals(null)){
-                    Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
-                    toast.show();
+                if(currentAccount==null){
+                    AlertDialogFragment alert = new AlertDialogFragment("Login fail",
+                            "Email or password incorrect. Please try logging in again ");
+                    alert.show(getSupportFragmentManager(), "login_fail");
                     return;
                 }
 

@@ -28,4 +28,6 @@
     <string name="validate_email">Email is required!</string>
     <string name="validate_password">Password is required!</string>
     <string name="validate_first_name">First name is required!</string>
+    <string name="validate_last_name">Last name is required!</string>
+
 </resources>

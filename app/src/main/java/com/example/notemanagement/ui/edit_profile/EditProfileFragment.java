@@ -47,13 +47,26 @@ public class EditProfileFragment extends Fragment {
                 String lastName = ((EditText)getActivity().findViewById(R.id.txtLastName)).getText().toString();
                 String email = ((EditText)getActivity().findViewById(R.id.txtEmail)).getText().toString();
 
-                if(firstName.length()==0 || lastName.length()==0 ||email.length()==0){
-                    //show warning
+                boolean error=false;
+                // check data is not null
+                if(firstName.length()==0){
+                    ((EditText)getActivity().findViewById(R.id.txtFirstName)).setError(getString(R.string.validate_first_name));
+                    error=true;
+                }
+                if(lastName.length()==0){
+                    ((EditText)getActivity().findViewById(R.id.txtLastName)).setError(getString(R.string.validate_last_name));
+                    error=true;
+                }
+                if(email.length()==0){
+                    ((EditText)getActivity().findViewById(R.id.txtEmail)).setError(getString(R.string.validate_email));
+                    error=true;
+                }
+                if(error==true){
                     return;
                 }
 
-                AccountModel account = new AccountModel();
-                account=accountLayer.findAccount(session.getEmail(),session.getPassword());
+                AccountModel account = accountLayer.findAccount(session.getEmail(),session.getPassword());
+                session.setEmail(email);
                 account.setEmail(email);
                 account.setFirstName(firstName);
                 account.setLastName(lastName);

@@ -78,18 +78,15 @@ public class PriorityFragment extends Fragment {
                             friorityDao.insertData(friorityModel);
 
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
+                            listFriority = friorityDao.getAllData(session.getIdAccount());
+                            dialog.dismiss();
+                            priorityAdapter = new PriorityAdapter(getActivity().getApplicationContext(),listFriority);
+                            recyclerFriorityView.setAdapter(priorityAdapter);
                         }
                         else{
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                         }
-                        listFriority = friorityDao.getAllData(session.getIdAccount());
-                        dialog.dismiss();
-                        priorityAdapter = new PriorityAdapter(getActivity().getApplicationContext(),listFriority);
 
-//        createStatusList();
-                        recyclerFriorityView.setHasFixedSize(true);
-                        recyclerFriorityView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                        recyclerFriorityView.setAdapter(priorityAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -143,18 +140,24 @@ public class PriorityFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String text = editText.getText().toString().trim();
-                        FriorityModel friorityModel = listFriority.get(finalPosition);
-                        friorityModel.setName(text);
-                        friorityDao.updateData(friorityModel);
-                        listFriority = friorityDao.getAllData(session.getIdAccount());
-                        Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        priorityAdapter = new PriorityAdapter(getActivity().getApplicationContext(),listFriority);
+                        if(!text.isEmpty())
+                        {
+                            FriorityModel friorityModel = listFriority.get(finalPosition);
+                            friorityModel.setName(text);
+                            friorityDao.updateData(friorityModel);
+                            Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
+                            listFriority = friorityDao.getAllData(session.getIdAccount());
+                            dialog.dismiss();
+                            priorityAdapter = new PriorityAdapter(getActivity().getApplicationContext(),listFriority);
+                            recyclerFriorityView.setHasFixedSize(true);
+                            recyclerFriorityView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                            recyclerFriorityView.setAdapter(priorityAdapter);
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(),"Name can't be null!",Toast.LENGTH_SHORT).show();
+                        }
 
-//        createStatusList();
-                        recyclerFriorityView.setHasFixedSize(true);
-                        recyclerFriorityView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                        recyclerFriorityView.setAdapter(priorityAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {

@@ -70,7 +70,7 @@ public class CategoryFragment extends Fragment {
                         String txtName = name.getText().toString().trim();
                         String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
-                        if(txtName != null){
+                        if(!txtName.isEmpty()){
                             CategoryModel categoryModel = new CategoryModel();
                             categoryModel.setIdAccount(session.getIdAccount());
                             categoryModel.setName(txtName);
@@ -78,18 +78,15 @@ public class CategoryFragment extends Fragment {
                             categoryDao.insertData(categoryModel);
 
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            listCategory = categoryDao.getAllData(session.getIdAccount());
+                            categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
+                            recyclerCategoryView.setAdapter(categoryAdapter);
                         }
                         else{
-                            Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(),"Name can't be empty!",Toast.LENGTH_SHORT).show();
                         }
-                        dialog.dismiss();
-                        listCategory = categoryDao.getAllData(session.getIdAccount());
-                        categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
 
-//        createStatusList();
-                        recyclerCategoryView.setHasFixedSize(true);
-                        recyclerCategoryView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                        recyclerCategoryView.setAdapter(categoryAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -144,18 +141,23 @@ public class CategoryFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String text = editText.getText().toString().trim();
-                        CategoryModel categoryModel = listCategory.get(finalPosition);
-                        categoryModel.setName(text);
-                        categoryDao.updateData(categoryModel);
-                        listCategory = categoryDao.getAllData(session.getIdAccount());
-                        Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
+                        if(!text.isEmpty()){
+                            CategoryModel categoryModel = listCategory.get(finalPosition);
+                            categoryModel.setName(text);
+                            categoryDao.updateData(categoryModel);
+                            listCategory = categoryDao.getAllData(session.getIdAccount());
+                            Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
+                            recyclerCategoryView.setHasFixedSize(true);
+                            recyclerCategoryView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                            recyclerCategoryView.setAdapter(categoryAdapter);
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(),"Name can't be empty!!",Toast.LENGTH_SHORT).show();
+                        }
 
-//        createStatusList();
-                        recyclerCategoryView.setHasFixedSize(true);
-                        recyclerCategoryView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                        recyclerCategoryView.setAdapter(categoryAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {

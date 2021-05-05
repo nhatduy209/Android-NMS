@@ -30,8 +30,10 @@ import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AddNoteDialog extends DialogFragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -119,7 +121,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                 String PlanDate = txtselectDate.getText().toString().trim();
                 String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
 
-                if(Name != null)
+                if(Name != null && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
                 {
                     Note note = new Note();
                     note.setName(Name);
@@ -131,13 +133,35 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                     note.setIdAccount(session.getIdAccount());
                     noteDao.insertNotes(note);
 
-
-
-
                     Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
 
                     dismiss();
 
+                }
+                else
+                {
+                    String message = "";
+                    if(Name.isEmpty())
+                    {
+                        message += "Name, ";
+                    }
+                    if(Category.isEmpty())
+                    {
+                        message += "Category, ";
+                    }
+                    if(Priority.isEmpty())
+                    {
+                        message += "Priority, ";
+                    }
+                    if(Status.isEmpty())
+                    {
+                        message += "Status, ";
+                    }
+                    if(PlanDate.isEmpty())
+                    {
+                        message += "Plan date, ";
+                    }
+                    Toast.makeText(getContext(),"Please select " + message.substring(0,message.length()-2) +"! They can't be empty!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -234,13 +258,23 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         // store the values selected into a Calendar instance
         final Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, monthOfYear);
+        c.set(Calendar.MONTH, monthOfYear +1 );
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
         showSetDate(year,monthOfYear,dayOfMonth);
     }
 
     private void showSetDate(int year, int monthOfYear, int dayOfMonth) {
-        txtselectDate.setText(dayOfMonth + "/"+ monthOfYear + "/" + year);
+        Date curentTime = Calendar.getInstance().getTime();
+        if(year <= curentTime.getYear() || monthOfYear+1 <= curentTime.getMonth() || dayOfMonth <= curentTime.getDay())
+        {
+            Toast.makeText(getContext(),"The plan date must be after the current date!",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            monthOfYear++;
+            txtselectDate.setText(dayOfMonth + "/"+ monthOfYear  + "/" + year);
+        }
+
     }
 
 

@@ -32,6 +32,7 @@ import com.example.notemanagement.Session;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class EditNoteDialog extends DialogFragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -134,7 +135,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
                 String PlanDate = txtEditselectDate.getText().toString().trim();
                 String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
 
-                if(Name != null)
+                if(!Name.isEmpty() && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
                 {
                     Note note = selectedNote;
                     note.setName(Name);
@@ -150,6 +151,31 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
                     dismiss();
 
 
+                }
+                else
+                {
+                    String message = "";
+                    if(Name.isEmpty())
+                    {
+                        message += "Name, ";
+                    }
+                    if(Category.isEmpty())
+                    {
+                        message += "Category, ";
+                    }
+                    if(Priority.isEmpty())
+                    {
+                        message += "Priority, ";
+                    }
+                    if(Status.isEmpty())
+                    {
+                        message += "Status, ";
+                    }
+                    if(PlanDate.isEmpty())
+                    {
+                        message += "Plan date, ";
+                    }
+                    Toast.makeText(getContext(),"Please select " + message.substring(0,message.length()-2) +"! They can't be empty!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -257,7 +283,16 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
     }
 
     private void showSetDate(int year, int monthOfYear, int dayOfMonth) {
-        txtEditselectDate.setText(dayOfMonth + "/"+ monthOfYear + "/" + year);
+        Date curentTime = Calendar.getInstance().getTime();
+        if(year <= curentTime.getYear() || monthOfYear+1 <= curentTime.getMonth() || dayOfMonth <= curentTime.getDay())
+        {
+            Toast.makeText(getContext(),"The plan date must be after the current date!",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            monthOfYear++;
+            txtEditselectDate.setText(dayOfMonth + "/"+ monthOfYear + "/" + year);
+        }
+
     }
 
 

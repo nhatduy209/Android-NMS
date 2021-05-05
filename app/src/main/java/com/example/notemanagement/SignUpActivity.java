@@ -75,8 +75,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                 //check confirm password
                 if(!etPassword.equals(etPasswordConfirm)){
-                    AlertDialogFragment alert = new AlertDialogFragment(getString(R.string.signup_fail),
-                            getString(R.string.password_notmatch));
+                    AlertDialogFragment alert = new AlertDialogFragment(getString(R.string.tt_signup_fail),
+                            getString(R.string.msg_password_notmatch));
                     alert.show(getSupportFragmentManager(),"sign up fail");
                     return;
                 }
@@ -87,8 +87,8 @@ public class SignUpActivity extends AppCompatActivity {
                 // check email exist
                 AccountModel checkEmail = accountLayer.findEmail(etEmail);
                 if(checkEmail!=null){
-                    AlertDialogFragment alert = new AlertDialogFragment(getString(R.string.signup_fail),
-                            getString(R.string.email_exist));
+                    AlertDialogFragment alert = new AlertDialogFragment(getString(R.string.tt_signup_fail),
+                            getString(R.string.msg_email_exist));
                     alert.show(getSupportFragmentManager(),"sign up fail");
                     return;
                 }

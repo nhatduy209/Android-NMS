@@ -14,12 +14,18 @@
     <string name="menu_note">Note</string>
     <string name="menu_editprofile">Edit Profile</string>
     <string name="menu_changepassword">Change Password</string>
+
+    <!--    title dialog-->
+    <string name="tt_signup_fail">Sign up fail</string>
+    <string name="tt_changepassword_fail">Change password fail</string>
+
+    <!--    dialog message-->
+    <string name="msg_password_notmatch">Password and confirm password does not match</string>
+    <string name="msg_email_exist">Email is existed</string>
+    <string name="msg_password_incorrect">Password incorrect</string>
+    <string name="msg_positive_message">OK</string>
+    <!--    validation edit text-->
     <string name="validate_email">Email is required!</string>
     <string name="validate_password">Password is required!</string>
     <string name="validate_first_name">First name is required!</string>
-    <string name="positive_message">OK</string>
-    <string name="password_notmatch">Password and confirm password does not match</string>
-    <string name="signup_fail">Sign up fail</string>
-    <string name="email_exist">Email is existed</string>
-
 </resources>

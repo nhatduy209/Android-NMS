@@ -1,5 +1,6 @@
 package com.example.notemanagement.ui.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,10 @@ import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,12 +75,35 @@ public class HomeFragment extends Fragment {
 
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries,"DashBoard");
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        //pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         pieDataSet.setValueTextSize(16);
         PieData pieData = new PieData(pieDataSet);
+
         pieChart = pieChart.findViewById(R.id.pieChart);
+
         pieChart.setData(pieData);
+
+        //new
+        //remove hole in center
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setDrawCenterText(true);
+
+        //new
+        pieChart.setCenterText("");
+        pieChart.setDrawCenterText(true);
+
+        // set label
+        pieChart.setEntryLabelColor(Color.BLACK);
+
+        // remove legend
+        pieChart.getLegend().setEnabled(false);
+
+        // chart title
+        pieChart.getDescription().setEnabled(false);
+
+        //pieChart.setUsePercentValues(true);
     }
+
 }

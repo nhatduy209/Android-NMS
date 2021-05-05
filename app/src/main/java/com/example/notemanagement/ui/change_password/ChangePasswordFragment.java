@@ -66,6 +66,11 @@ public class ChangePasswordFragment extends Fragment {
                     ((EditText)getActivity().findViewById(R.id.txtConfirmPassword)).setError(getString(R.string.validate_password));
                     error=true;
                 }
+                //check strong password
+                if(StrongPassword(newPassword)==false){
+                    ((EditText)getActivity().findViewById(R.id.txtNewPassword)).setError(getString(R.string.msg_strong_password));
+                    error=true;
+                }
                 if(error==true){
                     return;
                 }
@@ -101,5 +106,35 @@ public class ChangePasswordFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+    }
+    public boolean StrongPassword(String password){
+        boolean sawUpper = false;
+        boolean sawLower = false;
+        boolean sawDigit = false;
+        boolean sawSpecial = false;
+
+        for (int i = 0; i < password.length(); i++) {
+            char c = password.charAt(i);
+            if(!sawSpecial && !Character.isLetterOrDigit(c)){
+                sawSpecial = true;
+            }
+            else{
+                if(!sawDigit&& Character.isDigit(c)){
+                    sawDigit = true;
+                }
+                else{
+                    if(!sawUpper&& Character.isUpperCase(c)){
+                        sawUpper=true;
+                    }
+                    else if(!sawLower &&Character.isLowerCase(c)){
+                        sawLower=true;
+                    }
+                }
+            }
+        }
+        if(sawDigit&& sawLower&& sawSpecial && sawUpper ){
+            return true;
+        }
+        return false;
     }
 }

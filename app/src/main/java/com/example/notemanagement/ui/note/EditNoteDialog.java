@@ -44,6 +44,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
     TextView txtEditSelectStatus;
     Database database ;
     NoteAdapter noteAdapter;
+    Note selectedNote = new Note();
 
 
     public EditNoteDialog() {
@@ -64,19 +65,18 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.edit_note_dialog, container, false);
 
 
-        Session session = new Session(getContext());
+        final Session session = new Session(getContext());
         int id = session.getIdNote();
 
         //connect database
         database = Database.getInstance(getActivity().getApplicationContext());
 
         final NoteDao noteDao = database.noteDao();
-        List<Note>  notes = noteDao.getAll(session.getIdAccount());
         final CategoryDaoClass categoryDao = database.categoryDaoClass();
         final StatusDaoClass statusDao = database.statusDaoClass();
         final FriorityDaoClass priorityDao = database.friorityDaoClass();
 
-        final Note selectedNote = noteDao.getNote(id);
+        selectedNote = noteDao.getNote(id);
 
 
 
@@ -95,6 +95,64 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         });
 
 
+
+
+        //button Close
+        btnEditClose = view.findViewById(R.id.btnEditClose);
+        btnEditClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public  void onClick(View view)
+            {
+                dismiss();
+            }
+
+        });
+
+        //button text
+        txtEditNoteName = view.findViewById(R.id.txtEditNoteName);
+        txtEditSelectCategory = view.findViewById(R.id.txtEditSelectCategory);
+        txtEditSelectPriority = view.findViewById(R.id.txtEditSelectPriority);
+        txtEditSelectStatus = view.findViewById(R.id.txtEditSelectStatus);
+
+        txtEditNoteName.setText(selectedNote.name);
+        txtEditSelectCategory.setText(selectedNote.category);
+        txtEditSelectPriority.setText(selectedNote.priority);
+        txtEditSelectStatus.setText(selectedNote.status);
+        txtEditselectDate.setText(selectedNote.planDate);
+
+        //button update
+        btnUpdate = view.findViewById(R.id.btnUpdate);
+
+        btnUpdate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void onClick(View view)
+            {
+                String Name = txtEditNoteName.getText().toString().trim();
+                String Category = txtEditSelectCategory.getText().toString().trim();
+                String Priority = txtEditSelectPriority.getText().toString().trim();
+                String Status = txtEditSelectStatus.getText().toString().trim();
+                String PlanDate = txtEditselectDate.getText().toString().trim();
+                String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
+
+                if(Name != null)
+                {
+                    Note note = selectedNote;
+                    note.setName(Name);
+                    note.setCategory(Category);
+                    note.setPriority(Priority);
+                    note.setStatus(Status);
+                    note.setPlanDate(PlanDate);
+                    note.setCreateDate(CreateDate);
+                    note.setIdAccount(session.getIdAccount());
+                    noteDao.updateNote(note);
+
+                    Toast.makeText(getContext(),"Update Successfully",Toast.LENGTH_SHORT).show();
+                    dismiss();
+
+
+                }
+            }
+        });
         // text view status
         txtEditSelectStatus =txtEditSelectStatus.findViewById(R.id.txtEditSelectStatus);
         final List<StatusModel> ListStatus  =  statusDao.getAllData();
@@ -171,62 +229,6 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
                         })
                         .setNegativeButton("No", null).show();
                 return false;
-            }
-        });
-
-        //button Close
-        btnEditClose = view.findViewById(R.id.btnEditClose);
-        btnEditClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public  void onClick(View view)
-            {
-                dismiss();
-            }
-
-        });
-
-        //button text
-        txtEditNoteName = view.findViewById(R.id.txtEditNoteName);
-        txtEditSelectCategory = view.findViewById(R.id.txtEditSelectCategory);
-        txtEditSelectPriority = view.findViewById(R.id.txtEditSelectPriority);
-        txtEditSelectStatus = view.findViewById(R.id.txtEditSelectStatus);
-
-        txtEditNoteName.setText(selectedNote.name);
-        txtEditSelectCategory.setText(selectedNote.category);
-        txtEditSelectPriority.setText(selectedNote.priority);
-        txtEditSelectStatus.setText(selectedNote.status);
-        txtEditselectDate.setText(selectedNote.planDate);
-
-        //button update
-        btnUpdate = view.findViewById(R.id.btnUpdate);
-
-        btnUpdate.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public  void onClick(View view)
-            {
-                String Name = txtEditNoteName.getText().toString().trim();
-                String Category = txtEditSelectCategory.getText().toString().trim();
-                String Priority = txtEditSelectPriority.getText().toString().trim();
-                String Status = txtEditSelectStatus.getText().toString().trim();
-                String PlanDate = txtEditselectDate.getText().toString().trim();
-                String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
-
-                if(Name != null)
-                {
-                    Note note = selectedNote;
-                    note.setName(Name);
-                    note.setCategory(Category);
-                    note.setPriority(Priority);
-                    note.setStatus(Status);
-                    note.setPlanDate(PlanDate);
-                    note.setCreateDate(CreateDate);
-                    noteDao.updateNote(note);
-
-                    Toast.makeText(getContext(),"Update Successfully",Toast.LENGTH_SHORT).show();
-                    dismiss();
-
-
-                }
             }
         });
 

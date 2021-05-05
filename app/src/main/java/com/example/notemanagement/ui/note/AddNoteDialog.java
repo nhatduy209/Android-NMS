@@ -129,7 +129,6 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                 if(Name != null)
                 {
                     Note note = new Note();
-                    note.setId(session.getIdAccount());
                     note.setName(Name);
                     note.setCategory(Category);
                     note.setPriority(Priority);
@@ -140,11 +139,6 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                     noteDao.insertNotes(note);
 
 
-                       /* //reset recycler view
-                        recyclerView = view.findViewById(R.id.recyclerview);
-                        List<Note> listNotes = noteDao.getAll();
-                        noteAdapter.notifyDataSetChanged();
-*/
 
 
                     Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();

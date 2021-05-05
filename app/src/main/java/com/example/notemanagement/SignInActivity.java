@@ -60,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
 
                 AccountModel currentAccount =accountLayer.findAccount(email,password);
                 //sign in success
-                if(currentAccount.equals(null)){
+                if(currentAccount==null){
                     Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
                     toast.show();
                     return;

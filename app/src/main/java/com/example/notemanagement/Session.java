@@ -23,7 +23,7 @@ public class Session {
         prefs.edit().putInt("idAccount",idAccount).commit();
     }
     public void setIdNote(int idNote){
-        prefs.edit().putInt("idAccount",idNote).commit();
+        prefs.edit().putInt("idNote",idNote).commit();
     }
     public String getEmail() {
         String usename = prefs.getString("email","");

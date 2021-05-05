@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -59,18 +60,25 @@ public class SignInActivity extends AppCompatActivity  {
                 boolean error=false;
                 String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
                 if(email.length()==0){
-                    ((EditText) findViewById(R.id.editTextEmail)).setError("Email is required!");
+                    ((EditText) findViewById(R.id.editTextEmail)).setError(getString(R.string.validate_email));
                     error=true;
                 }
                 String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
                 if(password.length()==0){
-                    ((EditText) findViewById(R.id.editTextPassword)).setError("Password is required!");
+                    ((EditText) findViewById(R.id.editTextPassword)).setError(getString(R.string.validate_password));
                     error=true;
                 }
                 if(error==true){
                     return;
                 }
-
+                // check validation email
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if (!email.matches(emailPattern))
+                {
+                    Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
+                    // or
+                    return;
+                }
                 AccountModel currentAccount =accountLayer.findAccount(email,password);
                 //sign in success
                 if(currentAccount==null){

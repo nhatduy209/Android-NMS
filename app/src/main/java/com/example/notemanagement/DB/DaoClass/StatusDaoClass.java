@@ -16,8 +16,8 @@ public interface StatusDaoClass {
     @Insert
     void insertData(StatusModel model);
 
-    @Query("select * from Statuses")
-    List<StatusModel> getAllData();
+    @Query("select * from Statuses WHERE idAccount=:idAccount")
+    List<StatusModel> getAllData(int idAccount);
     @Delete
     void deleteData(StatusModel statusModel);
 

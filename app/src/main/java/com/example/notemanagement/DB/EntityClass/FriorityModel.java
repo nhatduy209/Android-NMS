@@ -16,7 +16,7 @@ public class FriorityModel {
     private String frCrD;
 
     @ColumnInfo(name = "idAccount")
-    private String idAccount;
+    private int idAccount;
 
     public int getKey() {
         return key;
@@ -31,11 +31,11 @@ public class FriorityModel {
         return frCrD;
     }
 
-    public String getIdAccount() {
+    public int getIdAccount() {
         return idAccount;
     }
 
-    public void setIdAccount(String idAccount) {
+    public void setIdAccount(int idAccount) {
         this.idAccount = idAccount;
     }
 

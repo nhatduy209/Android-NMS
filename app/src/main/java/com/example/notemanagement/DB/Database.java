@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
-import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
+import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.EntityClass.AccountModel;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
@@ -29,7 +29,7 @@ public abstract class Database extends RoomDatabase {
     public abstract NoteDao noteDao();
 
     public abstract StatusDaoClass statusDaoClass();
-    public abstract FriorityDaoClass friorityDaoClass();
+    public abstract PriorityDaoClass friorityDaoClass();
     public abstract CategoryDaoClass categoryDaoClass();
 
     public synchronized static Database getInstance(Context context){

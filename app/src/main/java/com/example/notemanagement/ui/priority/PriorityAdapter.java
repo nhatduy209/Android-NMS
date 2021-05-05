@@ -1,6 +1,5 @@
-package com.example.notemanagement.ui.friority;
+package com.example.notemanagement.ui.priority;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -11,24 +10,21 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.adapter.FragmentViewHolder;
 
-import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
+import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.R;
-import com.example.notemanagement.ui.category.CategoryAdapter;
-import com.example.notemanagement.ui.status.StatusAdapter;
-import com.example.notemanagement.ui.status.StatusViewModel;
+import com.example.notemanagement.Session;
 
 import java.util.List;
 
-public class FriorityAdapter extends RecyclerView.Adapter<FriorityAdapter.ViewHolder> {
+public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHolder> {
     private List<FriorityModel> listFriority;
     private Context context;
+    private Session session;
     Database database;
-    FriorityDaoClass friorityDao;
+    PriorityDaoClass friorityDao;
 
     private int position;
 
@@ -56,11 +52,12 @@ public class FriorityAdapter extends RecyclerView.Adapter<FriorityAdapter.ViewHo
             contextMenu.add(contextMenu.NONE,R.id.MenuDeleteFriority,contextMenu.NONE,"Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
+                    session = new Session(itemView.getContext());
                     FriorityModel friorityModel = listFriority.get(position);
                     database = Database.getInstance(context);
                     friorityDao = database.friorityDaoClass();
                     friorityDao.deleteData(friorityModel);
-                    listFriority = friorityDao.getAllData();
+                    listFriority = friorityDao.getAllData(session.getIdAccount());
                     notifyDataSetChanged();
                     return false;
                 }
@@ -68,7 +65,7 @@ public class FriorityAdapter extends RecyclerView.Adapter<FriorityAdapter.ViewHo
         }
     }
 
-    public FriorityAdapter(Context context, List<FriorityModel> listFriority){
+    public PriorityAdapter(Context context, List<FriorityModel> listFriority){
         this.listFriority = listFriority;
         this.context = context;
     }
@@ -76,15 +73,15 @@ public class FriorityAdapter extends RecyclerView.Adapter<FriorityAdapter.ViewHo
     @NonNull
     @Override
 
-    public FriorityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+    public PriorityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         //gán view
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friority_item_view, parent, false);
-        return new FriorityAdapter.ViewHolder(view);
+        return new PriorityAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final FriorityAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull final PriorityAdapter.ViewHolder holder, int position){
         //Gán dữ liệu
         FriorityModel friority = listFriority.get(position);
         holder.txtFriorityName.setText("Name: "+ friority.getName());

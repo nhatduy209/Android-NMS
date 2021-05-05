@@ -20,6 +20,7 @@ import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ import static android.content.ContentValues.TAG;
 
 public class CategoryFragment extends Fragment {
     private RecyclerView recyclerCategoryView;
+    Session session;
     CategoryAdapter categoryAdapter;
     List<CategoryModel> listCategory;
     Database database;
@@ -41,6 +43,7 @@ public class CategoryFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         recyclerCategoryView = view.findViewById(R.id.recyclerCategoryView);
+        session = new Session(getActivity());
         registerForContextMenu(recyclerCategoryView);
 
         FloatingActionButton floating = view.findViewById(R.id.category_fab);
@@ -63,12 +66,13 @@ public class CategoryFragment extends Fragment {
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        session = new Session(getActivity());
                         String txtName = name.getText().toString().trim();
                         String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
                         if(txtName != null){
                             CategoryModel categoryModel = new CategoryModel();
-                            categoryModel.setIdAccount("1");
+                            categoryModel.setIdAccount(session.getIdAccount());
                             categoryModel.setName(txtName);
                             categoryModel.setCatCrD(createdDate);
                             categoryDao.insertData(categoryModel);
@@ -79,7 +83,7 @@ public class CategoryFragment extends Fragment {
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
-                        listCategory = categoryDao.getAllData();
+                        listCategory = categoryDao.getAllData(session.getIdAccount());
                         categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
 
 //        createStatusList();
@@ -102,7 +106,7 @@ public class CategoryFragment extends Fragment {
 
         categoryDao  = database.categoryDaoClass();
 
-        listCategory = categoryDao.getAllData();
+        listCategory = categoryDao.getAllData(session.getIdAccount());
 
         categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
 
@@ -143,7 +147,7 @@ public class CategoryFragment extends Fragment {
                         CategoryModel categoryModel = listCategory.get(finalPosition);
                         categoryModel.setName(text);
                         categoryDao.updateData(categoryModel);
-                        listCategory = categoryDao.getAllData();
+                        listCategory = categoryDao.getAllData(session.getIdAccount());
                         Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);

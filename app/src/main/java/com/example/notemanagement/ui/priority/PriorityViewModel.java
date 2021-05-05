@@ -1,10 +1,10 @@
-package com.example.notemanagement.ui.friority;
+package com.example.notemanagement.ui.priority;
 
-public class FriorityViewModel {
+public class PriorityViewModel {
     private String friorityName;
     private String frorityCrD;
 
-    public FriorityViewModel(String friorityName, String frorityCrD){
+    public PriorityViewModel(String friorityName, String frorityCrD){
         this.friorityName = friorityName;
         this.frorityCrD = frorityCrD;
     }

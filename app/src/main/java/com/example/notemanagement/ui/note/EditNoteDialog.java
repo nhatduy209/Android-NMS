@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
-import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
+import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
 
@@ -74,7 +74,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         final NoteDao noteDao = database.noteDao();
         final CategoryDaoClass categoryDao = database.categoryDaoClass();
         final StatusDaoClass statusDao = database.statusDaoClass();
-        final FriorityDaoClass priorityDao = database.friorityDaoClass();
+        final PriorityDaoClass priorityDao = database.friorityDaoClass();
 
         selectedNote = noteDao.getNote(id);
 
@@ -155,7 +155,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         });
         // text view status
         txtEditSelectStatus =txtEditSelectStatus.findViewById(R.id.txtEditSelectStatus);
-        final List<StatusModel> ListStatus  =  statusDao.getAllData();
+        final List<StatusModel> ListStatus  =  statusDao.getAllData(session.getIdAccount());
         final String[] lstStatus = new String[ListStatus.size()];
         int count = 0;
         for (StatusModel i : ListStatus) {
@@ -181,7 +181,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         });
         // text view category
         txtEditSelectCategory =txtEditSelectCategory.findViewById(R.id.txtEditSelectCategory);
-        final List<CategoryModel> ListCategory  =  categoryDao.getAllData();
+        final List<CategoryModel> ListCategory  =  categoryDao.getAllData(session.getIdAccount());
         final String[] lstCategory = new String[ListCategory.size()];
         int countCategory = 0;
         for (CategoryModel i : ListCategory) {
@@ -207,7 +207,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         });
         // text view priority
         txtEditSelectPriority =txtEditSelectPriority.findViewById(R.id.txtEditSelectPriority);
-        final List<FriorityModel> ListPriority = priorityDao.getAllData();
+        final List<FriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
         final String[] lstPriority = new String[ListPriority.size()];
         int countPriority = 0;
         for (FriorityModel i : ListPriority) {

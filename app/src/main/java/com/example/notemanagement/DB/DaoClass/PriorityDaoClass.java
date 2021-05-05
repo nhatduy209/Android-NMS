@@ -11,12 +11,12 @@ import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import java.util.List;
 
 @Dao
-public interface FriorityDaoClass {
+public interface PriorityDaoClass {
     @Insert
     void insertData(FriorityModel model);
 
-    @Query("select * from Friorities")
-    List<FriorityModel> getAllData();
+    @Query("select * from Friorities WHERE idAccount=:idAccount")
+    List<FriorityModel> getAllData(int idAccount);
     @Delete
     void deleteData(FriorityModel friorityModel);
     @Update

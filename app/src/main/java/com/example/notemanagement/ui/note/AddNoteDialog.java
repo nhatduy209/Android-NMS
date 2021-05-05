@@ -2,7 +2,6 @@ package com.example.notemanagement.ui.note;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,20 +10,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
-import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
+import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
@@ -35,9 +30,7 @@ import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.Session;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -81,7 +74,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
 
         final CategoryDaoClass categoryDao = database.categoryDaoClass();
         final StatusDaoClass statusDao = database.statusDaoClass();
-        final FriorityDaoClass priorityDao = database.friorityDaoClass();
+        final PriorityDaoClass priorityDao = database.friorityDaoClass();
         //button choose Date
         Button btnDate = view.findViewById(R.id.btnSelectPlanDate);
         txtselectDate = view.findViewById(R.id.txtSelectPlanDate);
@@ -150,7 +143,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         });
         // text view status
         txtSelectStatus =txtSelectStatus.findViewById(R.id.txtSelectStatus);
-        final List<StatusModel> ListStatus  =  statusDao.getAllData();
+        final List<StatusModel> ListStatus  =  statusDao.getAllData(session.getIdAccount());
         final String[] lstStatus = new String[ListStatus.size()];
         int count = 0;
         for (StatusModel i : ListStatus) {
@@ -176,7 +169,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         });
         // text view category
         txtSelectCategory =txtSelectCategory.findViewById(R.id.txtSelectCategory);
-        final List<CategoryModel> ListCategory  =  categoryDao.getAllData();
+        final List<CategoryModel> ListCategory  =  categoryDao.getAllData(session.getIdAccount());
         final String[] lstCategory = new String[ListCategory.size()];
         int countCategory = 0;
         for (CategoryModel i : ListCategory) {
@@ -202,7 +195,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         });
         // text view priority
         txtSelectPriority =txtSelectPriority.findViewById(R.id.txtSelectPriority);
-        final List<FriorityModel> ListPriority = priorityDao.getAllData();
+        final List<FriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
         final String[] lstPriority = new String[ListPriority.size()];
         int countPriority = 0;
         for (FriorityModel i : ListPriority) {

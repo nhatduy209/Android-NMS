@@ -20,6 +20,7 @@ import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 
 
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.Random;
 public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder> {
     private List<StatusModel> listStatus;
     private Context context;
+    private Session session;
     Database database;
     StatusDaoClass statusDao;
 
@@ -62,11 +64,12 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             contextMenu.add(contextMenu.NONE,R.id.MenuDeleteStatus,contextMenu.NONE,"Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
+                    session = new Session(itemView.getContext());
                     StatusModel statusModel = listStatus.get(position);
                     database = Database.getInstance(context);
                     statusDao = database.statusDaoClass();
                     statusDao.deleteData(statusModel);
-                    listStatus = statusDao.getAllData();
+                    listStatus = statusDao.getAllData(session.getIdAccount());
                     notifyDataSetChanged();
                     return false;
                 }

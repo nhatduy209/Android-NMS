@@ -23,6 +23,7 @@ import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -35,6 +36,7 @@ public class StatusFragment extends Fragment {
 
     // Add RecyclerView member
     private RecyclerView recyclerStatusView;
+    private Session session;
     StatusAdapter statusAdapter;
     List<StatusModel> listStatus;
     Database database;
@@ -46,6 +48,7 @@ public class StatusFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_status, container, false);
         recyclerStatusView = view.findViewById(R.id.recyclerStatusView);
+        session = new Session(getActivity());
         registerForContextMenu(recyclerStatusView);
 
         FloatingActionButton floating = view.findViewById(R.id.status_fab);
@@ -67,12 +70,13 @@ public class StatusFragment extends Fragment {
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        session = new Session(getActivity());
                         String txtName = name.getText().toString().trim();
                         String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
                         if(txtName != null){
                             StatusModel statusModel = new StatusModel();
-//                            statusModel.setIdAccount("1");
+                            statusModel.setIdAccount(session.getIdAccount());
                             statusModel.setName(txtName);
                             statusModel.setStCrD(createdDate);
                             statusDao.insertData(statusModel);
@@ -83,7 +87,7 @@ public class StatusFragment extends Fragment {
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
-                        listStatus = statusDao.getAllData();
+                        listStatus = statusDao.getAllData(session.getIdAccount());
                         statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
                         recyclerStatusView.setAdapter(statusAdapter);
                     }
@@ -101,7 +105,7 @@ public class StatusFragment extends Fragment {
 
         statusDao  = database.statusDaoClass();
 
-        listStatus = statusDao.getAllData();
+        listStatus = statusDao.getAllData(session.getIdAccount());
 
 
 
@@ -146,7 +150,7 @@ public class StatusFragment extends Fragment {
                         StatusModel statusModel = listStatus.get(finalPosition);
                         statusModel.setName(text);
                         statusDao.updateData(statusModel);
-                        listStatus = statusDao.getAllData();
+                        listStatus = statusDao.getAllData(session.getIdAccount());
                         Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);

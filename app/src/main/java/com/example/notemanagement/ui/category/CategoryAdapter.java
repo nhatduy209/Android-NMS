@@ -18,6 +18,7 @@ import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.R;
+import com.example.notemanagement.Session;
 
 import java.util.List;
 import java.util.zip.Inflater;
@@ -25,6 +26,8 @@ import java.util.zip.Inflater;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
     private List<CategoryModel> listCategory;
     private Context context;
+    private Session session;
+
     Database database;
     CategoryDaoClass categoryDao;
 
@@ -55,11 +58,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             contextMenu.add(contextMenu.NONE,R.id.MenuDeleteCategory,contextMenu.NONE,"Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
+                    session = new Session(view.getContext());
                     CategoryModel categoryModel = listCategory.get(position);
                     database = Database.getInstance(context);
                     categoryDao = database.categoryDaoClass();
                     categoryDao.deleteData(categoryModel);
-                    listCategory = categoryDao.getAllData();
+                    listCategory = categoryDao.getAllData(session.getIdAccount());
                     notifyDataSetChanged();
                     return false;
                 }

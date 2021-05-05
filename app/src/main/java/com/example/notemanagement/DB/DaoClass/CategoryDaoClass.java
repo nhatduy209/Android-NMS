@@ -14,8 +14,8 @@ import java.util.List;
 public interface CategoryDaoClass {
     @Insert
     public void insertData(CategoryModel categoryModel);
-    @Query("Select * from Categories")
-    public List<CategoryModel> getAllData();
+    @Query("Select * from Categories WHERE idAccount=:idAccount")
+    public List<CategoryModel> getAllData( int idAccount);
     @Delete
     public void deleteData(CategoryModel categoryModel);
     @Update

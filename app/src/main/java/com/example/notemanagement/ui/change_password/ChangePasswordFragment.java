@@ -16,7 +16,8 @@ import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.EntityClass.AccountModel;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.R;
-import com.example.notemanagement.Session;
+import com.example.notemanagement.extension.AlertDialogFragment;
+import com.example.notemanagement.extension.Session;
 
 public class ChangePasswordFragment extends Fragment {
     Database db;
@@ -51,19 +52,51 @@ public class ChangePasswordFragment extends Fragment {
                     //show warning
                     return;
                 }
-
-                if(!newPassword.equals(confirmPassword)){
-                    //password is not match
+                boolean error=false;
+                // check data is not null
+                if(currentPassword.length()==0){
+                    ((EditText)getActivity().findViewById(R.id.txtCurrentPassword)).setError(getString(R.string.validate_password));
+                    error=true;
+                }
+                if(newPassword.length()==0){
+                    ((EditText)getActivity().findViewById(R.id.txtNewPassword)).setError(getString(R.string.validate_password));
+                    error=true;
+                }
+                if(confirmPassword.length()==0){
+                    ((EditText)getActivity().findViewById(R.id.txtConfirmPassword)).setError(getString(R.string.validate_password));
+                    error=true;
+                }
+                //check strong password
+                if(StrongPassword(newPassword)==false){
+                    ((EditText)getActivity().findViewById(R.id.txtNewPassword)).setError(getString(R.string.msg_strong_password));
+                    error=true;
+                }
+                if(error==true){
                     return;
                 }
 
-                AccountModel account = new AccountModel();
-                account= accountLayer.findAccount(session.getEmail(),session.getPassword());
+                if(!newPassword.equals(confirmPassword)){
+                    AlertDialogFragment alert = new AlertDialogFragment(getString(R.string.tt_changepassword_fail),
+                            getString(R.string.msg_password_notmatch));
+                    alert.show(getActivity().getSupportFragmentManager(),"change password fail");
+                    return;
+                }
+                String pass=session.getPassword();
+                String em= session.getEmail();
+                AccountModel account =accountLayer.findAccount(session.getEmail(),session.getPassword());
+                //check password
+                if(!account.getPassword().equals(currentPassword)){
+                    AlertDialogFragment alert = new AlertDialogFragment(getString(R.string.tt_changepassword_fail),
+                            getString(R.string.msg_password_incorrect));
+                    alert.show(getActivity().getSupportFragmentManager(),"change password fail");
+                    return;
+                }
                 account.setPassword(newPassword);
+                session.setPassword(account.getPassword());
                 accountLayer.update(account);
 
                 Toast.makeText(getActivity(),"Change password successfully", Toast.LENGTH_SHORT).show();
-            }
+                  }
         });
     }
     public void backHome(){
@@ -73,5 +106,35 @@ public class ChangePasswordFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+    }
+    public boolean StrongPassword(String password){
+        boolean sawUpper = false;
+        boolean sawLower = false;
+        boolean sawDigit = false;
+        boolean sawSpecial = false;
+
+        for (int i = 0; i < password.length(); i++) {
+            char c = password.charAt(i);
+            if(!sawSpecial && !Character.isLetterOrDigit(c)){
+                sawSpecial = true;
+            }
+            else{
+                if(!sawDigit&& Character.isDigit(c)){
+                    sawDigit = true;
+                }
+                else{
+                    if(!sawUpper&& Character.isUpperCase(c)){
+                        sawUpper=true;
+                    }
+                    else if(!sawLower &&Character.isLowerCase(c)){
+                        sawLower=true;
+                    }
+                }
+            }
+        }
+        if(sawDigit&& sawLower&& sawSpecial && sawUpper ){
+            return true;
+        }
+        return false;
     }
 }

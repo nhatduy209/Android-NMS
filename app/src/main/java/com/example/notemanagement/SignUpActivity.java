@@ -14,6 +14,7 @@ import androidx.room.Room;
 import com.example.notemanagement.DB.EntityClass.AccountModel;
 import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.extension.AlertDialogFragment;
 
 public class SignUpActivity extends AppCompatActivity {
     @Override
@@ -45,12 +46,27 @@ public class SignUpActivity extends AppCompatActivity {
                 String etPassword =((EditText)findViewById(R.id.editTextPasswordSignUp)).getText().toString();
                 String etPasswordConfirm =((EditText)findViewById(R.id.editTextConfirmPassword)).getText().toString();
                 String etEmail =((EditText)findViewById(R.id.editTextEmailSignUp)).getText().toString();
-
-
-
+                boolean error=false;
                 // check data is not null
-                if(etEmail.length()==0||etPassword.length()==0||etPasswordConfirm.length()==0){
-                    //toast message here
+                if(etEmail.length()==0){
+                    ((EditText)findViewById(R.id.editTextEmailSignUp)).setError(getString(R.string.validate_email));
+                    error=true;
+                }
+                if(etPassword.length()==0){
+                    ((EditText)findViewById(R.id.editTextPasswordSignUp)).setError(getString(R.string.validate_password));
+                    error=true;
+                }
+                if(etPasswordConfirm.length()==0){
+                    ((EditText)findViewById(R.id.editTextConfirmPassword)).setError(getString(R.string.validate_password));
+                    error=true;
+                }
+                //check strong password
+                if(StrongPassword(etPassword)==false){
+                    ((EditText)findViewById(R.id.editTextPasswordSignUp)).setError(getString(R.string.msg_strong_password));
+                    error=true;
+                }
+
+                if(error==true){
                     return;
                 }
 
@@ -65,9 +81,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                 //check confirm password
                 if(!etPassword.equals(etPasswordConfirm)){
-                    //toast message here
-                    Toast toast=Toast.makeText(getApplicationContext(),"Password is not match",Toast.LENGTH_SHORT);
-                    toast.show();
+                    AlertDialogFragment alert = new AlertDialogFragment(getString(R.string.tt_signup_fail),
+                            getString(R.string.msg_password_notmatch));
+                    alert.show(getSupportFragmentManager(),"sign up fail");
                     return;
                 }
                 Database db = Room.databaseBuilder(getApplicationContext(),Database.class,Database.Databasename)
@@ -77,14 +93,16 @@ public class SignUpActivity extends AppCompatActivity {
                 // check email exist
                 AccountModel checkEmail = accountLayer.findEmail(etEmail);
                 if(checkEmail!=null){
-                    Toast.makeText(getApplicationContext(),"Email is exist",Toast.LENGTH_SHORT).show();
+                    AlertDialogFragment alert = new AlertDialogFragment(getString(R.string.tt_signup_fail),
+                            getString(R.string.msg_email_exist));
+                    alert.show(getSupportFragmentManager(),"sign up fail");
                     return;
                 }
                 AccountModel account = new AccountModel(etEmail,etPassword,"","");
                 //create an instance of the database
                 try{
                     accountLayer.insert(account);
-                    Toast toast=Toast.makeText(getApplicationContext(),"Welcome",Toast.LENGTH_SHORT);
+                    Toast toast=Toast.makeText(getApplicationContext(),"Sign up successfully",Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 catch (Exception e){
@@ -93,5 +111,35 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    public boolean StrongPassword(String password){
+        boolean sawUpper = false;
+        boolean sawLower = false;
+        boolean sawDigit = false;
+        boolean sawSpecial = false;
+
+        for (int i = 0; i < password.length(); i++) {
+            char c = password.charAt(i);
+            if(!sawSpecial && !Character.isLetterOrDigit(c)){
+                sawSpecial = true;
+            }
+            else{
+                if(!sawDigit&& Character.isDigit(c)){
+                    sawDigit = true;
+                }
+                else{
+                    if(!sawUpper&& Character.isUpperCase(c)){
+                        sawUpper=true;
+                    }
+                    else if(!sawLower &&Character.isLowerCase(c)){
+                        sawLower=true;
+                    }
+                }
+            }
+        }
+        if(sawDigit&& sawLower&& sawSpecial && sawUpper ){
+            return true;
+        }
+        return false;
     }
 }

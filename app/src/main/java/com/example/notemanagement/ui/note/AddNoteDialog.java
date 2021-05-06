@@ -28,7 +28,7 @@ import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
-import com.example.notemanagement.Session;
+import com.example.notemanagement.extension.Session;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;

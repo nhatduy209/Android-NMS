@@ -14,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.AccountModel;
+import com.example.notemanagement.extension.AlertDialogFragment;
+import com.example.notemanagement.extension.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity  {
     Database db;
     AccountDaoClass accountLayer;
     private  Session session;
@@ -75,14 +77,35 @@ public class SignInActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean error=false;
                 String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+                if(email.length()==0){
+                    ((EditText) findViewById(R.id.editTextEmail)).setError(getString(R.string.validate_email));
+                    error=true;
+                }
                 String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
+                if(password.length()==0){
+                    ((EditText) findViewById(R.id.editTextPassword)).setError(getString(R.string.validate_password));
+                    error=true;
+                }
+                if(error==true){
+                    return;
+                }
+                // check validation email
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if (!email.matches(emailPattern))
+                {
+                    Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
+                    // or
+                    return;
+                }
                 AccountModel currentAccount =accountLayer.findAccount(email,password);
 
                 //sign in success
                 if(currentAccount==null){
-                    Toast toast = Toast.makeText(getApplicationContext(),"Sign in fail",Toast.LENGTH_SHORT);
-                    toast.show();
+                    AlertDialogFragment alert = new AlertDialogFragment("Login fail",
+                            "Email or password incorrect. Please try logging in again ");
+                    alert.show(getSupportFragmentManager(), "login_fail");
                     return;
                 }
 

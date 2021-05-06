@@ -1,4 +1,4 @@
-package com.example.notemanagement;
+package com.example.notemanagement.extension;
 
 import android.content.Context;
 import android.content.SharedPreferences;

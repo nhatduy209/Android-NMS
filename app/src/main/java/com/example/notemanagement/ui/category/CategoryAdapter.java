@@ -1,23 +1,32 @@
 package com.example.notemanagement.ui.category;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
+import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.R;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
     private List<CategoryModel> listCategory;
     private Context context;
+    Database database;
+    CategoryDaoClass categoryDao;
 
     private int position;
 
@@ -30,7 +39,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         private TextView txtCategoryName, txtCategoryCrD;
-        private View vOption;
+
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -40,11 +49,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
 
         @Override
-        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            contextMenu.add(0,view.getId(),0,"Edit");
-            contextMenu.add(0,view.getId(),0,"Cancel");
+        public void onCreateContextMenu(ContextMenu contextMenu, final View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.add(contextMenu.NONE,R.id.MenuEditCategory,contextMenu.NONE,"Edit");
+
+            contextMenu.add(contextMenu.NONE,R.id.MenuDeleteCategory,contextMenu.NONE,"Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    CategoryModel categoryModel = listCategory.get(position);
+                    database = Database.getInstance(context);
+                    categoryDao = database.categoryDaoClass();
+                    categoryDao.deleteData(categoryModel);
+                    listCategory = categoryDao.getAllData();
+                    notifyDataSetChanged();
+                    return false;
+                }
+            });
         }
     }
+
 
     public CategoryAdapter(Context context, List<CategoryModel> listCategory){
         this.listCategory = listCategory;

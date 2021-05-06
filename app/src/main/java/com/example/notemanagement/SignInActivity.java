@@ -1,9 +1,11 @@
 package com.example.notemanagement;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,8 +21,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class SignInActivity extends AppCompatActivity  {
     Database db;
     AccountDaoClass accountLayer;
-    private Session session;
-
+    private  Session session;
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPrefsEditor;
+    private Boolean saveLogin;
+    private EditText emailRemember , passwordRemember ;
+    private CheckBox rememberMe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +36,20 @@ public class SignInActivity extends AppCompatActivity  {
         accountLayer=db.accountDao();
         // call session
         session= new Session(getApplicationContext());
+
+        // remember me
+        rememberMe = (CheckBox)findViewById(R.id.checkBoxRememberMe);
+        emailRemember =((EditText)findViewById(R.id.editTextEmail));
+        passwordRemember=((EditText)findViewById(R.id.editTextPassword));
+        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin == true) {
+            emailRemember.setText(loginPreferences.getString("username", ""));
+            passwordRemember.setText(loginPreferences.getString("password", ""));
+            rememberMe.setChecked(true);
+        }
+
 
         //handle event Sign Up
         signUp();
@@ -80,6 +100,7 @@ public class SignInActivity extends AppCompatActivity  {
                     return;
                 }
                 AccountModel currentAccount =accountLayer.findAccount(email,password);
+
                 //sign in success
                 if(currentAccount==null){
                     AlertDialogFragment alert = new AlertDialogFragment("Login fail",
@@ -87,6 +108,16 @@ public class SignInActivity extends AppCompatActivity  {
                     alert.show(getSupportFragmentManager(), "login_fail");
                     return;
                 }
+
+                // handle remember me
+                if (rememberMe.isChecked()) {
+                    loginPrefsEditor.putBoolean("saveLogin", true);
+                    loginPrefsEditor.putString("username", email);
+                    loginPrefsEditor.putString("password", password);
+                } else {
+                    loginPrefsEditor.clear();
+                }
+                loginPrefsEditor.commit();
 
                 // set session
                 session.setEmail(currentAccount.getEmail());

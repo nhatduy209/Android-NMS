@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentViewHolder;
 
+import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
+import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.R;
 import com.example.notemanagement.ui.category.CategoryAdapter;
@@ -23,6 +27,8 @@ import java.util.List;
 public class FriorityAdapter extends RecyclerView.Adapter<FriorityAdapter.ViewHolder> {
     private List<FriorityModel> listFriority;
     private Context context;
+    Database database;
+    FriorityDaoClass friorityDao;
 
     private int position;
 
@@ -46,8 +52,19 @@ public class FriorityAdapter extends RecyclerView.Adapter<FriorityAdapter.ViewHo
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            contextMenu.add(1,view.getId(),1,"Edit");
-            contextMenu.add(1,view.getId(),1,"Cancel");
+            contextMenu.add(contextMenu.NONE,R.id.MenuEditFriority,contextMenu.NONE,"Edit");
+            contextMenu.add(contextMenu.NONE,R.id.MenuDeleteFriority,contextMenu.NONE,"Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    FriorityModel friorityModel = listFriority.get(position);
+                    database = Database.getInstance(context);
+                    friorityDao = database.friorityDaoClass();
+                    friorityDao.deleteData(friorityModel);
+                    listFriority = friorityDao.getAllData();
+                    notifyDataSetChanged();
+                    return false;
+                }
+            });
         }
     }
 
@@ -76,7 +93,7 @@ public class FriorityAdapter extends RecyclerView.Adapter<FriorityAdapter.ViewHo
             @Override
             public boolean onLongClick(View v){
                 setPosition(holder.getPosition());
-                return true;
+                return false;
             }
         });
     }

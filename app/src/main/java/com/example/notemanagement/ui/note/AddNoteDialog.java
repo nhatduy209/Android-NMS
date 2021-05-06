@@ -18,9 +18,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
 import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
@@ -70,6 +72,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         List<Note> listNotes = noteDao.getAll(session.getIdAccount());
         final NoteAdapter noteAdapter = new NoteAdapter(getActivity().getApplicationContext(), listNotes);
 
+        final CategoryDaoClass categoryDao = database.categoryDaoClass();
         final StatusDaoClass statusDao = database.statusDaoClass();
         final FriorityDaoClass priorityDao = database.friorityDaoClass();
         //button choose Date
@@ -119,7 +122,6 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                 if(Name != null)
                 {
                     Note note = new Note();
-                    note.setId(session.getIdAccount());
                     note.setName(Name);
                     note.setCategory(Category);
                     note.setPriority(Priority);
@@ -130,11 +132,6 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                     noteDao.insertNotes(note);
 
 
-                       /* //reset recycler view
-                        recyclerView = view.findViewById(R.id.recyclerview);
-                        List<Note> listNotes = noteDao.getAll();
-                        noteAdapter.notifyDataSetChanged();
-*/
 
 
                     Toast.makeText(getContext(),"Add Successfully",Toast.LENGTH_SHORT).show();
@@ -164,6 +161,32 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                                 // The 'which' argument contains the index position
                                 // of the selected item
                                 txtSelectStatus.setText(lstStatus[which]);
+                            }
+                        })
+                        .setNegativeButton("No", null).show();
+                return false;
+            }
+        });
+        // text view category
+        txtSelectCategory =txtSelectCategory.findViewById(R.id.txtSelectCategory);
+        final List<CategoryModel> ListCategory  =  categoryDao.getAllData();
+        final String[] lstCategory = new String[ListCategory.size()];
+        int countCategory = 0;
+        for (CategoryModel i : ListCategory) {
+            lstCategory[countCategory] = i.getName();
+            countCategory++;
+        }
+        txtSelectCategory.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Choose category ")
+                        .setItems(lstCategory, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // The 'which' argument contains the index position
+                                // of the selected item
+                                txtSelectCategory.setText(lstCategory[which]);
                             }
                         })
                         .setNegativeButton("No", null).show();

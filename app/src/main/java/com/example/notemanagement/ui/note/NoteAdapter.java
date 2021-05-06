@@ -161,7 +161,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
                         newFragment.show(ft, "edit_note_dialog");
 
-                        // notifyItemChanged(position);
+
                         break;
 
                     case 1:

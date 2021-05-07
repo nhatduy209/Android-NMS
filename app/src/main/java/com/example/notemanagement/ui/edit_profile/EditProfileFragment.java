@@ -66,7 +66,7 @@ public class EditProfileFragment extends Fragment {
                 }
                 // check validation email
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-                if (!email.matches(emailPattern))
+                if (!email.matches(emailPattern)&&email.length()>0)
                 {
                     ((EditText)getActivity().findViewById(R.id.txtEmail)).setError("Invalid email address");
                     error=true;

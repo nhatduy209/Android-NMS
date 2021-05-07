@@ -87,7 +87,7 @@ public class NoteFragment extends Fragment{
         noteDao = database.noteDao();
         categoryDao = database.categoryDaoClass();
         statusDao = database.statusDaoClass();
-        priorityDao = database.friorityDaoClass();
+        priorityDao = database.priorityDaoClass();
 
 
 

@@ -16,14 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
 import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
@@ -48,31 +43,20 @@ public class NoteFragment extends Fragment{
     List<Note> listNote;
     NoteAdapter noteAdapter;
     Session session;
-
-    Button btnClose;
-    Button btnAdd;
-    EditText txtNoteName;
-    TextView txtSelectCategory;
-    TextView txtSelectPriority;
-    TextView txtSelectStatus;
-    TextView txtselectDate;
-    NoteDao noteDao;
-    TextView txtEditselectDate;
-    Button btnEditClose;
-    Button btnUpdate;
+    //Text  and button of Add Note Dialog
+    Button btnClose,btnAdd, btnDate;
+    TextView txtSelectCategory,txtSelectPriority,txtSelectStatus,txtselectDate;
+ ;  EditText txtNoteName;
+    //Text and button of Edit Note Dialog
+    TextView txtEditselectDate,txtEditSelectCategory,txtEditSelectPriority,txtEditSelectStatus;
+    Button btnEditClose,btnUpdate,btnDateEdit;
     EditText txtEditNoteName;
-    TextView txtEditSelectCategory;
-    TextView txtEditSelectPriority;
-    TextView txtEditSelectStatus;
+    //Database
     Database database ;
-    Button btnDate;
-    Button btnDateEdit;
+    NoteDao noteDao;
     CategoryDaoClass categoryDao;
     PriorityDaoClass priorityDao;
     StatusDaoClass statusDao;
-
-
-
     Note selectedNote = new Note();
 
 
@@ -89,22 +73,23 @@ public class NoteFragment extends Fragment{
         statusDao = database.statusDaoClass();
         priorityDao = database.priorityDaoClass();
 
-
-
-        //get floatingbutton
+        //Get floating button
         FloatingActionButton fabBtn = view.findViewById(R.id.fabAddNote);
 
-
+        //Show Add Dialog
         fabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
                 final View v = inflater.inflate(R.layout.add_note_dialog, null);
-                //button text
+
+                //Button Text
                 txtNoteName = v.findViewById(R.id.txtNoteName);
                 txtSelectCategory = v.findViewById(R.id.txtSelectCategory);
                 txtSelectPriority = v.findViewById(R.id.txtSelectPriority);
                 txtSelectStatus = v.findViewById(R.id.txtSelectStatus);
+
+                //button Choose Date
                 btnDate = v.findViewById(R.id.btnSelectPlanDate);
 
                 //button Add
@@ -113,10 +98,7 @@ public class NoteFragment extends Fragment{
                 //button Close
                 btnClose = v.findViewById(R.id.btnClose);
 
-
-                // text view category
-                // =txtSelectCategory.findViewById(R.id.txtSelectCategory);
-
+                //Get list category
                 final List<CategoryModel> ListCategory  =  categoryDao.getAllData(session.getIdAccount());
                 final String[] lstCategory = new String[ListCategory.size()];
                 int countCategory = 0;
@@ -141,8 +123,8 @@ public class NoteFragment extends Fragment{
                         return false;
                     }
                 });
-                // text view priority
-                //txtSelectPriority =txtSelectPriority.findViewById(R.id.txtSelectPriority);
+
+                // Get list priority
                 final List<PriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
                 final String[] lstPriority = new String[ListPriority.size()];
                 int countPriority = 0;
@@ -168,8 +150,7 @@ public class NoteFragment extends Fragment{
                     }
                 });
 
-                // text view status
-                //txtSelectStatus =txtSelectStatus.findViewById(R.id.txtSelectStatus);
+                // Get list status
                 final List<StatusModel> ListStatus  =  statusDao.getAllData(session.getIdAccount());
                 final String[] lstStatus = new String[ListStatus.size()];
                 int count = 0;
@@ -195,6 +176,7 @@ public class NoteFragment extends Fragment{
                     }
                 });
 
+                // Set Plan date
                 final DatePickerDialog.OnDateSetListener onDate = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -206,8 +188,7 @@ public class NoteFragment extends Fragment{
                     }
                 };
 
-                //btn Date
-
+                //button Date call DatePickerFragment
                 btnDate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -218,17 +199,11 @@ public class NoteFragment extends Fragment{
                 });
 
 
-
-
                 alert.setView(v);
                 alert.setCancelable(true);
-
                 final AlertDialog dialog = alert.create();
 
-
-
-
-
+                //Button Add to insert note to Database
                 btnAdd.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public  void onClick(View view){
@@ -241,8 +216,8 @@ public class NoteFragment extends Fragment{
                         String PlanDate = txtselectDate.getText().toString().trim();
                         String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
 
-
-                        if(Name != null && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
+                        //Check text not null
+                        if(!Name.isEmpty() && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
                         {
                             Note note = new Note();
                             note.setName(Name);
@@ -292,6 +267,8 @@ public class NoteFragment extends Fragment{
 
                     }
                 });
+
+                //Button Close to dismiss dialog
                 btnClose.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -310,14 +287,11 @@ public class NoteFragment extends Fragment{
 
         });
 
-
+        //Create Note Adapter
        database = Database.getInstance(getActivity().getApplicationContext());
-       noteDao = database.noteDao();
-
        listNote = noteDao.getAll(session.getIdAccount());
-
        noteAdapter = new NoteAdapter(getActivity().getApplicationContext(),listNote);
-
+       //Set adapter to RecyclerView
        recyclerView.setHasFixedSize(true);
        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
        recyclerView.setAdapter(noteAdapter);
@@ -326,7 +300,7 @@ public class NoteFragment extends Fragment{
     }
 
 
-
+    //Menu context Edit
     @Override
     public  boolean onContextItemSelected(MenuItem item)
     {
@@ -343,21 +317,15 @@ public class NoteFragment extends Fragment{
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 final View v = View.inflate(getContext(), R.layout.edit_note_dialog,null);
 
-                /*//Find id of selected Note
-                int id = session.getIdNote();*/
 
                 //get selected Note
                 selectedNote = listNote.get(position);
-
                 //btn Update
                 btnUpdate = v.findViewById(R.id.btnUpdate);
-
                 //btn Close
                 btnEditClose = v.findViewById(R.id.btnEditClose);
-
                 //btn Choose Date in Update
                 btnDateEdit = v.findViewById(R.id.btnEditSelectPlanDate);
-
                 //button text
                 txtEditNoteName = v.findViewById(R.id.txtEditNoteName);
                 txtEditSelectCategory = v.findViewById(R.id.txtEditSelectCategory);
@@ -371,12 +339,7 @@ public class NoteFragment extends Fragment{
                 txtEditSelectStatus.setText(selectedNote.status);
                 txtEditselectDate.setText(selectedNote.planDate);
 
-
-
-
-
-                // text view status
-               // txtEditSelectStatus =txtEditSelectStatus.findViewById(R.id.txtEditSelectStatus);
+                // Get list status
                 final List<StatusModel> ListStatus  =  statusDao.getAllData(session.getIdAccount());
                 final String[] lstStatus = new String[ListStatus.size()];
                 int count = 0;
@@ -401,8 +364,7 @@ public class NoteFragment extends Fragment{
                         return false;
                     }
                 });
-                // text view category
-               // txtEditSelectCategory =txtEditSelectCategory.findViewById(R.id.txtEditSelectCategory);
+                // Get list category
                 final List<CategoryModel> ListCategory  =  categoryDao.getAllData(session.getIdAccount());
                 final String[] lstCategory = new String[ListCategory.size()];
                 int countCategory = 0;
@@ -427,8 +389,7 @@ public class NoteFragment extends Fragment{
                         return false;
                     }
                 });
-                // text view priority
-                //txtEditSelectPriority =txtEditSelectPriority.findViewById(R.id.txtEditSelectPriority);
+                // Get list priority
                 final List<PriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
                 final String[] lstPriority = new String[ListPriority.size()];
                 int countPriority = 0;
@@ -454,7 +415,7 @@ public class NoteFragment extends Fragment{
                     }
                 });
 
-                // call date picker listener
+                // Set Date
                 final DatePickerDialog.OnDateSetListener onDate = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -466,7 +427,7 @@ public class NoteFragment extends Fragment{
                     }
                 };
 
-                //button choose Date in Edit
+                //Button choose Date in Edit
                 btnDateEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -476,13 +437,12 @@ public class NoteFragment extends Fragment{
                     }
                 });
 
+                //Create dialog
                 alert.setView(v);
                 alert.setCancelable(true);
                 final AlertDialog dialog = alert.create();
-                final int finalPosition = position;
 
-
-
+                //Button Update to update note into database
                 btnUpdate.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
@@ -492,7 +452,7 @@ public class NoteFragment extends Fragment{
                         String Status = txtEditSelectStatus.getText().toString().trim();
                         String PlanDate = txtEditselectDate.getText().toString().trim();
                         String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
-
+                        //Check text not null
                         if(!Name.isEmpty() && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
                         {
                             Note note = selectedNote;
@@ -507,15 +467,13 @@ public class NoteFragment extends Fragment{
 
                             Toast.makeText(getContext(),"Update Successfully",Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
+
+                            //Refresh RecyclerView
                             listNote = noteDao.getAll(session.getIdAccount());
-
                             noteAdapter = new NoteAdapter(getActivity().getApplicationContext(),listNote);
-
                             recyclerView.setHasFixedSize(true);
                             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                             recyclerView.setAdapter(noteAdapter);
-
-
 
                         }
                         else
@@ -546,6 +504,8 @@ public class NoteFragment extends Fragment{
 
                     }
                 });
+
+                //Button Close to dismiss Edit Dialog
                 btnEditClose.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public  void onClick(View view){

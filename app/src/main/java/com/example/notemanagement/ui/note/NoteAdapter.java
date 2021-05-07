@@ -3,17 +3,12 @@ package com.example.notemanagement.ui.note;
 import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -28,11 +23,11 @@ import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     static Context context;
     List<Note> listNote;
-    private  int position;
     private Database database ;
     Session session;
-
     NoteDao noteDao;
+    private  int position;
+
     public int getPosition() {
         return position;
     }
@@ -41,8 +36,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         this.position = position;
     }
 
-
-
+    //Initialize adapter
     public NoteAdapter(Context context, List<Note> listNote){
         this.context = context;
         this.listNote = listNote;
@@ -50,19 +44,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     @NonNull
     @Override
-
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        //gán view
+        //Inflater view
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item_view, parent, false);
-
         context = parent.getContext();
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position){
-        //Gán dữ liệu
-
+        //Biding data
         Note note = listNote.get(position);
         holder.txtName.setText(note.getName());
         holder.txtCategory.setText(note.getCategory());
@@ -78,31 +69,20 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                 return false;
             }
         });
-
-
-
     }
-
-
 
     @Override
     public int getItemCount() {
-        return listNote.size(); // trả item tại vị trí postion
+        return listNote.size();
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnCreateContextMenuListener{
         TextView txtName,txtCategory,txtPriority, txtStatus, txtPlanDate, txtCreateDate;
         TextView txtvName, txtvCategory, txtvPriority, txtvStatus, txtvPlanDate;
 
-
-
-
-
-
         public ViewHolder(@NonNull View itemView){
             super(itemView);
-            //ánh xạ view
+            //Mapping view
             txtName = itemView.findViewById((R.id.txtName));
             txtCategory = itemView.findViewById(R.id.txtCategory);
             txtStatus = itemView.findViewById(R.id.txtStatus);
@@ -115,14 +95,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             txtvPriority = itemView.findViewById(R.id.txtvPriority);
             txtvPlanDate = itemView.findViewById(R.id.txtvPlanDate);
 
-
-
-
             itemView.setOnCreateContextMenuListener(this);
-
-
-
         }
+
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, final View v,
                                         ContextMenu.ContextMenuInfo contextMenuInfo) {
@@ -138,18 +113,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                     noteDao = database.noteDao();
                     noteDao.deleteNotes(selectedNote);
                     listNote = noteDao.getAll(session.getIdAccount());
-                    //setItems(listNote);
                     notifyDataSetChanged();
                     return false;
                 }
             });
-
-
-
         }
-
-
-
     }
-
 }

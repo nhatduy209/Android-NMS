@@ -8,15 +8,15 @@
 
     <EditText
         android:id="@+id/txtNoteName"
-        android:layout_width="360dp"
-        android:layout_height="47dp"
+        android:layout_width="320dp"
+        android:layout_height="46dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Enter note name"
+        android:inputType="textPersonName"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.046" />
@@ -24,7 +24,7 @@
     <TextView
         android:id="@+id/txtSelectCategory"
         style="@style/Widget.AppCompat.Spinner"
-        android:layout_width="360dp"
+        android:layout_width="322dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
         android:hint="Select category ..."
@@ -35,8 +35,8 @@
     <TextView
         android:id="@+id/txtSelectPriority"
         style="@style/Widget.AppCompat.Spinner"
-        android:layout_width="363dp"
-        android:layout_height="55dp"
+        android:layout_width="322dp"
+        android:layout_height="54dp"
         android:layout_marginStart="16dp"
         android:hint="Select priority..."
         android:textSize="18sp"
@@ -46,8 +46,8 @@
     <TextView
         android:id="@+id/txtSelectStatus"
         style="@style/Widget.AppCompat.Spinner"
-        android:layout_width="363dp"
-        android:layout_height="55dp"
+        android:layout_width="321dp"
+        android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:hint="Select status..."
         android:textSize="18sp"
@@ -56,8 +56,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="362dp"
-        android:layout_height="56dp"
+        android:layout_width="324dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,8 +74,7 @@
             android:id="@+id/btnSelectPlanDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="..."
-            />
+            android:text="..." />
 
     </LinearLayout>
 
@@ -92,7 +91,7 @@
         android:id="@+id/btnClose"
         android:layout_width="103dp"
         android:layout_height="46dp"
-        android:layout_marginStart="128dp"
+        android:layout_marginStart="108dp"
         android:text="Close"
         app:layout_constraintStart_toEndOf="@+id/btnAdd"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />

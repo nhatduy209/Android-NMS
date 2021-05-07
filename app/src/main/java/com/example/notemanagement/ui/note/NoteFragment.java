@@ -30,7 +30,7 @@ import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
-import com.example.notemanagement.DB.EntityClass.FriorityModel;
+import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
@@ -143,10 +143,10 @@ public class NoteFragment extends Fragment{
                 });
                 // text view priority
                 //txtSelectPriority =txtSelectPriority.findViewById(R.id.txtSelectPriority);
-                final List<FriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
+                final List<PriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
                 final String[] lstPriority = new String[ListPriority.size()];
                 int countPriority = 0;
-                for (FriorityModel i : ListPriority) {
+                for (PriorityModel i : ListPriority) {
                     lstPriority[countPriority] = i.getName();
                     countPriority++;
                 }
@@ -429,10 +429,10 @@ public class NoteFragment extends Fragment{
                 });
                 // text view priority
                 //txtEditSelectPriority =txtEditSelectPriority.findViewById(R.id.txtEditSelectPriority);
-                final List<FriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
+                final List<PriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
                 final String[] lstPriority = new String[ListPriority.size()];
                 int countPriority = 0;
-                for (FriorityModel i : ListPriority) {
+                for (PriorityModel i : ListPriority) {
                     lstPriority[countPriority] = i.getName();
                     countPriority++;
                 }

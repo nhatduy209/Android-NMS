@@ -8,58 +8,62 @@
 
     <EditText
         android:id="@+id/txtEditNoteName"
-        android:layout_width="360dp"
+        android:layout_width="318dp"
         android:layout_height="47dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Enter note name"
+        android:inputType="textPersonName"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintHorizontal_bias="0.301"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.046" />
+        app:layout_constraintVertical_bias="0.055" />
 
     <TextView
         android:id="@+id/txtEditSelectCategory"
         style="@style/Widget.AppCompat.Spinner"
-        android:layout_width="360dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="315dp"
+        android:layout_height="61dp"
         android:text="Select category ..."
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.322"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEditNoteName" />
 
     <TextView
         android:id="@+id/txtEditSelectPriority"
         style="@style/Widget.AppCompat.Spinner"
-        android:layout_width="363dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="315dp"
+        android:layout_height="54dp"
         android:text="Select priority..."
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.31"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEditSelectCategory" />
 
     <TextView
         android:id="@+id/txtEditSelectStatus"
         style="@style/Widget.AppCompat.Spinner"
-        android:layout_width="363dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="317dp"
+        android:layout_height="52dp"
         android:text="Select status..."
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.306"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEditSelectPriority" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="362dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="320dp"
+        android:layout_height="51dp"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.268"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEditSelectStatus">
 
@@ -82,7 +86,8 @@
         android:id="@+id/btnUpdate"
         android:layout_width="106dp"
         android:layout_height="45dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
         android:text="Update"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -91,7 +96,8 @@
         android:id="@+id/btnEditClose"
         android:layout_width="103dp"
         android:layout_height="46dp"
-        android:layout_marginStart="128dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="4dp"
         android:text="Close"
         app:layout_constraintStart_toEndOf="@+id/btnUpdate"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />

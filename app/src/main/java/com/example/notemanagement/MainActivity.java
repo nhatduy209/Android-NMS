@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Set email on the top
         View headerView = navigationView.getHeaderView(0);
-        TextView emailView = (TextView) headerView.findViewById(R.id.textView);
+        TextView emailView = (TextView) headerView.findViewById(R.id.tvEmail);
         String email = session.getEmail();
         emailView.setText(email);
         // Passing each menu ID as a set of Ids because each
@@ -71,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //set email and first name
-        TextView text = navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
-        text.setText(session.getEmail());
+
     }
 
     @Override

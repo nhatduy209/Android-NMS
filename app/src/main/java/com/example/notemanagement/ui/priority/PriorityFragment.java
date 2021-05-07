@@ -20,6 +20,8 @@ import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.PriorityModel;
+import com.example.notemanagement.DB.Note;
+import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.extension.Session;
 import com.example.notemanagement.ui.category.CategoryAdapter;
@@ -135,6 +137,7 @@ public class PriorityFragment extends Fragment {
                         if(!text.isEmpty())
                         {
                             PriorityModel priorityModel = listFriority.get(finalPosition);
+                            updatePriority(text,priorityModel.getName());
                             priorityModel.setName(text);
                             friorityDao.updateData(priorityModel);
                             Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
@@ -164,6 +167,19 @@ public class PriorityFragment extends Fragment {
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    public void updatePriority(String priority, String oldPriority){
+        List<Note> list = null;
+        NoteDao noteDao;
+        noteDao = database.noteDao();
+        list = noteDao.getNote(oldPriority);
+        for(int i =0; i< list.size();i++){
+            Note note;
+            note = list.get(i);
+            note.setPriority(priority);
+            noteDao.updateNote(note);
+        }
     }
 
     public void reload(List<PriorityModel> listCategory, View view){

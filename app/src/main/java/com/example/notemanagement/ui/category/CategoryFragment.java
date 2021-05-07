@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
+import com.example.notemanagement.DB.Note;
+import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.extension.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -133,6 +135,7 @@ public class CategoryFragment extends Fragment {
                         String text = editText.getText().toString().trim();
                         if(!text.isEmpty()){
                             CategoryModel categoryModel = listCategory.get(finalPosition);
+                            updateCategory(text,categoryModel.getName());
                             categoryModel.setName(text);
                             categoryDao.updateData(categoryModel);
                             listCategory = categoryDao.getAllData(session.getIdAccount());
@@ -162,6 +165,19 @@ public class CategoryFragment extends Fragment {
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    public void updateCategory(String category, String oldCategory){
+        List<Note> list = null;
+        NoteDao noteDao;
+        noteDao = database.noteDao();
+        list = noteDao.getNote(oldCategory);
+        for(int i =0; i< list.size();i++){
+            Note note;
+            note = list.get(i);
+            note.setCategory(category);
+            noteDao.updateNote(note);
+        }
     }
 
     public void reload(List<CategoryModel> listCategory, View view){

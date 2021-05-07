@@ -140,6 +140,7 @@ public class StatusFragment extends Fragment {
                         if(!text.isEmpty())
                         {
                             StatusModel statusModel = listStatus.get(finalPosition);
+                            updateStatus(text,statusModel.getName());
                             statusModel.setName(text);
                             statusDao.updateData(statusModel);
                             Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
@@ -168,6 +169,19 @@ public class StatusFragment extends Fragment {
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    public void updateStatus(String status, String oldStatus){
+        List<Note> list = null;
+        NoteDao noteDao;
+        noteDao = database.noteDao();
+        list = noteDao.getNote(oldStatus);
+        for(int i =0; i< list.size();i++){
+            Note note;
+            note = list.get(i);
+            note.setStatus(status);
+            noteDao.updateNote(note);
+        }
     }
 
     public void reload(List<StatusModel> listStatus, View view){

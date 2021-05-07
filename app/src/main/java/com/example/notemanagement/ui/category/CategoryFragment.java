@@ -22,6 +22,7 @@ import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
+
 import com.example.notemanagement.extension.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -120,9 +121,9 @@ public class CategoryFragment extends Fragment {
             case R.id.MenuEditCategory:
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());//khởi tạo alert
                 View v = View.inflate(getContext(),R.layout.dialog_edit_category,null);
-                final Button edit = v.findViewById(R.id.btnEditFriority);
-                Button cancel = v.findViewById(R.id.btnCancelEditFrioritry);
-                final EditText editText = v.findViewById(R.id.txtEditFriority);
+                final Button edit = v.findViewById(R.id.btnEditPriority);
+                Button cancel = v.findViewById(R.id.btnCancelEditCategory);
+                final EditText editText = v.findViewById(R.id.txtEditCategory);
                 String txt = listCategory.get(position).getName();
                 editText.append(txt);
                 alert.setView(v);

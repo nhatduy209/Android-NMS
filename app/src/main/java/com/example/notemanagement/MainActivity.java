@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -40,10 +41,16 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        //Set email on the top
+        View headerView = navigationView.getHeaderView(0);
+        TextView emailView = (TextView) headerView.findViewById(R.id.tvEmail);
+        String email = session.getEmail();
+        emailView.setText(email);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_category, R.id.nav_friority , R.id.nav_status ,R.id.nav_note, R.id.nav_editprofile,
+                R.id.nav_home, R.id.nav_category, R.id.nav_priority , R.id.nav_status ,R.id.nav_note, R.id.nav_editprofile,
                 R.id.nav_changepassword,R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
@@ -64,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //set email and first name
-        TextView text = navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
-        text.setText(session.getEmail());
+
     }
 
     @Override

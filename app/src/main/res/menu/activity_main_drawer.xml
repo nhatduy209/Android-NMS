@@ -14,9 +14,9 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_gallery" />
         <item
-            android:id="@+id/nav_friority"
+            android:id="@+id/nav_priority"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Friority" />
+            android:title="Priority" />
         <item
             android:id="@+id/nav_status"
             android:icon="@drawable/ic_menu_status_24"

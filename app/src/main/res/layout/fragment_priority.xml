@@ -7,7 +7,7 @@
     tools:context=".ui.priority.PriorityFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerFriorityView"
+        android:id="@+id/recyclerPriorityView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
@@ -16,12 +16,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/friority_fab"
+        android:id="@+id/priority_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_baseline_add_circle_24"
+        android:src="@drawable/ic_add_white"
         app:backgroundTint="#F13232"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

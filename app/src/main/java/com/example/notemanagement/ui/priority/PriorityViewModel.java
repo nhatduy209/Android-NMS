@@ -1,25 +1,25 @@
 package com.example.notemanagement.ui.priority;
 
 public class PriorityViewModel {
-    private String friorityName;
-    private String frorityCrD;
+    private String priorityName;
+    private String prorityCrD;
 
-    public PriorityViewModel(String friorityName, String frorityCrD){
-        this.friorityName = friorityName;
-        this.frorityCrD = frorityCrD;
-    }
-
-    public  String getFriorityName(){
-        return friorityName;
-    }
-    public void setFriorityName(){
-        this.friorityName = friorityName;
+    public PriorityViewModel(String priorityName, String prorityCrD){
+        this.priorityName = priorityName;
+        this.prorityCrD = prorityCrD;
     }
 
-    public String getFrorityCrD(){
-        return frorityCrD;
+    public  String getPriorityName(){
+        return priorityName;
     }
-    public  void setFrorityCrD(){
-        this.frorityCrD = frorityCrD;
+    public void setPriorityName(){
+        this.priorityName = priorityName;
+    }
+
+    public String getProrityCrD(){
+        return prorityCrD;
+    }
+    public  void setProrityCrD(){
+        this.prorityCrD = prorityCrD;
     }
 }

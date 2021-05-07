@@ -19,7 +19,7 @@ import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 
 
-@androidx.room.Database(entities = { AccountModel.class,Note.class, StatusModel.class, PriorityModel.class, CategoryModel.class} , version = 6,exportSchema = false)
+@androidx.room.Database(entities = { AccountModel.class,Note.class, StatusModel.class, PriorityModel.class, CategoryModel.class} , version = 9,exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     //create instance
@@ -29,7 +29,7 @@ public abstract class Database extends RoomDatabase {
     public abstract NoteDao noteDao();
 
     public abstract StatusDaoClass statusDaoClass();
-    public abstract PriorityDaoClass friorityDaoClass();
+    public abstract PriorityDaoClass priorityDaoClass();
     public abstract CategoryDaoClass categoryDaoClass();
 
     public synchronized static Database getInstance(Context context){

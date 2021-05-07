@@ -36,10 +36,7 @@ public class Session {
         int idAccount=prefs.getInt("idAccount",0);
         return idAccount;
     }
-    public int getIdNote(){
-        int idNote=prefs.getInt("idNote",0);
-        return idNote;
-    }
+
     public void clear(){
         prefs.edit().clear().commit();
     }

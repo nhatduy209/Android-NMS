@@ -18,13 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.extension.Session;
-import com.example.notemanagement.ui.category.CategoryAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -34,10 +32,10 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 public class PriorityFragment extends Fragment {
-    private RecyclerView recyclerFriorityView;
+    private RecyclerView recyclerPriorityView;
     private Session session;
     PriorityAdapter priorityAdapter;
-    List<PriorityModel> listFriority;
+    List<PriorityModel> listPriority;
     Database database;
     PriorityDaoClass friorityDao;
     EditText name;
@@ -45,12 +43,12 @@ public class PriorityFragment extends Fragment {
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_friority, container, false);
-        recyclerFriorityView = view.findViewById(R.id.recyclerFriorityView);
+        View view = inflater.inflate(R.layout.fragment_priority, container, false);
+        recyclerPriorityView = view.findViewById(R.id.recyclerPriorityView);
         session = new Session(getActivity());
-        registerForContextMenu(recyclerFriorityView);
+        registerForContextMenu(recyclerPriorityView);
 
-        FloatingActionButton floating = view.findViewById(R.id.friority_fab);
+        FloatingActionButton floating = view.findViewById(R.id.priority_fab);
 
 
         floating.setOnClickListener(new View.OnClickListener(){
@@ -59,8 +57,8 @@ public class PriorityFragment extends Fragment {
             public void onClick(final View view) {
 
                 final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());//khởi tạo alert
-                final View v = inflater.inflate(R.layout.dialog_add_friority,null);
-                name = v.findViewById(R.id.txtAddFriority);
+                final View v = inflater.inflate(R.layout.dialog_add_priority,null);
+                name = v.findViewById(R.id.txtAddPriority);
                 add = v.findViewById(R.id.btnFriAdd);
                 cancel = v.findViewById(R.id.btnFriCancel);
                 alert.setView(v);
@@ -82,9 +80,9 @@ public class PriorityFragment extends Fragment {
                             friorityDao.insertData(priorityModel);
 
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-                            listFriority = friorityDao.getAllData(session.getIdAccount());
+                            listPriority = friorityDao.getAllData(session.getIdAccount());
                             dialog.dismiss();
-                            reload(listFriority,v);
+                            reload(listPriority,v);
                         }
                         else{
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
@@ -102,9 +100,9 @@ public class PriorityFragment extends Fragment {
             }
         });
         database = Database.getInstance(getActivity().getApplicationContext());
-        friorityDao  = database.friorityDaoClass();
-        listFriority = friorityDao.getAllData(session.getIdAccount());
-        reload(listFriority,view);
+        friorityDao  = database.priorityDaoClass();
+        listPriority = friorityDao.getAllData(session.getIdAccount());
+        reload(listPriority,view);
         return view;
     }
     @Override
@@ -117,13 +115,13 @@ public class PriorityFragment extends Fragment {
             return super.onContextItemSelected(item);
         }
         switch (item.getItemId()) {
-            case R.id.MenuEditFriority:
+            case R.id.MenuEditPriority:
                 final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());//khởi tạo alert
                 final View v = View.inflate(getContext(),R.layout.dialog_edit_priority,null);
-                Button edit = v.findViewById(R.id.btnEditFriority);
-                Button cancel = v.findViewById(R.id.btnCancelEditFrioritry);
-                final EditText editText = v.findViewById(R.id.txtEditFriority);
-                String txt = listFriority.get(position).getName();
+                Button edit = v.findViewById(R.id.btnEditPriority);
+                Button cancel = v.findViewById(R.id.btnCancelEditCategory);
+                final EditText editText = v.findViewById(R.id.txtEditCategory);
+                String txt = listPriority.get(position).getName();
 
                 editText.append(txt);
                 alert.setView(v);
@@ -136,14 +134,14 @@ public class PriorityFragment extends Fragment {
                         String text = editText.getText().toString().trim();
                         if(!text.isEmpty())
                         {
-                            PriorityModel priorityModel = listFriority.get(finalPosition);
+                            PriorityModel priorityModel = listPriority.get(finalPosition);
                             updatePriority(text,priorityModel.getName());
                             priorityModel.setName(text);
                             friorityDao.updateData(priorityModel);
                             Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
-                            listFriority = friorityDao.getAllData(session.getIdAccount());
+                            listPriority = friorityDao.getAllData(session.getIdAccount());
                             dialog.dismiss();
-                            reload(listFriority,view);
+                            reload(listPriority,view);
                         }
                         else
                         {
@@ -162,7 +160,7 @@ public class PriorityFragment extends Fragment {
 //                Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                 // do your stuff
                 break;
-            case R.id.MenuDeleteFriority:
+            case R.id.MenuDeletePriority:
                 // do your stuff
                 break;
         }
@@ -182,10 +180,10 @@ public class PriorityFragment extends Fragment {
         }
     }
 
-    public void reload(List<PriorityModel> listCategory, View view){
-        priorityAdapter = new PriorityAdapter(getActivity().getApplicationContext(),listFriority);
-        recyclerFriorityView.setHasFixedSize(true);
-        recyclerFriorityView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerFriorityView.setAdapter(priorityAdapter);
+    public void reload(List<PriorityModel> listPriority, View view){
+        priorityAdapter = new PriorityAdapter(getActivity().getApplicationContext(),listPriority);
+        recyclerPriorityView.setHasFixedSize(true);
+        recyclerPriorityView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerPriorityView.setAdapter(priorityAdapter);
     }
 }

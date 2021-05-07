@@ -2,7 +2,6 @@
 package com.example.notemanagement.ui.status;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,15 +19,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.DB.EntityClass.CategoryModel;
+import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
+import com.example.notemanagement.DB.Note;
+import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
-import com.example.notemanagement.Session;
+import com.example.notemanagement.extension.Session;
+import com.example.notemanagement.ui.priority.PriorityAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.net.ssl.SSLEngineResult;
 
 import static android.content.ContentValues.TAG;
 
@@ -50,10 +54,7 @@ public class StatusFragment extends Fragment {
         recyclerStatusView = view.findViewById(R.id.recyclerStatusView);
         session = new Session(getActivity());
         registerForContextMenu(recyclerStatusView);
-
         FloatingActionButton floating = view.findViewById(R.id.status_fab);
-
-
         floating.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -83,8 +84,7 @@ public class StatusFragment extends Fragment {
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                             listStatus = statusDao.getAllData(session.getIdAccount());
-                            statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
-                            recyclerStatusView.setAdapter(statusAdapter);
+                            reload(listStatus,view);
                         }
                         else{
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
@@ -102,19 +102,9 @@ public class StatusFragment extends Fragment {
             }
         });
         database = Database.getInstance(getActivity().getApplicationContext());
-
         statusDao  = database.statusDaoClass();
-
         listStatus = statusDao.getAllData(session.getIdAccount());
-
-
-
-        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
-
-//        createStatusList();
-        recyclerStatusView.setHasFixedSize(true);
-        recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerStatusView.setAdapter(statusAdapter);
+        reload(listStatus,view);
         return view;
     }
     private void AddStatus(){
@@ -155,10 +145,7 @@ public class StatusFragment extends Fragment {
                             Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
                             listStatus = statusDao.getAllData(session.getIdAccount());
                             dialog.dismiss();
-                            statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
-                            recyclerStatusView.setHasFixedSize(true);
-                            recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                            recyclerStatusView.setAdapter(statusAdapter);
+                            reload(listStatus,view);
                         }
                         else{
                             Toast.makeText(getContext(),"Name can't be null",Toast.LENGTH_SHORT).show();
@@ -176,11 +163,17 @@ public class StatusFragment extends Fragment {
 //                Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                 // do your stuff
                 break;
-            case R.id.MenuDeleteCategory:
-
+            case R.id.MenuDeleteStatus:
                 // do your stuff
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    public void reload(List<StatusModel> listStatus, View view){
+        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
+        recyclerStatusView.setHasFixedSize(true);
+        recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerStatusView.setAdapter(statusAdapter);
     }
 }

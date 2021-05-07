@@ -23,14 +23,13 @@ import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
-import com.example.notemanagement.DB.EntityClass.FriorityModel;
+import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.extension.Session;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -219,10 +218,10 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         });
         // text view priority
         txtSelectPriority =txtSelectPriority.findViewById(R.id.txtSelectPriority);
-        final List<FriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
+        final List<PriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
         final String[] lstPriority = new String[ListPriority.size()];
         int countPriority = 0;
-        for (FriorityModel i : ListPriority) {
+        for (PriorityModel i : ListPriority) {
             lstPriority[countPriority] = i.getName();
             countPriority++;
         }

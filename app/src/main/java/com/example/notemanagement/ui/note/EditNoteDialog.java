@@ -23,7 +23,7 @@ import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
 
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
-import com.example.notemanagement.DB.EntityClass.FriorityModel;
+import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
@@ -233,10 +233,10 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         });
         // text view priority
         txtEditSelectPriority =txtEditSelectPriority.findViewById(R.id.txtEditSelectPriority);
-        final List<FriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
+        final List<PriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
         final String[] lstPriority = new String[ListPriority.size()];
         int countPriority = 0;
-        for (FriorityModel i : ListPriority) {
+        for (PriorityModel i : ListPriority) {
             lstPriority[countPriority] = i.getName();
             countPriority++;
         }

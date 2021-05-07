@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Friorities")
-public class FriorityModel {
+@Entity(tableName = "Priorities")
+public class PriorityModel {
     @PrimaryKey(autoGenerate = true)
     private  int key;
 

@@ -18,7 +18,8 @@ import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.R;
-import com.example.notemanagement.Session;
+import com.example.notemanagement.extension.Session;
+
 
 import java.util.List;
 import java.util.zip.Inflater;

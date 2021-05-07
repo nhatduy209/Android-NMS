@@ -15,7 +15,8 @@ import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.FriorityModel;
 import com.example.notemanagement.R;
-import com.example.notemanagement.Session;
+import com.example.notemanagement.extension.Session;
+
 
 import java.util.List;
 

@@ -21,6 +21,7 @@ import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.extension.Session;
 
+
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{

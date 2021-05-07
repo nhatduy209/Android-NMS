@@ -20,6 +20,7 @@ import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.extension.Session;
 
+
 import java.util.List;
 
 public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHolder> {

@@ -22,6 +22,7 @@ import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
+
 import com.example.notemanagement.extension.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

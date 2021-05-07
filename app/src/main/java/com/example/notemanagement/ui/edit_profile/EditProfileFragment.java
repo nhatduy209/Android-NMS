@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.R;
 import com.example.notemanagement.extension.Session;
+import com.google.android.material.navigation.NavigationView;
 
 public class EditProfileFragment extends Fragment {
     Database db;
@@ -27,18 +29,19 @@ public class EditProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_editprofile, container, false);
-        db= Room.databaseBuilder(getActivity(),Database.class,Database.Databasename).allowMainThreadQueries().build();
+
+        db=Database.getInstance(getActivity());
         accountLayer=db.accountDao();
         session= new Session(getActivity());
 
         btnEdit=root.findViewById(R.id.btnEditProfile);
         btnHome=root.findViewById(R.id.btnHomeinEditprofile);
-
+        //handle event SaveChange
         saveChanges();
+        //handle event back home
         backHome();
         return root;
     }
-    //handle event click on save changes
     public void saveChanges(){
         btnEdit.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -61,17 +64,31 @@ public class EditProfileFragment extends Fragment {
                     ((EditText)getActivity().findViewById(R.id.txtEmail)).setError(getString(R.string.validate_email));
                     error=true;
                 }
+                // check validation email
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if (!email.matches(emailPattern))
+                {
+                    ((EditText)getActivity().findViewById(R.id.txtEmail)).setError("Invalid email address");
+                    error=true;
+                }
                 if(error==true){
                     return;
                 }
 
                 AccountModel account = accountLayer.findAccount(session.getEmail(),session.getPassword());
-                session.setEmail(email);
                 account.setEmail(email);
                 account.setFirstName(firstName);
                 account.setLastName(lastName);
-
                 accountLayer.update(account);
+
+                //change email on session
+                session.setEmail(email);
+
+                //change email on nav_bar
+                NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+                TextView text = navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
+                text.setText(session.getEmail());
+
                 Toast.makeText(getActivity(),"Edit profile successfully",Toast.LENGTH_SHORT).show();
             }
         });

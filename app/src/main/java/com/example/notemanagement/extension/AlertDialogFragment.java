@@ -26,7 +26,6 @@ public class AlertDialogFragment extends DialogFragment {
                 .setMessage(message)
                 .setPositiveButton(R.string.msg_positive_message, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
                         dismiss();
                     }
                 });

@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         final NoteDao noteDao = database.noteDao();
         final List<Note> ListNote  =  noteDao.getAll(session.getIdAccount());
         final StatusDaoClass statusDao = database.statusDaoClass();
-        final List<StatusModel> ListStatus  =  statusDao.getAllData();
+        final List<StatusModel> ListStatus  =  statusDao.getAllData(session.getIdAccount());
         List<DashBoard>  ListDashBoard = new ArrayList<>();
         for (StatusModel status : ListStatus){
             int count = 0;

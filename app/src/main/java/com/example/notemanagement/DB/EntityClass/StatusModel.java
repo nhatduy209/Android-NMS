@@ -16,7 +16,7 @@ public class StatusModel {
     private String stCrD;
 
     @ColumnInfo(name = "idAccount")
-    private String idAccount;
+    private int idAccount;
 
     public int getKey() {
         return key;
@@ -31,11 +31,11 @@ public class StatusModel {
         return stCrD;
     }
 
-    public String getIdAccount() {
+    public int getIdAccount() {
         return idAccount;
     }
 
-    public void setIdAccount(String idAccount) {
+    public void setIdAccount(int idAccount) {
         this.idAccount = idAccount;
     }
 

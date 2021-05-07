@@ -18,12 +18,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.notemanagement.DB.DaoClass.CategoryDaoClass;
-import com.example.notemanagement.DB.DaoClass.FriorityDaoClass;
+import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
 
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
-import com.example.notemanagement.DB.EntityClass.FriorityModel;
+import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
@@ -32,6 +32,7 @@ import com.example.notemanagement.extension.Session;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class EditNoteDialog extends DialogFragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -74,7 +75,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         final NoteDao noteDao = database.noteDao();
         final CategoryDaoClass categoryDao = database.categoryDaoClass();
         final StatusDaoClass statusDao = database.statusDaoClass();
-        final FriorityDaoClass priorityDao = database.friorityDaoClass();
+        final PriorityDaoClass priorityDao = database.friorityDaoClass();
 
         selectedNote = noteDao.getNote(id);
 
@@ -134,7 +135,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
                 String PlanDate = txtEditselectDate.getText().toString().trim();
                 String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
 
-                if(Name != null)
+                if(!Name.isEmpty() && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
                 {
                     Note note = selectedNote;
                     note.setName(Name);
@@ -151,11 +152,36 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
 
 
                 }
+                else
+                {
+                    String message = "";
+                    if(Name.isEmpty())
+                    {
+                        message += "Name, ";
+                    }
+                    if(Category.isEmpty())
+                    {
+                        message += "Category, ";
+                    }
+                    if(Priority.isEmpty())
+                    {
+                        message += "Priority, ";
+                    }
+                    if(Status.isEmpty())
+                    {
+                        message += "Status, ";
+                    }
+                    if(PlanDate.isEmpty())
+                    {
+                        message += "Plan date, ";
+                    }
+                    Toast.makeText(getContext(),"Please select " + message.substring(0,message.length()-2) +"! They can't be empty!",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         // text view status
         txtEditSelectStatus =txtEditSelectStatus.findViewById(R.id.txtEditSelectStatus);
-        final List<StatusModel> ListStatus  =  statusDao.getAllData();
+        final List<StatusModel> ListStatus  =  statusDao.getAllData(session.getIdAccount());
         final String[] lstStatus = new String[ListStatus.size()];
         int count = 0;
         for (StatusModel i : ListStatus) {
@@ -181,7 +207,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         });
         // text view category
         txtEditSelectCategory =txtEditSelectCategory.findViewById(R.id.txtEditSelectCategory);
-        final List<CategoryModel> ListCategory  =  categoryDao.getAllData();
+        final List<CategoryModel> ListCategory  =  categoryDao.getAllData(session.getIdAccount());
         final String[] lstCategory = new String[ListCategory.size()];
         int countCategory = 0;
         for (CategoryModel i : ListCategory) {
@@ -207,10 +233,10 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         });
         // text view priority
         txtEditSelectPriority =txtEditSelectPriority.findViewById(R.id.txtEditSelectPriority);
-        final List<FriorityModel> ListPriority = priorityDao.getAllData();
+        final List<PriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
         final String[] lstPriority = new String[ListPriority.size()];
         int countPriority = 0;
-        for (FriorityModel i : ListPriority) {
+        for (PriorityModel i : ListPriority) {
             lstPriority[countPriority] = i.getName();
             countPriority++;
         }
@@ -257,7 +283,16 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
     }
 
     private void showSetDate(int year, int monthOfYear, int dayOfMonth) {
-        txtEditselectDate.setText(dayOfMonth + "/"+ monthOfYear + "/" + year);
+        Date curentTime = Calendar.getInstance().getTime();
+        if(year <= curentTime.getYear() || monthOfYear+1 <= curentTime.getMonth() || dayOfMonth <= curentTime.getDay())
+        {
+            Toast.makeText(getContext(),"The plan date must be after the current date!",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            monthOfYear++;
+            txtEditselectDate.setText(dayOfMonth + "/"+ monthOfYear + "/" + year);
+        }
+
     }
 
 

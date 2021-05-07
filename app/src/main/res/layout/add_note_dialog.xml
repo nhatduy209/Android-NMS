@@ -27,7 +27,7 @@
         android:layout_width="360dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
-        android:text="Select category ..."
+        android:hint="Select category ..."
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNoteName" />
@@ -38,7 +38,7 @@
         android:layout_width="363dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
-        android:text="Select priority..."
+        android:hint="Select priority..."
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSelectCategory" />
@@ -49,7 +49,7 @@
         android:layout_width="363dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
-        android:text="Select status..."
+        android:hint="Select status..."
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSelectPriority" />
@@ -67,7 +67,7 @@
             android:id="@+id/txtSelectPlanDate"
             android:layout_width="252dp"
             android:layout_height="wrap_content"
-            android:text="Select plan date"
+            android:hint="Select plan date"
             android:textSize="18sp" />
 
         <Button

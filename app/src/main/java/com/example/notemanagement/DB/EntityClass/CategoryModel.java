@@ -16,7 +16,7 @@ public class CategoryModel {
     private String CatCrD;
 
     @ColumnInfo(name = "idAccount")
-    private String idAccount;
+    private int idAccount;
 
     public int getKey() {
         return key;
@@ -30,7 +30,7 @@ public class CategoryModel {
         return CatCrD;
     }
 
-    public String getIdAccount() {
+    public int getIdAccount() {
         return idAccount;
     }
 
@@ -46,7 +46,7 @@ public class CategoryModel {
         this.CatCrD = CatCrD;
     }
 
-    public void setIdAccount(String idAccount) {
+    public void setIdAccount(int idAccount) {
         this.idAccount = idAccount;
     }
 }

@@ -2,7 +2,6 @@
 package com.example.notemanagement.ui.status;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,14 +19,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
-import com.example.notemanagement.DB.EntityClass.CategoryModel;
+import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
+import com.example.notemanagement.DB.Note;
+import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
+import com.example.notemanagement.extension.Session;
+import com.example.notemanagement.ui.priority.PriorityAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.net.ssl.SSLEngineResult;
 
 import static android.content.ContentValues.TAG;
 
@@ -35,6 +40,7 @@ public class StatusFragment extends Fragment {
 
     // Add RecyclerView member
     private RecyclerView recyclerStatusView;
+    private Session session;
     StatusAdapter statusAdapter;
     List<StatusModel> listStatus;
     Database database;
@@ -46,11 +52,9 @@ public class StatusFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_status, container, false);
         recyclerStatusView = view.findViewById(R.id.recyclerStatusView);
+        session = new Session(getActivity());
         registerForContextMenu(recyclerStatusView);
-
         FloatingActionButton floating = view.findViewById(R.id.status_fab);
-
-
         floating.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -67,25 +71,25 @@ public class StatusFragment extends Fragment {
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        session = new Session(getActivity());
                         String txtName = name.getText().toString().trim();
                         String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
-                        if(txtName != null){
+                        if(!txtName.isEmpty()){
                             StatusModel statusModel = new StatusModel();
-//                            statusModel.setIdAccount("1");
+                            statusModel.setIdAccount(session.getIdAccount());
                             statusModel.setName(txtName);
                             statusModel.setStCrD(createdDate);
                             statusDao.insertData(statusModel);
-
                             Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            listStatus = statusDao.getAllData(session.getIdAccount());
+                            reload(listStatus,view);
                         }
                         else{
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                         }
-                        dialog.dismiss();
-                        listStatus = statusDao.getAllData();
-                        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
-                        recyclerStatusView.setAdapter(statusAdapter);
+
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -98,19 +102,9 @@ public class StatusFragment extends Fragment {
             }
         });
         database = Database.getInstance(getActivity().getApplicationContext());
-
         statusDao  = database.statusDaoClass();
-
-        listStatus = statusDao.getAllData();
-
-
-
-        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
-
-//        createStatusList();
-        recyclerStatusView.setHasFixedSize(true);
-        recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerStatusView.setAdapter(statusAdapter);
+        listStatus = statusDao.getAllData(session.getIdAccount());
+        reload(listStatus,view);
         return view;
     }
     private void AddStatus(){
@@ -143,18 +137,21 @@ public class StatusFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String text = editText.getText().toString().trim();
-                        StatusModel statusModel = listStatus.get(finalPosition);
-                        statusModel.setName(text);
-                        statusDao.updateData(statusModel);
-                        listStatus = statusDao.getAllData();
-                        Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
+                        if(!text.isEmpty())
+                        {
+                            StatusModel statusModel = listStatus.get(finalPosition);
+                            updateStatus(text,statusModel.getName());
+                            statusModel.setName(text);
+                            statusDao.updateData(statusModel);
+                            Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
+                            listStatus = statusDao.getAllData(session.getIdAccount());
+                            dialog.dismiss();
+                            reload(listStatus,view);
+                        }
+                        else{
+                            Toast.makeText(getContext(),"Name can't be null",Toast.LENGTH_SHORT).show();
+                        }
 
-//        createStatusList();
-                        recyclerStatusView.setHasFixedSize(true);
-                        recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                        recyclerStatusView.setAdapter(statusAdapter);
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -167,11 +164,30 @@ public class StatusFragment extends Fragment {
 //                Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
                 // do your stuff
                 break;
-            case R.id.MenuDeleteCategory:
-
+            case R.id.MenuDeleteStatus:
                 // do your stuff
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    public void updateStatus(String status, String oldStatus){
+        List<Note> list = null;
+        NoteDao noteDao;
+        noteDao = database.noteDao();
+        list = noteDao.getNote(oldStatus);
+        for(int i =0; i< list.size();i++){
+            Note note;
+            note = list.get(i);
+            note.setStatus(status);
+            noteDao.updateNote(note);
+        }
+    }
+
+    public void reload(List<StatusModel> listStatus, View view){
+        statusAdapter = new StatusAdapter(getActivity().getApplicationContext(),listStatus);
+        recyclerStatusView.setHasFixedSize(true);
+        recyclerStatusView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerStatusView.setAdapter(statusAdapter);
     }
 }

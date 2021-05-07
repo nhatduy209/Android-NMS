@@ -120,7 +120,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
                 String PlanDate = txtselectDate.getText().toString().trim();
                 String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
 
-                if(Name != null && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
+                if(Name != null && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty() && !PlanDate.isEmpty())
                 {
                     Note note = new Note();
                     note.setName(Name);
@@ -257,7 +257,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
         // store the values selected into a Calendar instance
         final Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, monthOfYear +1 );
+        c.set(Calendar.MONTH, monthOfYear);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
         showSetDate(year,monthOfYear,dayOfMonth);
@@ -265,8 +265,13 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
 
     private void showSetDate(int year, int monthOfYear, int dayOfMonth) {
         Date curentTime = Calendar.getInstance().getTime();
-        if(year <= curentTime.getYear() || monthOfYear+1 <= curentTime.getMonth() || dayOfMonth <= curentTime.getDay())
-        {
+        boolean check = false;
+        if(year >= curentTime.getYear())
+            if(monthOfYear + 1 >= curentTime.getMonth())
+                if(dayOfMonth >= curentTime.getDate()){
+                    check = true;
+                }
+        if(check == false){
             Toast.makeText(getContext(),"The plan date must be after the current date!",Toast.LENGTH_SHORT).show();
         }
         else{

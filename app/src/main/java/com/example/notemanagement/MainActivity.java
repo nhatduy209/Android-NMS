@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.extension.Session;
 import com.google.android.material.navigation.NavigationView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         session=new Session(getApplicationContext());
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
@@ -50,9 +54,11 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_changepassword,R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
         //log out
         MenuItem logoutItem = navigationView.getMenu().findItem(R.id.nav_logout);
         logoutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -64,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        //set email and first name
+        TextView text = navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
+        text.setText(session.getEmail());
     }
 
     @Override

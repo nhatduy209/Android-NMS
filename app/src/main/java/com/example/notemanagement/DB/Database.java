@@ -15,11 +15,11 @@ import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.EntityClass.AccountModel;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
-import com.example.notemanagement.DB.EntityClass.FriorityModel;
+import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 
 
-@androidx.room.Database(entities = { AccountModel.class,Note.class, StatusModel.class, FriorityModel.class, CategoryModel.class} , version = 6,exportSchema = false)
+@androidx.room.Database(entities = { AccountModel.class,Note.class, StatusModel.class, PriorityModel.class, CategoryModel.class} , version = 6,exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     //create instance

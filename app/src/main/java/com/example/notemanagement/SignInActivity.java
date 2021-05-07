@@ -31,6 +31,8 @@ public class SignInActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+
         //build database
         db = Database.getInstance(getApplicationContext());
         accountLayer=db.accountDao();
@@ -50,7 +52,6 @@ public class SignInActivity extends AppCompatActivity  {
             rememberMe.setChecked(true);
         }
 
-
         //handle event Sign Up
         signUp();
         //handle event Sign In
@@ -58,8 +59,6 @@ public class SignInActivity extends AppCompatActivity  {
         //handle event Exit
         exit();
     }
-
-    //set event click when click "Sign Up"
     public void signUp(){
         FloatingActionButton signUp=(FloatingActionButton)findViewById(R.id.floatingABSignUp);
         signUp.setOnClickListener(new View.OnClickListener(){
@@ -71,37 +70,37 @@ public class SignInActivity extends AppCompatActivity  {
             }
         });
     }
-    //set event when click "Sign In"
     public void signIn(){
         Button signIn =(Button)findViewById(R.id.btn_sign_in);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean error=false;
                 String email =((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+                String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
+
+                // check validation
+                boolean error=false;
                 if(email.length()==0){
                     ((EditText) findViewById(R.id.editTextEmail)).setError(getString(R.string.validate_email));
                     error=true;
                 }
-                String password=((EditText)findViewById(R.id.editTextPassword)).getText().toString();
                 if(password.length()==0){
                     ((EditText) findViewById(R.id.editTextPassword)).setError(getString(R.string.validate_password));
                     error=true;
-                }
-                if(error==true){
-                    return;
                 }
                 // check validation email
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 if (!email.matches(emailPattern))
                 {
-                    Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
-                    // or
+                    ((EditText)findViewById(R.id.editTextEmail)).setError("Invalid email address");
+                    error=true;
+                }
+                if(error==true){
                     return;
                 }
-                AccountModel currentAccount =accountLayer.findAccount(email,password);
 
-                //sign in success
+                AccountModel currentAccount =accountLayer.findAccount(email,password);
+                //sign in fail
                 if(currentAccount==null){
                     AlertDialogFragment alert = new AlertDialogFragment("Login fail",
                             "Email or password incorrect. Please try logging in again ");
@@ -124,14 +123,14 @@ public class SignInActivity extends AppCompatActivity  {
                 session.setIdAccount(currentAccount.getIdAccount());
                 session.setPassword(currentAccount.getPassword());
 
+                // start MainActivity
                 Intent intent=new Intent(SignInActivity.this,MainActivity.class);
                 startActivity(intent);
             }
         });
     }
-    //set event when click "Exit"
     public void exit(){
-        Button exit=(Button)findViewById(R.id.btn_exit);
+        Button exit=findViewById(R.id.btn_exit);
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

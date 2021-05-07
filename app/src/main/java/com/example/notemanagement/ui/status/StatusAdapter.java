@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,6 +20,8 @@ import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
+import com.example.notemanagement.DB.Note;
+import com.example.notemanagement.DB.NoteDao;
 import com.example.notemanagement.R;
 import com.example.notemanagement.extension.Session;
 
@@ -58,7 +61,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
 
         @Override
-        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+        public void onCreateContextMenu(ContextMenu contextMenu, final View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             contextMenu.add(contextMenu.NONE,R.id.MenuEditStatus,contextMenu.NONE,"Edit");
 
             contextMenu.add(contextMenu.NONE,R.id.MenuDeleteStatus,contextMenu.NONE,"Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -66,6 +69,10 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     session = new Session(itemView.getContext());
                     StatusModel statusModel = listStatus.get(position);
+                    if(isExist(statusModel)){
+                        Toast.makeText(view.getContext(),"This Status is in Note!",Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
                     database = Database.getInstance(context);
                     statusDao = database.statusDaoClass();
                     statusDao.deleteData(statusModel);
@@ -75,6 +82,17 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
                 }
             });
         }
+    }
+    public boolean isExist(StatusModel status){
+        database = Database.getInstance(context);
+        NoteDao noteDao;
+        noteDao = database.noteDao();
+        List<Note> list ;
+        list = noteDao.getNote(status.getName());
+        if(list.size() != 0)
+            return true;
+        else
+            return false;
     }
 
     public StatusAdapter(Context context, List<StatusModel> listStatus){

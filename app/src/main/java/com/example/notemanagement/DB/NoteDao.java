@@ -20,5 +20,6 @@ public interface NoteDao {
     List<Note> getAll(int idAccount);
     @Query("SELECT * FROM Notes WHERE id = :id ")
     Note getNote(int id);
-
+    @Query("SELECT * FROM Notes WHERE status = :input or category = :input or priority = :input")
+    List<Note> getNote(String input);
 }

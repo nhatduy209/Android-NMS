@@ -6,19 +6,19 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.notemanagement.DB.EntityClass.FriorityModel;
+import com.example.notemanagement.DB.EntityClass.PriorityModel;
 
 import java.util.List;
 
 @Dao
 public interface PriorityDaoClass {
     @Insert
-    void insertData(FriorityModel model);
+    void insertData(PriorityModel model);
 
-    @Query("select * from Friorities WHERE idAccount=:idAccount")
-    List<FriorityModel> getAllData(int idAccount);
+    @Query("select * from Priorities WHERE idAccount=:idAccount")
+    List<PriorityModel> getAllData(int idAccount);
     @Delete
-    void deleteData(FriorityModel friorityModel);
+    void deleteData(PriorityModel priorityModel);
     @Update
-    public void updateData(FriorityModel friorityModel);
+    public void updateData(PriorityModel priorityModel);
 }

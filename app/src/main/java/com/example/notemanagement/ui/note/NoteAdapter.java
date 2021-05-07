@@ -32,6 +32,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     private Database database ;
     Session session;
 
+    NoteDao noteDao;
+    public int getPosition() {
+        return position;
+    }
 
     public void setPosition(int position) {
         this.position = position;
@@ -120,64 +124,30 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
         }
         @Override
-        public void onCreateContextMenu(ContextMenu menu, View v,
-                                        ContextMenu.ContextMenuInfo menuInfo) {
+        public void onCreateContextMenu(ContextMenu contextMenu, final View v,
+                                        ContextMenu.ContextMenuInfo contextMenuInfo) {
 
-            MenuItem Edit = menu.add(Menu.NONE, 0, 0, "Edit"); //groupId, itemId, order, title
-            MenuItem Delete = menu.add(Menu.NONE, 1, 0, "Delete");
-            Edit.setOnMenuItemClickListener(onEditMenu);
-            Delete.setOnMenuItemClickListener(onEditMenu);
+            contextMenu.add(contextMenu.NONE,R.id.MenuEditNote,contextMenu.NONE,"Edit"); //groupId, itemId, order, title
 
-
-
-        }
-        public void setItems(List<Note> notes)
-        {
-            listNote = notes;
-        }
-
-        // Menu context Edit, Delete
-        private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Note temp = listNote.get(position);
-                database = Database.getInstance(context);
-                NoteDao noteDao = database.noteDao();
-
-                Note selectedNote = noteDao.getNote(temp.id);
-
-                session = new Session(context);
-                session.setIdNote(selectedNote.id);
-
-
-
-
-                switch (item.getItemId()) {
-                    case 0:
-                        FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
-                        FragmentTransaction ft =  fragmentManager.beginTransaction();
-
-                        DialogFragment newFragment = EditNoteDialog.newInstance();
-
-                        newFragment.show(ft, "edit_note_dialog");
-
-
-                        break;
-
-                    case 1:
-                        noteDao.deleteNotes(selectedNote);
-                        //notifyItemRemoved(position);
-                        listNote = noteDao.getAll(session.getIdAccount());
-                        setItems(listNote);
-                        notifyDataSetChanged();
-
-
-                        break;
+            contextMenu.add(contextMenu.NONE,R.id.MenuDeleteNote,contextMenu.NONE,"Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    session = new Session(v.getContext());
+                    Note selectedNote = listNote.get(position);
+                    database = Database.getInstance(context);
+                    noteDao = database.noteDao();
+                    noteDao.deleteNotes(selectedNote);
+                    listNote = noteDao.getAll(session.getIdAccount());
+                    //setItems(listNote);
+                    notifyDataSetChanged();
+                    return false;
                 }
+            });
 
-                return true;
-            }
-        };
+
+
+        }
+
 
 
     }

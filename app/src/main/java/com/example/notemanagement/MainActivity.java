@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
         session=new Session(getApplicationContext());
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        //Set email on the top
+        View headerView = navigationView.getHeaderView(0);
+        TextView emailView = (TextView) headerView.findViewById(R.id.textView);
+        String email = session.getEmail();
+        emailView.setText(email);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(

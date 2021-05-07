@@ -29,7 +29,7 @@ public abstract class Database extends RoomDatabase {
     public abstract NoteDao noteDao();
 
     public abstract StatusDaoClass statusDaoClass();
-    public abstract PriorityDaoClass friorityDaoClass();
+    public abstract PriorityDaoClass priorityDaoClass();
     public abstract CategoryDaoClass categoryDaoClass();
 
     public synchronized static Database getInstance(Context context){

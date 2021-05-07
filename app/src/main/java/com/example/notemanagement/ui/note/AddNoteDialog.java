@@ -75,7 +75,7 @@ public class AddNoteDialog extends DialogFragment implements View.OnClickListene
 
         final CategoryDaoClass categoryDao = database.categoryDaoClass();
         final StatusDaoClass statusDao = database.statusDaoClass();
-        final PriorityDaoClass priorityDao = database.friorityDaoClass();
+        final PriorityDaoClass priorityDao = database.priorityDaoClass();
         //button choose Date
         Button btnDate = view.findViewById(R.id.btnSelectPlanDate);
         txtselectDate = view.findViewById(R.id.txtSelectPlanDate);

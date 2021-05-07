@@ -75,7 +75,7 @@ public class EditNoteDialog extends DialogFragment implements View.OnClickListen
         final NoteDao noteDao = database.noteDao();
         final CategoryDaoClass categoryDao = database.categoryDaoClass();
         final StatusDaoClass statusDao = database.statusDaoClass();
-        final PriorityDaoClass priorityDao = database.friorityDaoClass();
+        final PriorityDaoClass priorityDao = database.priorityDaoClass();
 
         selectedNote = noteDao.getNote(id);
 

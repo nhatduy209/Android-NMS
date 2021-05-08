@@ -68,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 // check validation email
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-                if (!etEmail.matches(emailPattern))
+                if (!etEmail.matches(emailPattern) && etEmail.length()>0)
                 {
                     ((EditText)findViewById(R.id.editTextEmailSignUp)).setError("Invalid email address");
                     error=true;

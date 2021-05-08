@@ -17,6 +17,7 @@ import com.example.notemanagement.DB.EntityClass.AccountModel;
 import com.example.notemanagement.DB.DaoClass.AccountDaoClass;
 import com.example.notemanagement.DB.Database;
 import com.example.notemanagement.R;
+import com.example.notemanagement.extension.AlertDialogFragment;
 import com.example.notemanagement.extension.Session;
 import com.google.android.material.navigation.NavigationView;
 
@@ -75,6 +76,20 @@ public class EditProfileFragment extends Fragment {
                     return;
                 }
 
+                boolean errorEmail=false;
+                AccountModel checkEmail = accountLayer.findEmail(email);
+                // case email != newEmail and can change (checkEmail == null)
+                // case email != newEmail and cannot change (checkEmail!=null)
+                // case email == newEmail so can change (checkEmail !=null)
+                if(!session.getEmail().equals(email)){
+                    if(checkEmail != null){
+                        errorEmail =true;
+                        AlertDialogFragment alert = new AlertDialogFragment("Edit profile fail",
+                                "Email is existed ");
+                        alert.show(getActivity().getSupportFragmentManager(), "change_profile_fail");
+                        return;
+                    }
+                }
                 AccountModel account = accountLayer.findAccount(session.getEmail(),session.getPassword());
                 account.setEmail(email);
                 account.setFirstName(firstName);
@@ -90,6 +105,7 @@ public class EditProfileFragment extends Fragment {
                 text.setText(session.getEmail());
 
                 Toast.makeText(getActivity(),"Edit profile successfully",Toast.LENGTH_SHORT).show();
+                return;
             }
         });
     }

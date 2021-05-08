@@ -38,11 +38,11 @@ public class HomeFragment extends Fragment {
 
         final NoteDao noteDao = database.noteDao();
         pieChart = view.findViewById(R.id.pieChart);
-        fillRegionalSalesArrayList();
+        setChart();
         return view;
     }
 
-    private void fillRegionalSalesArrayList(){
+    private void setChart(){
         Session session = new Session( getActivity());
         // set data
         final NoteDao noteDao = database.noteDao();

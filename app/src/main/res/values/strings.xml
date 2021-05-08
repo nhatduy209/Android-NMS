@@ -24,7 +24,7 @@
     <string name="msg_email_exist">Email is existed</string>
     <string name="msg_password_incorrect">Password incorrect</string>
     <string name="msg_positive_message">OK</string>
-    <string name="msg_strong_password">Password should contain min of 4 characters and at least 1 lowercase, 1 uppercase and 1 numeric value</string>
+    <string name="msg_strong_password">Password should contain min of 4 characters and at least 1 lowercase, 1 uppercase, 1 numeric and 1 special character value</string>
 
     <!--    validation edit text-->
     <string name="validate_email">Email is required!</string>

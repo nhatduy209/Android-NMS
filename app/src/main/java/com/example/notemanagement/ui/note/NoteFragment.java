@@ -36,6 +36,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import static android.content.ContentValues.TAG;
 
@@ -89,6 +90,7 @@ public class NoteFragment extends Fragment{
                 txtSelectCategory = v.findViewById(R.id.txtSelectCategory);
                 txtSelectPriority = v.findViewById(R.id.txtSelectPriority);
                 txtSelectStatus = v.findViewById(R.id.txtSelectStatus);
+                txtselectDate = v.findViewById(R.id.txtSelectPlanDate);
 
                 //button Choose Date
                 btnDate = v.findViewById(R.id.btnSelectPlanDate);
@@ -182,9 +184,21 @@ public class NoteFragment extends Fragment{
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
 
-                        txtselectDate = v.findViewById(R.id.txtSelectPlanDate);
-                        txtselectDate.setText( String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear +1)
-                                + "/" +String.valueOf(year) );
+                        Date curentTime = java.util.Calendar.getInstance().getTime();
+                        boolean check = false;
+                        if(year >= curentTime.getYear())
+                            if( monthOfYear+1 >= curentTime.getMonth())
+                                if(dayOfMonth >= curentTime.getDay()){
+                                    check = true;
+                                }
+                        if(!check)
+                        {
+                            Toast.makeText(getContext(),"The plan date must be after the current date!",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            txtselectDate.setText( String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear +1)
+                                    + "/" +String.valueOf(year) );
+                        }
                     }
                 };
 
@@ -217,7 +231,7 @@ public class NoteFragment extends Fragment{
                         String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
 
                         //Check text not null
-                        if(!Name.isEmpty() && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
+                        if(!Name.isEmpty() && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty() && !PlanDate.isEmpty())
                         {
                             Note note = new Note();
                             note.setName(Name);
@@ -454,7 +468,7 @@ public class NoteFragment extends Fragment{
                         String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
                         //Check text not null
 
-                        if(!Name.isEmpty() && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
+                        if(!Name.isEmpty() && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty() && !PlanDate.isEmpty())
                         {
                             Note note = selectedNote;
                             note.setName(Name);

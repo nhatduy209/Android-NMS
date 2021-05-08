@@ -29,8 +29,8 @@
 
     <TextView
         android:id="@+id/txtvCategory"
-        android:layout_width="48dp"
-        android:layout_height="17dp"
+        android:layout_width="54dp"
+        android:layout_height="19dp"
         android:layout_marginStart="8dp"
         android:text="Category:"
         android:textSize="12sp"
@@ -60,7 +60,7 @@
         android:id="@+id/txtPriority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="1dp"
         android:text="Slow"
         android:textSize="12sp"
@@ -81,7 +81,7 @@
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
+        android:layout_marginStart="4dp"
         android:text="Processing"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/txtvStatus"

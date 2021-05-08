@@ -188,7 +188,7 @@ public class NoteFragment extends Fragment{
                         boolean check = false;
                         if(year >= curentTime.getYear())
                             if( monthOfYear+1 >= curentTime.getMonth())
-                                if(dayOfMonth >= curentTime.getDay()){
+                                if(dayOfMonth >= curentTime.getDate()){
                                     check = true;
                                 }
                         if(!check)
@@ -361,10 +361,10 @@ public class NoteFragment extends Fragment{
                     lstStatus[count] = i.getName();
                     count++;
                 }
-                txtEditSelectStatus.setOnLongClickListener(new View.OnLongClickListener() {
+                txtEditSelectStatus.setOnClickListener(new View.OnClickListener() {
 
                     @Override
-                    public boolean onLongClick(View v) {
+                    public void onClick(View view) {
                         new AlertDialog.Builder(getContext())
                                 .setTitle("Choose status ")
                                 .setItems(lstStatus, new DialogInterface.OnClickListener() {
@@ -375,7 +375,6 @@ public class NoteFragment extends Fragment{
                                     }
                                 })
                                 .setNegativeButton("No", null).show();
-                        return false;
                     }
                 });
                 // Get list category
@@ -386,10 +385,9 @@ public class NoteFragment extends Fragment{
                     lstCategory[countCategory] = i.getName();
                     countCategory++;
                 }
-                txtEditSelectCategory.setOnLongClickListener(new View.OnLongClickListener() {
-
+                txtEditSelectCategory.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
+                    public void onClick(View view) {
                         new AlertDialog.Builder(getContext())
                                 .setTitle("Choose category ")
                                 .setItems(lstCategory, new DialogInterface.OnClickListener() {
@@ -400,7 +398,6 @@ public class NoteFragment extends Fragment{
                                     }
                                 })
                                 .setNegativeButton("No", null).show();
-                        return false;
                     }
                 });
                 // Get list priority
@@ -411,10 +408,9 @@ public class NoteFragment extends Fragment{
                     lstPriority[countPriority] = i.getName();
                     countPriority++;
                 }
-                txtEditSelectPriority.setOnLongClickListener(new View.OnLongClickListener() {
-
+                txtEditSelectPriority.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
+                    public void onClick(View view) {
                         new AlertDialog.Builder(getContext())
                                 .setTitle("Choose Priority ")
                                 .setItems(lstPriority, new DialogInterface.OnClickListener() {
@@ -425,7 +421,6 @@ public class NoteFragment extends Fragment{
                                     }
                                 })
                                 .setNegativeButton("No", null).show();
-                        return false;
                     }
                 });
 
@@ -435,9 +430,22 @@ public class NoteFragment extends Fragment{
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
 
-                        txtEditselectDate = v.findViewById(R.id.txtEditSelectPlanDate);
-                        txtEditselectDate.setText( String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear +1)
-                                + "/" +String.valueOf(year));
+                        Date curentTime = java.util.Calendar.getInstance().getTime();
+                        boolean check = false;
+                        if(year >= curentTime.getYear())
+                            if( monthOfYear+1 >= curentTime.getMonth())
+                                if(dayOfMonth >= curentTime.getDate()){
+                                    check = true;
+                                }
+                        if(!check)
+                        {
+                            Toast.makeText(getContext(),"The plan date must be after the current date!",Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            txtEditselectDate.setText( String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear +1)
+                                    + "/" +String.valueOf(year));
+
+                        }
                     }
                 };
 

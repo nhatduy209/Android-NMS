@@ -3,6 +3,7 @@ package com.example.notemanagement.ui.note;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -106,10 +107,10 @@ public class NoteFragment extends Fragment{
                     lstCategory[countCategory] = i.getName();
                     countCategory++;
                 }
-                txtSelectCategory.setOnLongClickListener(new View.OnLongClickListener() {
 
+                txtSelectCategory.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
+                    public void onClick(View v) {
                         new AlertDialog.Builder(getContext())
                                 .setTitle("Choose category ")
                                 .setItems(lstCategory, new DialogInterface.OnClickListener() {
@@ -120,9 +121,9 @@ public class NoteFragment extends Fragment{
                                     }
                                 })
                                 .setNegativeButton("No", null).show();
-                        return false;
                     }
                 });
+
 
                 // Get list priority
                 final List<PriorityModel> ListPriority = priorityDao.getAllData(session.getIdAccount());
@@ -132,10 +133,10 @@ public class NoteFragment extends Fragment{
                     lstPriority[countPriority] = i.getName();
                     countPriority++;
                 }
-                txtSelectPriority.setOnLongClickListener(new View.OnLongClickListener() {
 
+                txtSelectPriority.setOnClickListener(new View.OnClickListener(){
                     @Override
-                    public boolean onLongClick(View v) {
+                    public void onClick(View v) {
                         new AlertDialog.Builder(getContext())
                                 .setTitle("Choose Priority ")
                                 .setItems(lstPriority, new DialogInterface.OnClickListener() {
@@ -146,9 +147,9 @@ public class NoteFragment extends Fragment{
                                     }
                                 })
                                 .setNegativeButton("No", null).show();
-                        return false;
                     }
                 });
+
 
                 // Get list status
                 final List<StatusModel> ListStatus  =  statusDao.getAllData(session.getIdAccount());
@@ -158,10 +159,10 @@ public class NoteFragment extends Fragment{
                     lstStatus[count] = i.getName();
                     count++;
                 }
-                txtSelectStatus.setOnLongClickListener(new View.OnLongClickListener() {
 
+                txtSelectStatus.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
+                    public void onClick(View v) {
                         new AlertDialog.Builder(getContext())
                                 .setTitle("Choose status ")
                                 .setItems(lstStatus, new DialogInterface.OnClickListener() {
@@ -172,7 +173,6 @@ public class NoteFragment extends Fragment{
                                     }
                                 })
                                 .setNegativeButton("No", null).show();
-                        return false;
                     }
                 });
 
@@ -453,6 +453,7 @@ public class NoteFragment extends Fragment{
                         String PlanDate = txtEditselectDate.getText().toString().trim();
                         String CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(Calendar.getInstance().getTime());
                         //Check text not null
+
                         if(!Name.isEmpty() && !Category.isEmpty() && !Priority.isEmpty() && !Status.isEmpty())
                         {
                             Note note = selectedNote;
@@ -519,8 +520,4 @@ public class NoteFragment extends Fragment{
         }
         return  super.onContextItemSelected(item);
     }
-
-
-
-
 }

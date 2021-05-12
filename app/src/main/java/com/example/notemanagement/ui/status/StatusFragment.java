@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notemanagement.DB.DaoClass.StatusDaoClass;
 import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.DB.Note;
@@ -75,16 +76,26 @@ public class StatusFragment extends Fragment {
                         String txtName = name.getText().toString().trim();
                         String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
+                        boolean check;
+                        check = check(txtName);
+
                         if(!txtName.isEmpty()){
-                            StatusModel statusModel = new StatusModel();
-                            statusModel.setIdAccount(session.getIdAccount());
-                            statusModel.setName(txtName);
-                            statusModel.setStCrD(createdDate);
-                            statusDao.insertData(statusModel);
-                            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                            listStatus = statusDao.getAllData(session.getIdAccount());
-                            reload(listStatus,view);
+                            if(check){
+                                StatusModel statusModel = new StatusModel();
+                                statusModel.setIdAccount(session.getIdAccount());
+                                statusModel.setName(txtName);
+                                statusModel.setStCrD(createdDate);
+                                statusDao.insertData(statusModel);
+                                Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                listStatus = statusDao.getAllData(session.getIdAccount());
+                                reload(listStatus,view);
+                            }
+                            else{
+                                Toast.makeText(getContext(),"Status existed!",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+
                         }
                         else{
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
@@ -137,16 +148,25 @@ public class StatusFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String text = editText.getText().toString().trim();
+                        boolean check;
+                        check = check(text);
                         if(!text.isEmpty())
                         {
-                            StatusModel statusModel = listStatus.get(finalPosition);
-                            updateStatus(text,statusModel.getName());
-                            statusModel.setName(text);
-                            statusDao.updateData(statusModel);
-                            Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
-                            listStatus = statusDao.getAllData(session.getIdAccount());
-                            dialog.dismiss();
-                            reload(listStatus,view);
+                            if(check){
+                                StatusModel statusModel = listStatus.get(finalPosition);
+                                updateStatus(text,statusModel.getName());
+                                statusModel.setName(text);
+                                statusDao.updateData(statusModel);
+                                Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
+                                listStatus = statusDao.getAllData(session.getIdAccount());
+                                dialog.dismiss();
+                                reload(listStatus,view);
+                            }
+                            else{
+                                Toast.makeText(getContext(),"Status existed!",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+
                         }
                         else{
                             Toast.makeText(getContext(),"Name can't be null",Toast.LENGTH_SHORT).show();
@@ -182,6 +202,18 @@ public class StatusFragment extends Fragment {
             note.setStatus(status);
             noteDao.updateNote(note);
         }
+    }
+
+    public boolean check(String input){
+        StatusModel statusModel = new StatusModel();
+        statusModel = database.statusDaoClass().getStatus(input);
+        if(statusModel == null)
+        {
+            return true;
+        }
+        else
+            return false;
+
     }
 
     public void reload(List<StatusModel> listStatus, View view){

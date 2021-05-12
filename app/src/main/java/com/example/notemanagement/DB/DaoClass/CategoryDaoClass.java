@@ -16,6 +16,8 @@ public interface CategoryDaoClass {
     public void insertData(CategoryModel categoryModel);
     @Query("Select * from Categories WHERE idAccount=:idAccount")
     public List<CategoryModel> getAllData( int idAccount);
+    @Query("Select * from Categories WHERE cName = :input")
+    public CategoryModel getCat( String input);
     @Delete
     public void deleteData(CategoryModel categoryModel);
     @Update

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notemanagement.DB.DaoClass.PriorityDaoClass;
 import com.example.notemanagement.DB.Database;
+import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.PriorityModel;
 import com.example.notemanagement.DB.Note;
 import com.example.notemanagement.DB.NoteDao;
@@ -72,17 +73,29 @@ public class PriorityFragment extends Fragment {
                         String txtName = name.getText().toString().trim();
                         String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
-                        if(txtName != null){
-                            PriorityModel priorityModel = new PriorityModel();
-                            priorityModel.setIdAccount(session.getIdAccount());
-                            priorityModel.setName(txtName);
-                            priorityModel.setFrCrD(createdDate);
-                            friorityDao.insertData(priorityModel);
+                        boolean check;
+                        check = check(txtName);
 
-                            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-                            listPriority = friorityDao.getAllData(session.getIdAccount());
-                            dialog.dismiss();
-                            reload(listPriority,v);
+                        if(txtName != null){
+                            if(check)
+                            {
+                                PriorityModel priorityModel = new PriorityModel();
+                                priorityModel.setIdAccount(session.getIdAccount());
+                                priorityModel.setName(txtName);
+                                priorityModel.setFrCrD(createdDate);
+                                friorityDao.insertData(priorityModel);
+
+                                Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
+                                listPriority = friorityDao.getAllData(session.getIdAccount());
+                                dialog.dismiss();
+                                reload(listPriority,v);
+                            }
+                            else{
+                                Toast.makeText(getContext(),"Priority existed!",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+
+
                         }
                         else{
                             Toast.makeText(getContext(),"The input is empty!",Toast.LENGTH_SHORT).show();
@@ -132,16 +145,25 @@ public class PriorityFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String text = editText.getText().toString().trim();
+                        boolean check;
+                        check = check(text);
                         if(!text.isEmpty())
                         {
-                            PriorityModel priorityModel = listPriority.get(finalPosition);
-                            updatePriority(text,priorityModel.getName());
-                            priorityModel.setName(text);
-                            friorityDao.updateData(priorityModel);
-                            Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
-                            listPriority = friorityDao.getAllData(session.getIdAccount());
-                            dialog.dismiss();
-                            reload(listPriority,view);
+                            if(check){
+                                PriorityModel priorityModel = listPriority.get(finalPosition);
+                                updatePriority(text,priorityModel.getName());
+                                priorityModel.setName(text);
+                                friorityDao.updateData(priorityModel);
+                                Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
+                                listPriority = friorityDao.getAllData(session.getIdAccount());
+                                dialog.dismiss();
+                                reload(listPriority,view);
+                            }
+                            else{
+                                Toast.makeText(getContext(),"Priority existed!",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+
                         }
                         else
                         {
@@ -180,6 +202,17 @@ public class PriorityFragment extends Fragment {
         }
     }
 
+    public boolean check(String input){
+        PriorityModel priorityModel = new PriorityModel();
+        priorityModel = database.priorityDaoClass().getFr(input);
+        if(priorityModel == null)
+        {
+            return true;
+        }
+        else
+            return false;
+
+    }
     public void reload(List<PriorityModel> listPriority, View view){
         priorityAdapter = new PriorityAdapter(getActivity().getApplicationContext(),listPriority);
         recyclerPriorityView.setHasFixedSize(true);

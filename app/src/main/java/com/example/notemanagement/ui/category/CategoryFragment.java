@@ -29,6 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -73,17 +74,38 @@ public class CategoryFragment extends Fragment {
                         String txtName = name.getText().toString().trim();
                         String createdDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
-                        if(!txtName.isEmpty()){
-                            CategoryModel categoryModel = new CategoryModel();
-                            categoryModel.setIdAccount(session.getIdAccount());
-                            categoryModel.setName(txtName);
-                            categoryModel.setCatCrD(createdDate);
-                            categoryDao.insertData(categoryModel);
+                        boolean check;
+                        check = check(txtName);
 
-                            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                            listCategory = categoryDao.getAllData(session.getIdAccount());
-                            reload(listCategory,v);
+                        if(!txtName.isEmpty()){
+                            if(check){
+                                CategoryModel categoryModel = new CategoryModel();
+                                categoryModel.setIdAccount(session.getIdAccount());
+                                categoryModel.setName(txtName);
+                                categoryModel.setCatCrD(createdDate);
+                                categoryDao.insertData(categoryModel);
+
+                                Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                listCategory = categoryDao.getAllData(session.getIdAccount());
+                                reload(listCategory,v);
+                            }
+                            else
+                            {
+                                Toast.makeText(getContext(),"Category existed!",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+//                            CategoryModel categoryModel = new CategoryModel();
+//                            categoryModel.setIdAccount(session.getIdAccount());
+//                            categoryModel.setName(txtName);
+//                            categoryModel.setCatCrD(createdDate);
+//                            categoryDao.insertData(categoryModel);
+//
+//                            Toast.makeText(getContext(),"data successfully added",Toast.LENGTH_SHORT).show();
+//                            dialog.dismiss();
+//                            listCategory = categoryDao.getAllData(session.getIdAccount());
+//                            reload(listCategory,v);
+
                         }
                         else{
                             Toast.makeText(getContext(),"Name can't be empty!",Toast.LENGTH_SHORT).show();
@@ -134,15 +156,31 @@ public class CategoryFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String text = editText.getText().toString().trim();
+                        boolean check;
+                        check = check(text);
                         if(!text.isEmpty()){
-                            CategoryModel categoryModel = listCategory.get(finalPosition);
-                            updateCategory(text,categoryModel.getName());
-                            categoryModel.setName(text);
-                            categoryDao.updateData(categoryModel);
-                            listCategory = categoryDao.getAllData(session.getIdAccount());
-                            Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                            reload(listCategory,view);
+                            if(check){
+                                CategoryModel categoryModel = listCategory.get(finalPosition);
+                                updateCategory(text,categoryModel.getName());
+                                categoryModel.setName(text);
+                                categoryDao.updateData(categoryModel);
+                                listCategory = categoryDao.getAllData(session.getIdAccount());
+                                Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                reload(listCategory,view);
+                            }
+                            else{
+                                Toast.makeText(getContext(),"Category existed!",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+//                            CategoryModel categoryModel = listCategory.get(finalPosition);
+//                            updateCategory(text,categoryModel.getName());
+//                            categoryModel.setName(text);
+//                            categoryDao.updateData(categoryModel);
+//                            listCategory = categoryDao.getAllData(session.getIdAccount());
+//                            Toast.makeText(getContext(),"Update!",Toast.LENGTH_SHORT).show();
+//                            dialog.dismiss();
+//                            reload(listCategory,view);
                         }
                         else
                         {
@@ -181,6 +219,17 @@ public class CategoryFragment extends Fragment {
         }
     }
 
+    public boolean check(String input){
+        CategoryModel categoryModel = new CategoryModel();
+        categoryModel = database.categoryDaoClass().getCat(input);
+        if(categoryModel == null)
+        {
+            return true;
+        }
+        else
+            return false;
+
+    }
     public void reload(List<CategoryModel> listCategory, View view){
         categoryAdapter = new CategoryAdapter(getActivity().getApplicationContext(), listCategory);
         recyclerCategoryView.setHasFixedSize(true);

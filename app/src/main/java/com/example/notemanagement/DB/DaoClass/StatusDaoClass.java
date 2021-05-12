@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.notemanagement.DB.EntityClass.CategoryModel;
 import com.example.notemanagement.DB.EntityClass.StatusModel;
 import com.example.notemanagement.ui.status.StatusViewModel;
 
@@ -18,6 +19,8 @@ public interface StatusDaoClass {
 
     @Query("select * from Statuses WHERE idAccount=:idAccount")
     List<StatusModel> getAllData(int idAccount);
+    @Query("Select * from Statuses WHERE stName = :input")
+    public StatusModel getStatus(String input);
     @Delete
     void deleteData(StatusModel statusModel);
 
